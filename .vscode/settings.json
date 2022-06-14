@@ -1,0 +1,6 @@
+{
+  // to disable TypeScript warnings in VSCode - put false
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true,
+  "javascript.suggest.completeJSDocs": true,
+}
