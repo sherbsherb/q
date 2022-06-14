@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "server": "nodemon server.js",
     "all": "concurrently \"npm run server\" \"npm run dev\"",
-    "lint": "eslint '**/*.js' '**/*.ts'"
+    "lint": "npx eslint . --ext .js,.ts,.tsx,.jsx",
+    "fix": "npx eslint . --ext .js,.ts,.tsx,.jsx --fix"
   },
   "dependencies": {
     "concurrently": "^7.2.1",
