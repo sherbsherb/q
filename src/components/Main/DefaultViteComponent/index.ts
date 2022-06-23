@@ -1,0 +1,1 @@
+export { DefaultViteComponent } from './DefaultViteComponent'
