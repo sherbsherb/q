@@ -14,8 +14,8 @@ describe('Simple working test', () => {
     expect(screen.getByText('count is: 0')).toBeInTheDocument()
   })
   it('should increment', async () => {
-    const button = screen.getByRole('button')
     render(<DefaultViteComponent />)
+    const button = screen.getByRole('button')
     fireEvent.click(button)
     await waitFor(() => expect(button).toHaveTextContent('count is: 1'))
   })
