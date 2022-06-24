@@ -9,7 +9,9 @@
     "server": "nodemon server.js",
     "all": "concurrently \"npm run server\" \"npm run dev\"",
     "lint": "npx eslint . --ext .js,.ts,.tsx,.jsx",
-    "fix": "npx eslint . --ext .js,.ts,.tsx,.jsx --fix"
+    "fix": "npx eslint . --ext .js,.ts,.tsx,.jsx --fix",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "concurrently": "^7.2.1",
@@ -20,6 +22,9 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.2.1",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -33,9 +38,11 @@
     "eslint-plugin-n": "^15.2.2",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.0",
+    "jsdom": "^20.0.0",
     "nodemon": "^2.0.16",
     "typescript": "^4.6.3",
     "vite": "^2.9.9",
-    "vite-tsconfig-paths": "*"
+    "vite-tsconfig-paths": "*",
+    "vitest": "^0.16.0"
   }
 }

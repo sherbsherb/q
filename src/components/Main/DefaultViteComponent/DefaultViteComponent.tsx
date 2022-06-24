@@ -8,7 +8,14 @@ export function DefaultViteComponent() {
   return (
     <>
       <img src={logo} className="App-logo" alt="logo" width="300px" height="auto" />
-      <p> <button type="button" onClick={() => setCount((count) => count + 1)}> count is: {count} </button> </p>
+      <p>
+        <button
+          type="button"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          count is: {count}
+        </button>
+      </p>
     </>
   )
 }
