@@ -17,10 +17,17 @@ export default defineConfig({
     // https://github.com/aleclarson/vite-tsconfig-paths
     tsconfigPaths()
   ],
+  // https://vitest.dev/guide/in-source.html
+  define: { 'import.meta.vitest': 'undefined' },
   // https://www.youtube.com/watch?v=oWJpxtAl62w
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './test-setup.ts'
+    setupFiles: './test-setup.ts',
+    includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
+    coverage: {
+      all: true,
+      src: ['src/']
+    }
   }
 })

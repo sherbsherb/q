@@ -22,7 +22,7 @@
       "@c/*": ["src/components/*"],
       "@cc/*": ["src/common components/*"],
     },
-    "types": ["vite/client"]
+    "types": ["vite/client", "vitest/globals"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
