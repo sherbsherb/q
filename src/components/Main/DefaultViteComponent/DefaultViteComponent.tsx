@@ -19,9 +19,19 @@ export function DefaultViteComponent(): JSX.Element {
 
   return (
     <div style={{ border: `1px solid ${theme.colors.red}` }}>
-      <img src={logo} className="App-logo" alt="logo" width="300px" height="auto" />
+      <img
+        src={logo}
+        className="App-logo"
+        alt="logo"
+        width="300px"
+        height="auto"
+      />
       <p>
-        <Button onClick={() => setCount((count) => count + 1)}>count is: {count}</Button>
+        <Button
+          onClick={() => setCount((count) => count + 1)}
+        >
+          count is: {count}
+        </Button>
       </p>
     </div>
   )
@@ -33,11 +43,3 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
 `
-
-// in-source test suites
-if (import.meta.vitest) {
-  const { it, expect } = import.meta.vitest
-  it.only('add', () => {
-    expect(1).toBe(1)
-  })
-}
