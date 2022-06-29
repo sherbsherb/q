@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import { someFunc } from './someFunc.js'
 import styled, { useTheme } from 'styled-components'
-import { theme } from '@/theme/theme'
-
-console.log(someFunc(1, 2))
+import { theme } from '@/theme'
 
 /**
  * Component with counter
