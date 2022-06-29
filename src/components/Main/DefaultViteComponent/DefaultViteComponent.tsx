@@ -30,6 +30,7 @@ export function DefaultViteComponent(): JSX.Element {
           count is: {count}
         </Button>
       </p>
+      <img src="img.jpg" alt="farmers and robots" />
     </div>
   )
 }
