@@ -2,7 +2,7 @@ import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import styled, { useTheme } from 'styled-components'
-import { theme } from '@/theme'
+import { theme } from '@src/theme'
 
 /**
  * Component with counter
