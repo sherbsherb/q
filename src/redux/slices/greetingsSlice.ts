@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+type InitialState = {
+  greeting: string
+}
+
+const initialState: InitialState = {
   greeting: 'no greetings yet'
 }
 

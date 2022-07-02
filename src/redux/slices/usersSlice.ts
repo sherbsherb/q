@@ -2,10 +2,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const initialState = {
+type Users = {
+  id: string
+  name: string
+}
+
+type InitialState = {
+  loading: boolean,
+  users: Users[],
+  error: string
+}
+
+const initialState: InitialState = {
   loading: false,
   users: [],
-  err: ''
+  error: ''
 }
 
 // generates 'pending', 'fulfilled' & 'rejected' action types automatically
@@ -31,9 +42,10 @@ const usersSlice = createSlice({
     builder.addCase(fetchUsers.rejected, (state, action) => {
       state.loading = false
       state.users = []
-      state.error = action.error.message
+      state.error = action.error.message || 'some error'
     })
-  }
+  },
+  reducers: {}
 })
 
 export default usersSlice.reducer

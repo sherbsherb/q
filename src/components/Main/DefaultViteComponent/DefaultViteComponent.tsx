@@ -3,10 +3,11 @@ import logo from './logo.svg'
 import './App.css'
 import styled, { useTheme } from 'styled-components'
 import { theme } from '@src/theme'
-import { useDispatch, useSelector } from 'react-redux'
-import { decrement, increment } from '@src/redux/slices/counterSlice'
-import { login } from '@src/redux/slices/loginSlice'
-import { fetchUsers } from '@src/redux/slices/usersSlice'
+// import { useDispatch, useSelector } from 'react-redux'
+import { decrement, increment } from '@slices/counterSlice'
+import { login } from '@slices/loginSlice'
+import { fetchUsers } from '@slices/usersSlice'
+import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
 
 /**
  * Component with counter
@@ -18,10 +19,10 @@ export function DefaultViteComponent(): JSX.Element {
   const theme = useTheme()
   console.log(theme)
 
-  const counter = useSelector(state => state.counter.counter)
-  const isLogged = useSelector(state => state.login.isLogged)
-  const users = useSelector(state => state.users)
-  const dispatch = useDispatch()
+  const counter = useSelectorTyped(state => state.counter.counter)
+  const isLogged = useSelectorTyped(state => state.login.isLogged)
+  const users = useSelectorTyped(state => state.users)
+  const dispatch = useDispatchTyped()
 
   const style = { border: '2px solid grey', padding: '10px', margin: '10px', maxWidth: '500px' }
 
@@ -44,6 +45,7 @@ export function DefaultViteComponent(): JSX.Element {
       <img src="img.jpg" alt="farmers and robots" />
 
       <div style={style}>
+        <h1>Redux</h1>
         <div>Counter: <strong>{counter}</strong></div>
         <button onClick={() => dispatch(increment())}>Increment +1</button>&#8194;
         <button onClick={() => dispatch(decrement({ num: 3 }))}>Decrement -3</button>
@@ -52,7 +54,7 @@ export function DefaultViteComponent(): JSX.Element {
         <button onClick={() => dispatch(fetchUsers())}>Fetch users</button><br />
         <div>
           {users.loading && 'Loading...'}
-          {users.err && users.err}
+          {users.error && users.error}
           {!users.loading && !!users.users.length && users.users.map(user => <div key={user.id}>{user.name}</div>)}
         </div>
       </div>

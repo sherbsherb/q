@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { changeGreeting } from './greetingsSlice'
 
-const initialState = {
+type InitialState = {
+  isLogged: boolean
+}
+
+const initialState: InitialState = {
   isLogged: false
 }
 
