@@ -48,6 +48,8 @@ export function DefaultViteComponent(): JSX.Element {
         <h1>Redux</h1>
         <div>Counter: <strong>{counter}</strong></div>
         <button onClick={() => dispatch(increment())}>Increment +1</button>&#8194;
+        <button onClick={() => dispatch(increment(5))}>Increment +5</button>&#8194;
+        <button onClick={() => dispatch(decrement())}>Decrement -1</button>
         <button onClick={() => dispatch(decrement({ num: 3 }))}>Decrement -3</button>
         <div>isLogged: <strong>{isLogged.toString()}</strong></div>
         <button onClick={() => dispatch(login())}>Sign in/out</button><br />

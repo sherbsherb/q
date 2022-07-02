@@ -5,7 +5,11 @@ type InitialState = {
 }
 
 type NumberObj = {
-  num: number
+  num?: number
+}
+
+type Action = {
+  payload?: number
 }
 
 const initialState: InitialState = {
@@ -16,11 +20,11 @@ const counterSlice = createSlice({
   name: 'counterSlice',
   initialState,
   reducers: {
-    increment: (state, action: PayloadAction<number>) => {
+    increment: (state, action: Action) => {
       state.counter += (action.payload || 1)
     },
     decrement: (state, action: PayloadAction<NumberObj>) => {
-      state.counter -= (action.payload.num || 1)
+      state.counter -= (action?.payload?.num || 1)
     }
   },
   // not preferable way of extraReducers syntax

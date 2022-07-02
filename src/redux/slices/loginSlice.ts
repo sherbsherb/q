@@ -13,7 +13,7 @@ const loginSlice = createSlice({
   name: 'loginSlice',
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (state) => {
       state.isLogged = !state.isLogged
     }
   },
