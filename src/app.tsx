@@ -11,8 +11,8 @@ import { LinkC } from './routes/LinkC'
 import { theme } from './theme'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
-import './app.css'
 import './reset.css'
+import './app.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
