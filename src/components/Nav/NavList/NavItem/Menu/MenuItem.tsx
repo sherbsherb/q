@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
 import React from 'react'
-import { MenuText } from './MenuText'
-import { Icon } from './Icon'
+import { SpanStyled } from './SpanStyled'
+import { Icon } from '../Icon'
 import { ContextMenu } from './Menu'
 
 export function MenuItem(props) {
@@ -25,7 +25,7 @@ export function MenuItem(props) {
     >
       <LeftPart>
         <Icon>{menuItem.iconLeft}</Icon>
-        <MenuText>{menuItem.text}</MenuText>
+        <SpanStyled>{menuItem.text}</SpanStyled>
       </LeftPart>
 
       {
@@ -44,6 +44,7 @@ export function MenuItem(props) {
 
 // var may fix the error 'styled component hot-update Cannot access before initialization'
 export const MenuLink = styled.a`
+  position: relative;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -61,7 +62,7 @@ export const MenuLink = styled.a`
 `
 
 export const LeftPart = styled.span`
-  width: 100%;
+  width: calc(100% - 30px);
   display: inline-flex;
   flex-direction: row;
   align-content: center;
@@ -71,7 +72,9 @@ export const LeftPart = styled.span`
 `
 
 const RightPart = styled.span`
-  margin-left: 40px;
+  /* margin-left: 40px; */
+  position: absolute;
+  right: 15px;
 `
 
 const MenuIconRight = styled(Icon)`

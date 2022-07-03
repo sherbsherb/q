@@ -1,20 +1,20 @@
 import styled from 'styled-components'
-import { NavItem } from './NavItem'
+import { NavItem } from './NavItem/NavItem'
 import navStructure from '../navStructure'
 
 export function NavList() {
-  // console.log('NavList')
-  // show items on navbar where .visible = true
   return (
-    <Ul>
+    <UlStyled>
+      {/* <Logo /> */}
       {navStructure.map(
         menuO => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
       )}
-    </Ul>
+      {/* <Hamburger /> */}
+    </UlStyled>
   )
 }
 
-const Ul = styled.ul`
+const UlStyled = styled.ul`
   max-width: 100%;
   height: 100%;
   display: flex;

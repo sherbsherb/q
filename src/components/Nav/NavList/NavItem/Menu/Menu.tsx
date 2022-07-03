@@ -1,18 +1,18 @@
 // idea is taken from https://www.youtube.com/watch?v=IF6k0uZuypA
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
-import { ContextNavItem } from './NavItem'
+import { ContextNavItem } from '../NavItem'
 import { CSSTransition } from 'react-transition-group'
 
 export const ContextMenu = React.createContext(null)
 
-// calculate height of fake to manually set height to MenuContainer
+// calculate height of fake to manually set height to Menu
 // we need to manually control height for animation purpose
 // unfortunately height: auto is not animated
-function calcHeight(el) {
+function calcHeight(el:HTMLElement | undefined) {
   if (!el) return
   const height = el.offsetHeight
   return height + 85
@@ -22,23 +22,17 @@ export function Menu() {
   // console.log('Menu')
 
   const context = useContext(ContextNavItem)
-  const {
-    openedMenuState,
-    menuO,
-    showMenuState,
-    setShowMenuState,
-    setOpenedMenuState,
-  } = context
+  const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
 
-  const [prevMenuState, setPrevMenuState] = React.useState({
+  const [prevMenuState, setPrevMenuState] = useState({
     ...menuO.menu,
     navItemId: menuO.id,
-    prevMenu: [],
+    prevMenu: []
   })
-  const [whereToSlidState, setWhereToSlidState] = React.useState('nowhere')
-  const [menuTransitionState, setMenuTransitionState] = React.useState(true)
+  const [whereToSlidState, setWhereToSlidState] = useState('nowhere')
+  const [menuTransitionState, setMenuTransitionState] = useState(true)
   const swapMenu = () => setMenuTransitionState(!menuTransitionState)
-  const swapMenuMemoized = React.useCallback(swapMenu, [setMenuTransitionState,
+  const swapMenuMemoized = useCallback(swapMenu, [setMenuTransitionState,
     menuTransitionState])
 
   function closeMenu(e) {
@@ -49,11 +43,11 @@ export function Menu() {
     setPrevMenuState(null)
   }
 
-  const closeMenuMemoized = React.useCallback(closeMenu, [
+  const closeMenuMemoized = useCallback(closeMenu, [
     showMenuState,
     setShowMenuState,
     setOpenedMenuState,
-    setPrevMenuState,
+    setPrevMenuState
   ])
 
   function changeMenu(o) {
@@ -64,7 +58,7 @@ export function Menu() {
     setOpenedMenuState({
       ...subMenu,
       navItemId: openedMenuState.navItemId,
-      prevMenu: [...openedMenuState.prevMenu, openedMenuState],
+      prevMenu: [...openedMenuState.prevMenu, openedMenuState]
     })
   }
 
@@ -81,7 +75,7 @@ export function Menu() {
     setPrevMenuState,
     openedMenuState,
     setOpenedMenuState,
-    swapMenuMemoized,
+    swapMenuMemoized
   ])
 
   function navKeyboardHandler(e) {
@@ -96,7 +90,7 @@ export function Menu() {
   const navKeyboardHandlerMemoized = React.useCallback(navKeyboardHandler, [
     openedMenuState,
     changeMenuMemoized,
-    closeMenuMemoized,
+    closeMenuMemoized
   ])
 
   const fakeMenuRef = useRef()
@@ -136,30 +130,13 @@ export function Menu() {
   }, [closeMenuMemoized])
 
   const isNestedMenu = openedMenuState?.prevMenu?.length > 0
-  const menuItemsDivStyle = {
-    position: 'absolute',
-    right: '0px',
-    left: '0px',
-    height: 'auto',
-  }
+  const menuItemsDivStyle = { position: 'absolute', right: '0px', left: '0px', height: 'auto' }
 
-  const contextValue = {
-    prevMenuState,
-    setPrevMenuState,
-    whereToSlidState,
-    setWhereToSlidState,
-    menuTransitionState,
-    setMenuTransitionState,
-    swapMenu,
-    closeMenu,
-    changeMenu,
-    goBack,
-    navKeyboardHandler,
-  }
+  const contextValue = { prevMenuState, setPrevMenuState, whereToSlidState, setWhereToSlidState, menuTransitionState, setMenuTransitionState, swapMenu, closeMenu, changeMenu, goBack, navKeyboardHandler }
 
   return (
     <ContextMenu.Provider value={contextValue}>
-      <MenuContainer style={{ height: menuHeightState }} ref={menuRef}>
+      <Div style={{ height: menuHeightState }} ref={menuRef}>
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
         {/*
@@ -219,12 +196,12 @@ export function Menu() {
             <MenuItem menuItem={menuItem} key={menuItem.id} />
           ))}
         </div>
-      </MenuContainer>
+      </Div>
     </ContextMenu.Provider>
   )
 }
 
-export const MenuContainer = styled.div`
+export const Div = styled.div`
   position: absolute;
   top: 110%;
   right: 0px;

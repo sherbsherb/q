@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Menu } from './Menu'
-import { Icon } from './Icon'
 import Link from 'next/link'
+import { Icon } from './Icon'
+import { Menu } from './Menu'
 
 export const ContextNavItem = React.createContext(null)
 
@@ -35,7 +35,7 @@ export function NavItem(props) {
   // every li get its menuO from navStructure via props and we can open it on click event
   return (
     <ContextNavItem.Provider value={contextValue}>
-      <Li>
+      <LiStyled>
         <a
           href={menuO.link || '/'}
           onClick={e => {
@@ -54,12 +54,12 @@ export function NavItem(props) {
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
         {showMenuState && openedMenuState?.navItemId === menuO.id && <Menu />}
-      </Li>
+      </LiStyled>
     </ContextNavItem.Provider>
   )
 }
 
-const Li = styled.li`
+const LiStyled = styled.li`
   position: relative;
   display: flex;
   align-items: center;

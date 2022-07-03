@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MenuText } from './MenuText'
-import { Icon } from './Icon'
+import { SpanStyled } from './SpanStyled'
+import { Icon } from '../Icon'
 import { LeftPart, MenuLink } from './MenuItem'
 import { IoClose } from 'react-icons/io5'
 import { ContextMenu } from './Menu'
@@ -30,7 +30,7 @@ export function CloseItem() {
     >
       <LeftPart>
         <Icon>{closeIcon}</Icon>
-        <MenuText>Close</MenuText>
+        <SpanStyled>Close</SpanStyled>
       </LeftPart>
     </CloseLink>
   )

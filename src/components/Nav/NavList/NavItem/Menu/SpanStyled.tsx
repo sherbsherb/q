@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const MenuText = styled.span`
+export const SpanStyled = styled.span`
   margin-left: 10px;
   text-overflow: ellipsis;
   overflow: hidden;
