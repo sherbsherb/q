@@ -5,12 +5,15 @@ import { ThemeProvider } from 'styled-components'
 import { Footer } from './components/Footer'
 import { Main } from './components/Main'
 import { Nav } from './components/Nav'
+import { Navbar } from '@components/Navbar'
 import { LinkA } from './routes/LinkA'
 import { LinkB } from './routes/LinkB'
 import { LinkC } from './routes/LinkC'
 import { theme } from './theme'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
+import './app.css'
+import './reset.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
@@ -20,6 +23,7 @@ root.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Nav />
+          <Navbar />
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="linkA" element={<LinkA />} />
