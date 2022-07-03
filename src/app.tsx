@@ -4,8 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { Footer } from './components/Footer'
 import { Main } from './components/Main'
-import { Nav } from './components/Nav'
-import { Navbar } from '@components/Navbar'
+import { Nav } from '@components/Nav'
 import { LinkA } from './routes/LinkA'
 import { LinkB } from './routes/LinkB'
 import { LinkC } from './routes/LinkC'
@@ -23,7 +22,6 @@ root.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Nav />
-          <Navbar />
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="linkA" element={<LinkA />} />

@@ -3,6 +3,7 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { MdOutlineMenuBook as BookIcon } from 'react-icons/md'
 import React from 'react'
 import { nanoid } from 'nanoid'
+import { Link } from 'react-router-dom'
 
 const reactIcon = React.createElement(FaReact, {})
 const plusIcon = React.createElement(AiOutlinePlus, {})
@@ -12,8 +13,26 @@ const navStructure = [
     navItem: true,
     visible: true,
     icon: <BookIcon />,
-    text: 'Content',
-    link: '/post/table-of-content',
+    text: <Link to="/linkA">Link A</Link>,
+    link: '/linkA',
+    menu: null,
+    id: nanoid()
+  },
+  {
+    navItem: true,
+    visible: true,
+    icon: <BookIcon />,
+    text: <Link to="/linkB">Link B</Link>,
+    link: '/linkB',
+    menu: null,
+    id: nanoid()
+  },
+  {
+    navItem: true,
+    visible: true,
+    icon: <BookIcon />,
+    text: <Link to="/">Back</Link>,
+    link: '/',
     menu: null,
     id: nanoid()
   },
