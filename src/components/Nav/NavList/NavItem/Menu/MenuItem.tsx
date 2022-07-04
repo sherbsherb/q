@@ -25,12 +25,8 @@ export function MenuItem(props) {
       }}
     >
         {isLeftIcon && <Icon>{menuItem.iconLeft}</Icon>}
-        <SpanStyled>{menuItem.text}</SpanStyled>
-        {isSubMenu && (
-            <MenuIconRight>
-              <ForwardIcon />
-            </MenuIconRight>
-        )}
+        <SpanStyled isSubMenu={isSubMenu}>{menuItem.text}</SpanStyled>
+        {isSubMenu && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuLink>
   )
 }
@@ -40,7 +36,6 @@ export const MenuLink = styled.a`
   position: relative;
   height: 50px;
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   border-radius: 8px;
   padding: 0.5rem;

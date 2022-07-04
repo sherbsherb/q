@@ -49,7 +49,7 @@ export function NavItem(props) {
           }}
         >
           {menuO.icon && <Icon>{menuO.icon}</Icon>}
-          {menuO.text && <Text>{menuO.text}</Text>}
+          {menuO.text && <SpanStyled>{menuO.text}</SpanStyled>}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
@@ -81,7 +81,7 @@ const LiStyled = styled.li`
   }
 `
 
-const Text = styled.span`
+const SpanStyled = styled.span`
   margin-left: 5px;
   margin-right: 5px;
   color: grey;

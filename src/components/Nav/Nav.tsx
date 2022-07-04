@@ -10,8 +10,8 @@ export function Nav() {
 }
 
 const NavStyled = styled.nav`
-  margin: 5px 0px;
-  border-radius: 6px;
+  margin: 0px 0px 5px 0px;
+  border-radius: 0px;
   background: rgb(52 52 52 / 98%);
   height: 60px;
   padding: 0 1rem;
