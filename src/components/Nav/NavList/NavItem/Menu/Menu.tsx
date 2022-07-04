@@ -5,7 +5,6 @@ import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
-import { CSSTransition } from 'react-transition-group'
 import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
 
@@ -15,11 +14,10 @@ export function Menu() {
   const context = useContext(ContextNavItem)
   const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
   const [prevMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
-  const [whereToSlidState, setWhereToSlidState] = useState('nowhere')
-  const [menuTransitionState, setMenuTransitionState] = useState(true)
+  const [menuChanged, setMenuChanged] = useState({ direction: 'no change' })
 
-  const swapMenu = () => setMenuTransitionState(!menuTransitionState)
-  const swapMenuMemoized = useCallback(swapMenu, [setMenuTransitionState, menuTransitionState])
+  const nextMenuRef = useRef(null)
+  const currentMenuRef = useRef(null)
 
   function closeMenu(e) {
     // e?.stopPropagation();
@@ -40,15 +38,19 @@ export function Menu() {
       navItemId: openedMenuState.navItemId,
       prevMenu: [...openedMenuState.prevMenu, openedMenuState]
     })
+    setMenuChanged({ direction: 'forward' })
+    // gsap.to(menuRef.current, { duration: 0.35, height: 'auto' })
+
   }
-  const changeMenuMemoized = useCallback(goBack, [setWhereToSlidState, setPrevMenuState, openedMenuState, setOpenedMenuState, swapMenuMemoized])
+  const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, openedMenuState, setOpenedMenuState])
 
   function goBack(e) {
-    // e?.stopPropagation();
-    setWhereToSlidState('forward')
     setPrevMenuState(openedMenuState)
     setOpenedMenuState(openedMenuState.prevMenu.pop())
-    swapMenuMemoized()
+    setMenuChanged({ direction: 'backward' })
+
+    // gsap.to(menuRef.current, { duration: 0.35, height: 'auto' })
+
   }
 
   function navKeyboardHandler(e) {
@@ -94,53 +96,40 @@ export function Menu() {
     }
   }, [closeMenuMemoized])
 
+  useEffect(() => {
+    const duration = 1.35
+
+    if (menuChanged.direction === 'forward') {
+      console.log(menuChanged.direction)
+      gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration, xPercent: 0 })
+      gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
+    }
+    if (menuChanged.direction === 'backward') {
+      console.log(menuChanged.direction)
+      gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
+      gsap.fromTo(currentMenuRef.current, { xPercent: -100 }, { duration, xPercent: 0 })
+    }
+  }, [menuChanged])
+
   const isNestedMenu = openedMenuState?.prevMenu?.length > 0
   const menuItemsDivStyle = { position: 'absolute', right: '0px', left: '0px', height: 'auto' }
 
-  const contextValue = { prevMenuState, setPrevMenuState, whereToSlidState, setWhereToSlidState, menuTransitionState, setMenuTransitionState, swapMenu, closeMenu, changeMenu, goBack, navKeyboardHandler }
+  const contextValue = { prevMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
 
   return (
     <ContextMenu.Provider value={contextValue}>
-      <Div style={{ height: menuHeightState }} ref={menuRef}>
+      <Div style={{ height: '800px' }} ref={menuRef}>
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
-        {/*
-          we have 2 divs with transition
-          one div keeps previous menu items, another keeps current menu items
-          one div enters, another exists with transition
-          div is unmounted after transition (not necessary actually)
-          transitions is triggered via 'in' prop
-        */}
+        {/* <div ref={nextMenuRef} style={{ ...menuItemsDivStyle }}>
+          {prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        </div> */}
 
-        {/* main or previous menu */}
-        <CSSTransition
-          in={menuTransitionState}
-          classNames={whereToSlidState}
-          timeout={350}
-          unmountOnExit
-        >
-          <div className={whereToSlidState} style={menuItemsDivStyle}>
-            {/* if transition enters, current menu renders
-            if transition exists, pervious menu renders */}
-            {menuTransitionState && openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
-            {!menuTransitionState && prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
-          </div>
-        </CSSTransition>
+        <div ref={currentMenuRef} style={{ ...menuItemsDivStyle }}>
+          {openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        </div>
 
-        {/* main or previous menu */}
-        <CSSTransition
-          in={!menuTransitionState}
-          classNames={whereToSlidState}
-          timeout={350}
-          unmountOnExit
-        >
-          <div className={whereToSlidState} style={menuItemsDivStyle}>
-            {!menuTransitionState && openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
-            {menuTransitionState && prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
-          </div>
-        </CSSTransition>
 
-        {/* fake div to measure menu height for animation */}
         <div style={{ position: 'fixed', right: '1000px' }} ref={fakeMenuRef}>
           {openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
         </div>
@@ -170,67 +159,5 @@ export const Div = styled.div`
     left: 0px;
     right: 0px;
     width: auto;
-  }
-
-  .forward-appear {
-    transform: translateX(-110%);
-  }
-  .forward-appear-active {
-    transform: translateX(0%);
-    transition: all 350ms linear;
-  }
-  .forward-appear-done {
-    transform: translateX(0%);
-  }
-  .forward-enter {
-    transform: translateX(-110%);
-  }
-  .forward-enter-active {
-    transform: translateX(0%);
-    transition: all 350ms linear;
-  }
-  .forward-enter-done {
-    transform: translateX(0%);
-  }
-  .forward-exit {
-    transform: translateX(0%);
-  }
-  .forward-exit-active {
-    transform: translateX(110%);
-    transition: all 350ms linear;
-  }
-  .forward-exit-done {
-    transform: translateX(110%);
-  }
-
-  .backward-appear {
-    transform: translateX(110%);
-  }
-  .backward-appear-active {
-    transform: translateX(0%);
-    transition: all 350ms linear;
-  }
-  .backward-appear-done {
-    transform: translateX(0%);
-  }
-  .backward-enter {
-    transform: translateX(110%);
-  }
-  .backward-enter-active {
-    transform: translateX(0%);
-    transition: all 350ms linear;
-  }
-  .backward-enter-done {
-    transform: translateX(0%);
-  }
-  .backward-exit {
-    transform: translateX(0%);
-  }
-  .backward-exit-active {
-    transform: translateX(-110%);
-    transition: all 350ms linear;
-  }
-  .backward-exit-done {
-    transform: translateX(-110%);
   }
 `

@@ -7,7 +7,7 @@ import { ContextMenu } from './Menu'
 
 export function MenuItem(props) {
   // console.log('MenuItem')
-  const { setWhereToSlidState, swapMenu, changeMenu } = useContext(ContextMenu)
+  const { changeMenu } = useContext(ContextMenu)
   const { menuItem } = props
   const isSubMenu = !!menuItem.menu
   const isLeftIcon = !!menuItem.iconLeft
@@ -19,8 +19,6 @@ export function MenuItem(props) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        setWhereToSlidState('backward')
-        swapMenu()
         changeMenu(menuItem)
       }}
     >
