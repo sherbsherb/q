@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
-import React from 'react'
+import React, { useContext } from 'react'
 import { SpanStyled } from './SpanStyled'
 import { Icon } from '../Icon'
 import { ContextMenu } from './Menu'
 
 export function MenuItem(props) {
   // console.log('MenuItem')
-  const { setWhereToSlidState, swapMenu, changeMenu } = React.useContext(ContextMenu)
+  const { setWhereToSlidState, swapMenu, changeMenu } = useContext(ContextMenu)
   const { menuItem } = props
+  const isSubMenu = !!menuItem.menu
+  const isLeftIcon = !!menuItem.iconLeft
 
   return (
     <MenuLink
@@ -16,7 +18,6 @@ export function MenuItem(props) {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        const isSubMenu = !!menuItem.menu
         if (!isSubMenu) return
         setWhereToSlidState('backward')
         swapMenu()
@@ -24,20 +25,16 @@ export function MenuItem(props) {
       }}
     >
       <LeftPart>
-        <Icon>{menuItem.iconLeft}</Icon>
+        {isLeftIcon && <Icon>{menuItem.iconLeft}</Icon>}
         <SpanStyled>{menuItem.text}</SpanStyled>
       </LeftPart>
-
-      {
-        // show right arrow only if sub-menu exists
-        menuItem.menu && (
-          <RightPart>
-            <MenuIconRight>
-              <ForwardIcon />
-            </MenuIconRight>
-          </RightPart>
-        )
-      }
+      {isSubMenu && (
+        <RightPart>
+          <MenuIconRight>
+            <ForwardIcon />
+          </MenuIconRight>
+        </RightPart>
+      )}
     </MenuLink>
   )
 }

@@ -3,16 +3,21 @@ import styled from 'styled-components'
 import { SpanStyled } from './SpanStyled'
 import { Icon } from '../Icon'
 import { LeftPart, MenuLink } from './MenuItem'
-import { IoClose } from 'react-icons/io5'
+import { CgClose as CloseIcon } from "react-icons/cg";
+
+
 import { ContextMenu } from './Menu'
 
-const closeIcon = React.createElement(IoClose, {})
+const closeIcon = React.createElement(CloseIcon, {})
 
 const CloseLink = styled(MenuLink)`
   color: #858383;
   animation: none;
   margin: 0px 16px;
   margin-top: 16px;
+  svg {
+    stroke-width: 0.5px;
+  }
 `
 
 export function CloseItem() {
