@@ -6,30 +6,15 @@ import { Menu } from './Menu'
 
 export const ContextNavItem = createContext(null)
 
-// icons w/o text on the navbar
-export function NavItem(props) {
-  const { menuO } = props
-
+export function NavItem({ menuO }) {
   const [showMenuState, setShowMenuState] = useState(false)
   const [openedMenuState, setOpenedMenuState] = useState(null)
+  const contextValue = { openedMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO }
 
   function showMenu(o) {
     const menu = o.menu
     setShowMenuState(true)
-    setOpenedMenuState({
-      ...menu,
-      navItemId: o.id,
-      prevMenu: []
-    })
-  }
-
-  const contextValue = {
-    openedMenuState,
-    setOpenedMenuState,
-    showMenuState,
-    setShowMenuState,
-    showMenu,
-    menuO
+    setOpenedMenuState({ ...menu, navItemId: o.id, prevMenu: [] })
   }
 
   // every li get its menuO from navStructure via props and we can open it on click event
@@ -49,7 +34,7 @@ export function NavItem(props) {
           }}
         >
           {menuO.icon && <Icon>{menuO.icon}</Icon>}
-          {menuO.text && <SpanStyled>{menuO.text}</SpanStyled>}
+          {menuO.text && <span>{menuO.text}</span>}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
@@ -74,16 +59,16 @@ const LiStyled = styled.li`
     &:hover {
       filter: brightness(1.2);
     }
+
+    span {
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #bcbcbc;
+      white-space: nowrap;
+    }
   }
 
   @media screen and (max-width: 480px) {
     position: static;
   }
-`
-
-const SpanStyled = styled.span`
-  margin-left: 5px;
-  margin-right: 5px;
-  color: grey;
-  white-space: nowrap;
 `

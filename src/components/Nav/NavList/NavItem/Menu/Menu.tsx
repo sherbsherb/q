@@ -1,39 +1,24 @@
 // idea is taken from https://www.youtube.com/watch?v=IF6k0uZuypA
-import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
+import React, { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
 import styled from 'styled-components'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { CSSTransition } from 'react-transition-group'
+import { elementHeight } from '@functions/elementHeight'
 
-export const ContextMenu = React.createContext(null)
-
-// calculate height of fake to manually set height to Menu
-// we need to manually control height for animation purpose
-// unfortunately height: auto is not animated
-function calcHeight(el:HTMLElement | undefined) {
-  if (!el) return
-  const height = el.offsetHeight
-  return height + 85
-}
+export const ContextMenu = createContext(null)
 
 export function Menu() {
-  // console.log('Menu')
-
   const context = useContext(ContextNavItem)
   const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
-
-  const [prevMenuState, setPrevMenuState] = useState({
-    ...menuO.menu,
-    navItemId: menuO.id,
-    prevMenu: []
-  })
+  const [prevMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
   const [whereToSlidState, setWhereToSlidState] = useState('nowhere')
   const [menuTransitionState, setMenuTransitionState] = useState(true)
+
   const swapMenu = () => setMenuTransitionState(!menuTransitionState)
-  const swapMenuMemoized = useCallback(swapMenu, [setMenuTransitionState,
-    menuTransitionState])
+  const swapMenuMemoized = useCallback(swapMenu, [setMenuTransitionState, menuTransitionState])
 
   function closeMenu(e) {
     // e?.stopPropagation();
@@ -42,13 +27,7 @@ export function Menu() {
     setOpenedMenuState(null)
     setPrevMenuState(null)
   }
-
-  const closeMenuMemoized = useCallback(closeMenu, [
-    showMenuState,
-    setShowMenuState,
-    setOpenedMenuState,
-    setPrevMenuState
-  ])
+  const closeMenuMemoized = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
 
   function changeMenu(o) {
     const isSubMenu = o.menu
@@ -61,6 +40,7 @@ export function Menu() {
       prevMenu: [...openedMenuState.prevMenu, openedMenuState]
     })
   }
+  const changeMenuMemoized = useCallback(goBack, [setWhereToSlidState, setPrevMenuState, openedMenuState, setOpenedMenuState, swapMenuMemoized])
 
   function goBack(e) {
     // e?.stopPropagation();
@@ -70,44 +50,28 @@ export function Menu() {
     swapMenuMemoized()
   }
 
-  const changeMenuMemoized = React.useCallback(goBack, [
-    setWhereToSlidState,
-    setPrevMenuState,
-    openedMenuState,
-    setOpenedMenuState,
-    swapMenuMemoized
-  ])
-
   function navKeyboardHandler(e) {
-    const { key } = e
     if (!openedMenuState) return
     const isNestedMenu = openedMenuState?.prevMenu?.length > 0
-    isNestedMenu && key === 'Backspace' && changeMenuMemoized()
-    !isNestedMenu && key === 'Backspace' && closeMenuMemoized()
-    key === 'Escape' && closeMenuMemoized()
+    isNestedMenu && e.key === 'Backspace' && changeMenuMemoized()
+    !isNestedMenu && e.key === 'Backspace' && closeMenuMemoized()
+    e.key === 'Escape' && closeMenuMemoized()
   }
-
-  const navKeyboardHandlerMemoized = React.useCallback(navKeyboardHandler, [
-    openedMenuState,
-    changeMenuMemoized,
-    closeMenuMemoized
-  ])
+  const navKeyboardHandlerMemoized = useCallback(navKeyboardHandler, [openedMenuState, changeMenuMemoized, closeMenuMemoized])
 
   const fakeMenuRef = useRef()
   const menuRef = useRef()
 
-  const [menuHeightState, setMenuHeightState] = useState(calcHeight(fakeMenuRef.current)) // can be 0 if we want slide initial menu
+  const [menuHeightState, setMenuHeightState] = useState() // can be 0 if we want slide initial menu
 
   useEffect(() => {
-    setMenuHeightState(calcHeight(fakeMenuRef.current))
+    setMenuHeightState(elementHeight(fakeMenuRef.current) + 85)
     return () => { setMenuHeightState(0) }
   }, [openedMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
 
   useEffect(() => {
     window.addEventListener('keydown', navKeyboardHandlerMemoized)
-    return () => {
-      window.removeEventListener('keydown', navKeyboardHandlerMemoized)
-    }
+    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemoized) }
   }, [openedMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
 
   useEffect(() => {
@@ -140,9 +104,6 @@ export function Menu() {
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
         {/*
-          same principle as in
-          https://antonarbus.com/post/slide-sideways-with-csstransition
-
           we have 2 divs with transition
           one div keeps previous menu items, another keeps current menu items
           one div enters, another exists with transition
@@ -160,14 +121,8 @@ export function Menu() {
           <div className={whereToSlidState} style={menuItemsDivStyle}>
             {/* if transition enters, current menu renders
             if transition exists, pervious menu renders */}
-            {menuTransitionState &&
-              openedMenuState.menuItems.map(menuItem => (
-                <MenuItem menuItem={menuItem} key={menuItem.id} />
-              ))}
-            {!menuTransitionState &&
-              prevMenuState?.menuItems.map(menuItem => (
-                <MenuItem menuItem={menuItem} key={menuItem.id} />
-              ))}
+            {menuTransitionState && openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+            {!menuTransitionState && prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
           </div>
         </CSSTransition>
 
@@ -179,22 +134,14 @@ export function Menu() {
           unmountOnExit
         >
           <div className={whereToSlidState} style={menuItemsDivStyle}>
-            {!menuTransitionState &&
-              openedMenuState.menuItems.map(menuItem => (
-                <MenuItem menuItem={menuItem} key={menuItem.id} />
-              ))}
-            {menuTransitionState &&
-              prevMenuState?.menuItems.map(menuItem => (
-                <MenuItem menuItem={menuItem} key={menuItem.id} />
-              ))}
+            {!menuTransitionState && openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+            {menuTransitionState && prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
           </div>
         </CSSTransition>
 
         {/* fake div to measure menu height for animation */}
-        <div style={{ position: 'absolute', right: '1000px' }} ref={fakeMenuRef}>
-          {openedMenuState.menuItems.map(menuItem => (
-            <MenuItem menuItem={menuItem} key={menuItem.id} />
-          ))}
+        <div style={{ position: 'fixed', right: '1000px' }} ref={fakeMenuRef}>
+          {openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
         </div>
       </Div>
     </ContextMenu.Provider>
