@@ -1,17 +1,17 @@
-import React from 'react'
+import React, { createContext, useState } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 
-export const ContextNavItem = React.createContext(null)
+export const ContextNavItem = createContext(null)
 
 // icons w/o text on the navbar
 export function NavItem(props) {
   const { menuO } = props
 
-  const [showMenuState, setShowMenuState] = React.useState(false)
-  const [openedMenuState, setOpenedMenuState] = React.useState(null)
+  const [showMenuState, setShowMenuState] = useState(false)
+  const [openedMenuState, setOpenedMenuState] = useState(null)
 
   function showMenu(o) {
     const menu = o.menu

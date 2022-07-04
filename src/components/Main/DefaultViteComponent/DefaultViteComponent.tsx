@@ -8,6 +8,13 @@ import { decrement, increment } from '@slices/counterSlice'
 import { login } from '@slices/loginSlice'
 import { fetchUsers } from '@slices/usersSlice'
 import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
+import { navStructure } from '@components/Nav/navStructure'
+import { toggleLastNavItem } from '@slices/navSlice'
+
+function modifyNavStructure() {
+  console.log(navStructure)
+  navStructure.at(-1)!.visible = !navStructure.at(-1)!.visible
+}
 
 /**
  * Component with counter
@@ -60,6 +67,8 @@ export function DefaultViteComponent(): JSX.Element {
           {!users.loading && !!users.users.length && users.users.map(user => <div key={user.id}>{user.name}</div>)}
         </div>
       </div>
+      <h1>Nav manipulation</h1>
+      <button onClick={() => dispatch(toggleLastNavItem())}>Modify nav structure</button>
     </div>
   )
 }

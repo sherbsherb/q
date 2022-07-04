@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 import { NavItem } from './NavItem/NavItem'
-import navStructure from '../navStructure'
+import { navStructure } from '../navStructure'
+import { useSelectorTyped } from '@src/redux/store/storeHooks'
 
 export function NavList() {
+  const nav = useSelectorTyped(state => state.nav)
   return (
     <UlStyled>
       {/* <Logo /> */}
-      {navStructure.map(
+      {nav.map(
         menuO => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
       )}
       {/* <Hamburger /> */}

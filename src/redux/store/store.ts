@@ -4,6 +4,7 @@ import counter from '@slices/counterSlice'
 import login from '@slices/loginSlice'
 import greetings from '@slices/greetingsSlice'
 import users from '@slices/usersSlice'
+import nav from '@slices/navSlice'
 
 // const logger = createLogger({}) // LOGGER MIDDLEWARE
 
@@ -12,7 +13,8 @@ export const store = configureStore({
     counter,
     login,
     greetings,
-    users
+    users,
+    nav
   },
   middleware: (defaultMiddleware) => defaultMiddleware(),
   // middleware: (defaultMiddleware) => defaultMiddleware().concat(logger),
