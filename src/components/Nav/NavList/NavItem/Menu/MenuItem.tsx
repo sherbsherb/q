@@ -24,17 +24,13 @@ export function MenuItem(props) {
         changeMenu(menuItem)
       }}
     >
-      <LeftPart>
         {isLeftIcon && <Icon>{menuItem.iconLeft}</Icon>}
         <SpanStyled>{menuItem.text}</SpanStyled>
-      </LeftPart>
-      {isSubMenu && (
-        <RightPart>
-          <MenuIconRight>
-            <ForwardIcon />
-          </MenuIconRight>
-        </RightPart>
-      )}
+        {isSubMenu && (
+            <MenuIconRight>
+              <ForwardIcon />
+            </MenuIconRight>
+        )}
     </MenuLink>
   )
 }
@@ -44,7 +40,7 @@ export const MenuLink = styled.a`
   position: relative;
   height: 50px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   border-radius: 8px;
   padding: 0.5rem;
@@ -58,23 +54,9 @@ export const MenuLink = styled.a`
   }
 `
 
-export const LeftPart = styled.span`
-  width: calc(100% - 30px);
-  display: inline-flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: nowrap;
-`
-
-const RightPart = styled.span`
-  /* margin-left: 40px; */
-  position: absolute;
-  right: 15px;
-`
-
 const MenuIconRight = styled(Icon)`
   background-color: transparent;
   margin-right: -5px;
+  position: absolute;
+  right: 15px;
 `

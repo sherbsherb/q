@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SpanStyled } from './SpanStyled'
 import { Icon } from '../Icon'
-import { LeftPart, MenuLink } from './MenuItem'
+import { MenuLink } from './MenuItem'
 import { CgClose as CloseIcon } from "react-icons/cg";
 
 
@@ -33,10 +33,8 @@ export function CloseItem() {
         closeMenu()
       }}
     >
-      <LeftPart>
         <Icon>{closeIcon}</Icon>
         <SpanStyled>Close</SpanStyled>
-      </LeftPart>
     </CloseLink>
   )
 }

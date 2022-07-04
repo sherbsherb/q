@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SpanStyled } from './SpanStyled'
 import { Icon } from '../Icon'
-import { LeftPart, MenuLink } from './MenuItem'
+import { MenuLink } from './MenuItem'
 import { FaChevronLeft as LeftArrowIcon } from 'react-icons/fa'
 import { ContextMenu } from './Menu'
 
@@ -19,10 +19,8 @@ export function BackItem() {
         goBack()
       }}
     >
-      <LeftPart>
         <Icon><LeftArrowIcon /></Icon>
         <SpanStyled>Back</SpanStyled>
-      </LeftPart>
     </BackLink>
   )
 }
