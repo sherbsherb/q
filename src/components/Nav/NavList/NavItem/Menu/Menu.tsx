@@ -7,6 +7,7 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { CSSTransition } from 'react-transition-group'
 import { elementHeight } from '@functions/elementHeight'
+import { gsap } from 'gsap'
 
 export const ContextMenu = createContext(null)
 
