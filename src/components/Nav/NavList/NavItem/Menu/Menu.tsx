@@ -53,12 +53,22 @@ export function Menu() {
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
 
-  useEffect(() => {
+  // #region animateMenuHeight
+  /**
+  * @summary on menu change animate its height
+  * @descriptions
+  * - on menu change gradually adjust its height
+  * - on initial render set height without animation (duration: 0)
+  * - height is calculated by measuring fake menu with height: 'auto'
+  */
+  function animateMenuHeight() {
     gsap.to(menuRef.current!, {
       duration: isInitRender ? 0 : 0.35,
       height: elementHeight(fakeMenuRef.current!) + 85
     })
-  }, [nextMenuState])
+  }
+  useEffect(animateMenuHeight, [nextMenuState])
+  // #endregion
 
   function navKeyboardHandler(e) {
     if (!nextMenuState) return
