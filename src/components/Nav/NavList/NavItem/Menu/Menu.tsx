@@ -7,6 +7,7 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
+import { useIsInitRender } from '@src/hooks/useIsInitRender'
 
 export const ContextMenu = createContext(null)
 
@@ -18,6 +19,8 @@ export function Menu() {
   const nextMenuRef = useRef(null)
   const currentMenuRef = useRef(null)
 
+  const isInitRender = useIsInitRender()
+
   function closeMenu(e) {
     // e?.stopPropagation();
     if (!showMenuState) return
@@ -26,9 +29,6 @@ export function Menu() {
     setPrevMenuState(null)
   }
   const closeMenuMemoized = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
-
-  const animationDuration = 0.35
-  const animationSlideOffset = 100
 
   function changeMenu(o) {
     const isSubMenu = o.menu
@@ -40,20 +40,24 @@ export function Menu() {
       navItemId: nextMenuState.navItemId,
       prevMenu: [...nextMenuState.prevMenu, nextMenuState]
     })
-    gsap.to(menuRef.current, { duration: animationDuration, height: elementHeight(fakeMenuRef.current) + 85 })
-    gsap.fromTo(nextMenuRef.current, { xPercent: animationSlideOffset }, { duration: animationDuration, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: animationDuration, xPercent: -animationSlideOffset })
+    gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration: 0.35, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100 })
   }
   const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
   function goBack(e) {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
-
-    gsap.to(menuRef.current, { duration: animationDuration, height: elementHeight(fakeMenuRef.current) + 85 })
-    gsap.fromTo(nextMenuRef.current, { xPercent: -animationSlideOffset }, { duration: animationDuration, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: animationDuration, xPercent: animationSlideOffset })
+    gsap.fromTo(nextMenuRef.current, { xPercent: -100 }, { duration: 0.35, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: 100 })
   }
+
+  useEffect(() => {
+    gsap.to(menuRef.current, {
+      duration: isInitRender ? 0 : 0.35,
+      height: elementHeight(fakeMenuRef.current) + 85
+    })
+  }, [nextMenuState])
 
   function navKeyboardHandler(e) {
     if (!nextMenuState) return
@@ -67,17 +71,10 @@ export function Menu() {
   const fakeMenuRef = useRef()
   const menuRef = useRef()
 
-  const [menuHeightState, setMenuHeightState] = useState() // can be 0 if we want slide initial menu
-
-  useEffect(() => {
-    setMenuHeightState(elementHeight(fakeMenuRef.current) + 85)
-    return () => { setMenuHeightState(0) }
-  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
-
   useEffect(() => {
     window.addEventListener('keydown', navKeyboardHandlerMemoized)
     return () => { window.removeEventListener('keydown', navKeyboardHandlerMemoized) }
-  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
+  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized])
 
   useEffect(() => {
     const navItem = menuRef.current.parentElement
@@ -99,26 +96,33 @@ export function Menu() {
   }, [closeMenuMemoized])
 
   const isNestedMenu = nextMenuState?.prevMenu?.length > 0
-  const menuItemsDivStyle = { position: 'absolute', right: '0px', left: '0px', height: 'auto' }
 
   const contextValue = { currentMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
 
   return (
     <ContextMenu.Provider value={contextValue}>
-      <Div style={{ height: '800px' }} ref={menuRef}>
+      <Div style={{ height: elementHeight(fakeMenuRef.current) + 85 + 'px' }} ref={menuRef}>
+
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
-        <div ref={currentMenuRef} style={{ ...menuItemsDivStyle }}>
-          {currentMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        <div ref={currentMenuRef} className='slidable'>
+          {currentMenuState?.menuItems.map(
+            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+          )}
         </div>
 
-        <div ref={nextMenuRef} style={{ ...menuItemsDivStyle }}>
-          {nextMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        <div ref={nextMenuRef} className='slidable'>
+          {nextMenuState.menuItems.map(
+            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+          )}
         </div>
 
-        <div style={{ position: 'fixed', right: '1000px' }} ref={fakeMenuRef}>
-          {nextMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        <div ref={fakeMenuRef} className='measurable-div'>
+          {nextMenuState.menuItems.map(
+            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+          )}
         </div>
+
       </Div>
     </ContextMenu.Provider>
   )
@@ -137,13 +141,21 @@ export const Div = styled.div`
   overflow: hidden;
   z-index: 666;
 
-  transition-property: height;
-  transition-duration: .35s;
-  transition-timing-function: ease-out;
-
   @media screen and (max-width: 480px) {
     left: 0px;
     right: 0px;
     width: auto;
+  }
+
+  .slidable {
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    height: auto;
+  }
+
+  .measurable-div {
+    position: fixed;
+    right: 1000px;
   }
 `
