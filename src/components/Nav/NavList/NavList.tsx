@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { NavItem } from './NavItem/NavItem'
 import { navStructure } from '../navStructure'
-import { useSelectorTyped } from '@src/redux/store/storeHooks'
+import { useSelectorTyped } from '@store/storeHooks'
 
 export function NavList() {
   const nav = useSelectorTyped(state => state.nav)

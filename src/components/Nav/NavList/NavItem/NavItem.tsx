@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { Icon } from './Icon'
@@ -7,9 +7,10 @@ import { Menu } from './Menu'
 export const ContextNavItem = createContext(null)
 
 export function NavItem({ menuO }) {
+  const liRef = useRef()
   const [showMenuState, setShowMenuState] = useState(false)
   const [nextMenuState, setOpenedMenuState] = useState(null)
-  const contextValue = { nextMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO }
+  const contextValue = { nextMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
 
   function showMenu(o) {
     const menu = o.menu
@@ -20,7 +21,7 @@ export function NavItem({ menuO }) {
   // every li get its menuO from navStructure via props and we can open it on click event
   return (
     <ContextNavItem.Provider value={contextValue}>
-      <LiStyled>
+      <LiStyled ref={liRef}>
         <a
           href={menuO.link || '/'}
           onClick={e => {

@@ -1,5 +1,5 @@
 // idea is taken from https://www.youtube.com/watch?v=IF6k0uZuypA
-import React, { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
+import React, { useContext, useEffect, useRef, useState, useCallback, createContext, useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
@@ -9,12 +9,13 @@ import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import { slideHorizontally } from '@functions/slideHorizontally'
+import { theme } from '@src/theme'
 
 export const ContextMenu = createContext({})
 
 export function Menu() {
   const context = useContext(ContextNavItem)
-  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
+  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = context
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
   const nextMenuRef = useRef(null)
   const currentMenuRef = useRef(null)
@@ -90,14 +91,15 @@ export function Menu() {
     return () => { document.removeEventListener('mousedown', closeModalOnClickOutside) }
   }, [closeMenuMemo])
 
-  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
-
   const contextValue = { currentMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
+  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
+  const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
+  const menuWidth = theme.menu.width
+  const isRightCornerBeforeScreen = menuWidth > distanceToLiRightSide
 
   return (
     <ContextMenu.Provider value={contextValue}>
-      <Div style={{ height: elementHeight(fakeMenuRef.current!) + 85 + 'px' }} ref={menuRef}>
-
+      <Div ref={menuRef} isRightCornerBeforeScreen={isRightCornerBeforeScreen}>
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
         <div ref={currentMenuRef} className='slidable'>
@@ -127,11 +129,11 @@ export const Div = styled.div`
   position: absolute;
   top: 110%;
   right: 0px;
-  width: 300px;
+  /* if right corner goes over the screen let's fix left side */
+  left: ${props => props.isRightCornerBeforeScreen ? '0' : 'not set'};
+  width: ${theme.menu.width}px;
   background: rgb(52 52 52 / 98%);
   backdrop-filter: blur(4px);
-  /* margin: 0px 5px; */
-
   border: 1px solid #474a4d;
   border-radius: 4px;
   overflow: hidden;

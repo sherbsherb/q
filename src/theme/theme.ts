@@ -4,5 +4,8 @@ export const theme: DefaultTheme = {
   colors: {
     grey: 'grey',
     red: 'red'
+  },
+  menu: {
+    width: 300
   }
 }
