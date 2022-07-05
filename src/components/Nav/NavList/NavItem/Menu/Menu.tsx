@@ -10,7 +10,7 @@ import { gsap } from 'gsap'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import { slideHorizontally } from '@functions/slideHorizontally'
 
-export const ContextMenu = createContext(null)
+export const ContextMenu = createContext({})
 
 export function Menu() {
   const context = useContext(ContextNavItem)
@@ -22,7 +22,7 @@ export function Menu() {
   const fakeMenuRef = useRef()
   const menuRef = useRef()
 
-  function closeMenu(e) {
+  function closeMenu() {
     if (!showMenuState) return
     setShowMenuState(false)
     setOpenedMenuState(null)
@@ -45,7 +45,7 @@ export function Menu() {
   }
   const changeMenuMemo = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
-  function goBack(e) {
+  function goBack() {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
@@ -96,7 +96,7 @@ export function Menu() {
 
   return (
     <ContextMenu.Provider value={contextValue}>
-      <Div style={{ height: elementHeight(fakeMenuRef.current) + 85 + 'px' }} ref={menuRef}>
+      <Div style={{ height: elementHeight(fakeMenuRef.current!) + 85 + 'px' }} ref={menuRef}>
 
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
