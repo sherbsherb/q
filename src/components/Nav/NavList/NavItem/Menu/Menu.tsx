@@ -30,6 +30,8 @@ export function Menu() {
   }
   const closeMenuMemoized = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
 
+  const duration = 0.35 // animation duration
+  
   function changeMenu(o) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
@@ -40,21 +42,21 @@ export function Menu() {
       navItemId: nextMenuState.navItemId,
       prevMenu: [...nextMenuState.prevMenu, nextMenuState]
     })
-    gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration: 0.35, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
   }
   const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
   function goBack(e) {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
-    gsap.fromTo(nextMenuRef.current, { xPercent: -100 }, { duration: 0.35, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: 100 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: -100 }, { duration, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
   }
 
   useEffect(() => {
     gsap.to(menuRef.current, {
-      duration: isInitRender ? 0 : 0.35,
+      duration: isInitRender ? 0 : duration,
       height: elementHeight(fakeMenuRef.current) + 85
     })
   }, [nextMenuState])
