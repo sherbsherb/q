@@ -8,8 +8,8 @@ export const ContextNavItem = createContext(null)
 
 export function NavItem({ menuO }) {
   const [showMenuState, setShowMenuState] = useState(false)
-  const [openedMenuState, setOpenedMenuState] = useState(null)
-  const contextValue = { openedMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO }
+  const [nextMenuState, setOpenedMenuState] = useState(null)
+  const contextValue = { nextMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO }
 
   function showMenu(o) {
     const menu = o.menu
@@ -38,7 +38,7 @@ export function NavItem({ menuO }) {
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {showMenuState && openedMenuState?.navItemId === menuO.id && <Menu />}
+        {showMenuState && nextMenuState?.navItemId === menuO.id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )
@@ -50,6 +50,7 @@ const LiStyled = styled.li`
   align-items: center;
   justify-content: center;
   padding: 0px 5px;
+  margin-left: 10px;
 
   a {
     display: flex;

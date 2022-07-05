@@ -12,9 +12,8 @@ export const ContextMenu = createContext(null)
 
 export function Menu() {
   const context = useContext(ContextNavItem)
-  const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
-  const [prevMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
-  const [menuChanged, setMenuChanged] = useState({ direction: 'no change' })
+  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
+  const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
 
   const nextMenuRef = useRef(null)
   const currentMenuRef = useRef(null)
@@ -28,39 +27,42 @@ export function Menu() {
   }
   const closeMenuMemoized = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
 
+  const animationDuration = 0.35
+  const animationSlideOffset = 100
+
   function changeMenu(o) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
-    setPrevMenuState(openedMenuState)
+    setPrevMenuState(nextMenuState)
     setOpenedMenuState({
       ...subMenu,
-      navItemId: openedMenuState.navItemId,
-      prevMenu: [...openedMenuState.prevMenu, openedMenuState]
+      navItemId: nextMenuState.navItemId,
+      prevMenu: [...nextMenuState.prevMenu, nextMenuState]
     })
-    setMenuChanged({ direction: 'forward' })
-    // gsap.to(menuRef.current, { duration: 0.35, height: 'auto' })
-
+    gsap.to(menuRef.current, { duration: animationDuration, height: elementHeight(fakeMenuRef.current) + 85 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: animationSlideOffset }, { duration: animationDuration, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: animationDuration, xPercent: -animationSlideOffset })
   }
-  const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, openedMenuState, setOpenedMenuState])
+  const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
   function goBack(e) {
-    setPrevMenuState(openedMenuState)
-    setOpenedMenuState(openedMenuState.prevMenu.pop())
-    setMenuChanged({ direction: 'backward' })
+    setPrevMenuState(nextMenuState)
+    setOpenedMenuState(nextMenuState.prevMenu.pop())
 
-    // gsap.to(menuRef.current, { duration: 0.35, height: 'auto' })
-
+    gsap.to(menuRef.current, { duration: animationDuration, height: elementHeight(fakeMenuRef.current) + 85 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: -animationSlideOffset }, { duration: animationDuration, xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: animationDuration, xPercent: animationSlideOffset })
   }
 
   function navKeyboardHandler(e) {
-    if (!openedMenuState) return
-    const isNestedMenu = openedMenuState?.prevMenu?.length > 0
+    if (!nextMenuState) return
+    const isNestedMenu = nextMenuState?.prevMenu?.length > 0
     isNestedMenu && e.key === 'Backspace' && changeMenuMemoized()
     !isNestedMenu && e.key === 'Backspace' && closeMenuMemoized()
     e.key === 'Escape' && closeMenuMemoized()
   }
-  const navKeyboardHandlerMemoized = useCallback(navKeyboardHandler, [openedMenuState, changeMenuMemoized, closeMenuMemoized])
+  const navKeyboardHandlerMemoized = useCallback(navKeyboardHandler, [nextMenuState, changeMenuMemoized, closeMenuMemoized])
 
   const fakeMenuRef = useRef()
   const menuRef = useRef()
@@ -70,12 +72,12 @@ export function Menu() {
   useEffect(() => {
     setMenuHeightState(elementHeight(fakeMenuRef.current) + 85)
     return () => { setMenuHeightState(0) }
-  }, [openedMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
+  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
 
   useEffect(() => {
     window.addEventListener('keydown', navKeyboardHandlerMemoized)
     return () => { window.removeEventListener('keydown', navKeyboardHandlerMemoized) }
-  }, [openedMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
+  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized, setMenuHeightState])
 
   useEffect(() => {
     const navItem = menuRef.current.parentElement
@@ -96,42 +98,26 @@ export function Menu() {
     }
   }, [closeMenuMemoized])
 
-  useEffect(() => {
-    const duration = 1.35
-
-    if (menuChanged.direction === 'forward') {
-      console.log(menuChanged.direction)
-      gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration, xPercent: 0 })
-      gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
-    }
-    if (menuChanged.direction === 'backward') {
-      console.log(menuChanged.direction)
-      gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
-      gsap.fromTo(currentMenuRef.current, { xPercent: -100 }, { duration, xPercent: 0 })
-    }
-  }, [menuChanged])
-
-  const isNestedMenu = openedMenuState?.prevMenu?.length > 0
+  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
   const menuItemsDivStyle = { position: 'absolute', right: '0px', left: '0px', height: 'auto' }
 
-  const contextValue = { prevMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
+  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
 
   return (
     <ContextMenu.Provider value={contextValue}>
       <Div style={{ height: '800px' }} ref={menuRef}>
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
-        {/* <div ref={nextMenuRef} style={{ ...menuItemsDivStyle }}>
-          {prevMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
-        </div> */}
-
         <div ref={currentMenuRef} style={{ ...menuItemsDivStyle }}>
-          {openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+          {currentMenuState?.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
         </div>
 
+        <div ref={nextMenuRef} style={{ ...menuItemsDivStyle }}>
+          {nextMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+        </div>
 
         <div style={{ position: 'fixed', right: '1000px' }} ref={fakeMenuRef}>
-          {openedMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
+          {nextMenuState.menuItems.map(menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />)}
         </div>
       </Div>
     </ContextMenu.Provider>
