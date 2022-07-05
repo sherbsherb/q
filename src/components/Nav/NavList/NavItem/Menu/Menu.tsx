@@ -23,6 +23,7 @@ export function Menu() {
   const fakeMenuRef = useRef()
   const menuRef = useRef()
 
+  // #region Close menu
   function closeMenu() {
     if (!showMenuState) return
     setShowMenuState(false)
@@ -30,28 +31,29 @@ export function Menu() {
     setPrevMenuState(null)
   }
   const closeMenuMemo = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
+  // #endregion
 
-  function goInside(o) {
+  // #region goLevelDown
+  function goLevelDown(o) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
     setPrevMenuState(nextMenuState)
-    setOpenedMenuState({
-      ...subMenu,
-      navItemId: nextMenuState.navItemId,
-      prevMenu: [...nextMenuState.prevMenu, nextMenuState]
-    })
+    setOpenedMenuState({ ...subMenu, navItemId: nextMenuState.navItemId, prevMenu: [...nextMenuState.prevMenu, nextMenuState] })
     slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   }
+  // #endregion
 
-  function goOutside() {
+  // #region goLevelUp
+  function goLevelUp() {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
-  const goOutsideMemo = useCallback(goOutside, [setPrevMenuState, nextMenuState, setOpenedMenuState])
+  const goLevelUpMemo = useCallback(goLevelUp, [setPrevMenuState, nextMenuState, setOpenedMenuState])
+  // #endregion
 
   // #region animateMenuHeight
   /**
@@ -78,11 +80,11 @@ export function Menu() {
   function navKeyboardHandler(e) {
     if (!nextMenuState) return
     const isNestedMenu = nextMenuState?.prevMenu?.length > 0
-    isNestedMenu && e.key === 'Backspace' && goOutsideMemo()
+    isNestedMenu && e.key === 'Backspace' && goLevelUpMemo()
     !isNestedMenu && e.key === 'Backspace' && closeMenuMemo()
     e.key === 'Escape' && closeMenuMemo()
   }
-  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, goOutsideMemo, closeMenuMemo])
+  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, goLevelUpMemo, closeMenuMemo])
 
   useEffect(keyShortcutsForMenu, [nextMenuState, navKeyboardHandlerMemo, closeMenuMemo])
   // #endregion
@@ -106,7 +108,7 @@ export function Menu() {
   useEffect(closeMenuOnClickOutside, [closeMenuMemo])
   // #endregion
 
-  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, goInside, goOutside, navKeyboardHandler }
+  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
   const isNestedMenu = nextMenuState?.prevMenu?.length > 0
   const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
