@@ -4,6 +4,7 @@ import { MdOutlineMenuBook as BookIcon } from 'react-icons/md'
 import React from 'react'
 import { nanoid as id } from 'nanoid'
 import { Link } from 'react-router-dom'
+import logo from '@components/Main/DefaultViteComponent/logo.svg'
 
 const reactIcon = React.createElement(FaReact, {})
 const plusIcon = React.createElement(AiOutlinePlus, {})
@@ -70,13 +71,13 @@ export const navStructure = [
                     },
                     {
                       text: 'item in menu 1',
-                      iconLeft: reactIcon,
+                      iconLeft: null,
                       menu: null,
                       id: id(5)
                     },
                     {
                       text: 'item in menu 1',
-                      iconLeft: reactIcon,
+                      iconLeft: <img src={logo} />,
                       menu: null,
                       id: id(5)
                     },
