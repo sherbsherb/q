@@ -31,7 +31,7 @@ export function Menu() {
   }
   const closeMenuMemo = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
 
-  function changeMenu(o) {
+  function goInside(o) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
@@ -44,18 +44,18 @@ export function Menu() {
     slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   }
-  const changeMenuMemo = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
-  function goBack() {
+  function goOutside() {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
+  const goOutsideMemo = useCallback(goOutside, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
   // #region animateMenuHeight
   /**
-  * @summary on menu change animate its height
+  * @summary on menu navigation animate its height
   * @descriptions
   * - on menu change gradually adjust its height
   * - on initial render set height without animation (duration: 0)
@@ -70,28 +70,31 @@ export function Menu() {
   useEffect(animateMenuHeight, [nextMenuState])
   // #endregion
 
+  // #region keyShortcutsForMenu
+  function keyShortcutsForMenu() {
+    window.addEventListener('keydown', navKeyboardHandlerMemo)
+    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
+  }
   function navKeyboardHandler(e) {
     if (!nextMenuState) return
     const isNestedMenu = nextMenuState?.prevMenu?.length > 0
-    isNestedMenu && e.key === 'Backspace' && changeMenuMemo()
+    isNestedMenu && e.key === 'Backspace' && goOutsideMemo()
     !isNestedMenu && e.key === 'Backspace' && closeMenuMemo()
     e.key === 'Escape' && closeMenuMemo()
   }
-  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, changeMenuMemo, closeMenuMemo])
+  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, goOutsideMemo, closeMenuMemo])
 
-  useEffect(() => {
-    window.addEventListener('keydown', navKeyboardHandlerMemo)
-    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
-  }, [nextMenuState, navKeyboardHandlerMemo, closeMenuMemo])
+  useEffect(keyShortcutsForMenu, [nextMenuState, navKeyboardHandlerMemo, closeMenuMemo])
+  // #endregion
 
-  useEffect(() => {
-    const navItem = menuRef.current.parentElement
-
+  // #region close menu on click outside
+  function closeMenuOnClickOutside() {
     function isClickedElOutsideThisEl(clickedEl, thisEl) {
       return !thisEl.contains(clickedEl)
     }
 
     function closeModalOnClickOutside(e) {
+      const navItem = menuRef.current.parentElement
       const clickedEl = e.target
       if (!navItem) return
       if (isClickedElOutsideThisEl(clickedEl, navItem)) closeMenuMemo()
@@ -99,9 +102,11 @@ export function Menu() {
 
     document.addEventListener('mousedown', closeModalOnClickOutside)
     return () => { document.removeEventListener('mousedown', closeModalOnClickOutside) }
-  }, [closeMenuMemo])
+  }
+  useEffect(closeMenuOnClickOutside, [closeMenuMemo])
+  // #endregion
 
-  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, changeMenu, goBack, navKeyboardHandler }
+  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, goInside, goOutside, navKeyboardHandler }
   const isNestedMenu = nextMenuState?.prevMenu?.length > 0
   const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
@@ -129,7 +134,6 @@ export function Menu() {
             menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
-
       </Div>
     </ContextMenu.Provider>
   )
@@ -137,7 +141,7 @@ export function Menu() {
 
 export const Div = styled.div`
   position: absolute;
-  top: 110%;
+  top: calc(100% + 5px);
   right: 0px;
   /* if right corner goes over the screen let's fix left side */
   left: ${props => props.isRightCornerBeforeScreen ? '0' : 'not set'};

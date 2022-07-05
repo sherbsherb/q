@@ -8,7 +8,7 @@ import { ContextMenu } from './Menu'
 
 export function BackItem() {
   // console.log('BackItem')
-  const { goBack } = React.useContext(ContextMenu)
+  const { goOutside } = React.useContext(ContextMenu)
 
   return (
     <BackLink
@@ -16,7 +16,7 @@ export function BackItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        goBack()
+        goOutside()
       }}
     >
         <Icon><LeftArrowIcon /></Icon>

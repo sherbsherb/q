@@ -7,7 +7,7 @@ import { ContextMenu } from './Menu'
 
 export function MenuItem(props) {
   // console.log('MenuItem')
-  const { changeMenu } = useContext(ContextMenu)
+  const { goInside } = useContext(ContextMenu)
   const { menuItem } = props
   const isSubMenu = !!menuItem.menu
   const isLeftIcon = !!menuItem.iconLeft
@@ -19,7 +19,7 @@ export function MenuItem(props) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        changeMenu(menuItem)
+        goInside(menuItem)
       }}
     >
         {isLeftIcon && <Icon>{menuItem.iconLeft}</Icon>}
