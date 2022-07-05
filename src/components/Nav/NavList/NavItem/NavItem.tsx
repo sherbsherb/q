@@ -34,7 +34,7 @@ export function NavItem({ menuO }) {
           }}
         >
           {menuO.icon && <Icon>{menuO.icon}</Icon>}
-          {menuO.text && <span>{menuO.text}</span>}
+          {menuO.text && <span className='nav-item-text'>{menuO.text}</span>}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
@@ -61,7 +61,7 @@ const LiStyled = styled.li`
       filter: brightness(1.2);
     }
 
-    span {
+    .nav-item-text {
       margin-left: 5px;
       margin-right: 5px;
       color: #bcbcbc;
