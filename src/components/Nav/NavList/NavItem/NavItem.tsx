@@ -50,6 +50,7 @@ const LiStyled = styled.li`
   justify-content: center;
   padding: 0px 5px;
   margin-left: 10px;
+  user-select: none;
 
   a {
     display: flex;

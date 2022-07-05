@@ -7,7 +7,8 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
-import { useIsInitRender } from '@src/hooks/useIsInitRender'
+import { useIsInitRender } from '@hooks/useIsInitRender'
+import { slideHorizontally } from '@functions/slideHorizontally'
 
 export const ContextMenu = createContext(null)
 
@@ -15,23 +16,20 @@ export function Menu() {
   const context = useContext(ContextNavItem)
   const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState } = context
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
-
   const nextMenuRef = useRef(null)
   const currentMenuRef = useRef(null)
-
   const isInitRender = useIsInitRender()
+  const fakeMenuRef = useRef()
+  const menuRef = useRef()
 
   function closeMenu(e) {
-    // e?.stopPropagation();
     if (!showMenuState) return
     setShowMenuState(false)
     setOpenedMenuState(null)
     setPrevMenuState(null)
   }
-  const closeMenuMemoized = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
+  const closeMenuMemo = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
 
-  const duration = 0.35 // animation duration
-  
   function changeMenu(o) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
@@ -42,41 +40,38 @@ export function Menu() {
       navItemId: nextMenuState.navItemId,
       prevMenu: [...nextMenuState.prevMenu, nextMenuState]
     })
-    gsap.fromTo(nextMenuRef.current, { xPercent: 100 }, { duration, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
+    slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
+    slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   }
-  const changeMenuMemoized = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
+  const changeMenuMemo = useCallback(goBack, [setPrevMenuState, nextMenuState, setOpenedMenuState])
 
   function goBack(e) {
     setPrevMenuState(nextMenuState)
     setOpenedMenuState(nextMenuState.prevMenu.pop())
-    gsap.fromTo(nextMenuRef.current, { xPercent: -100 }, { duration, xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
+    slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
+    slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
 
   useEffect(() => {
-    gsap.to(menuRef.current, {
-      duration: isInitRender ? 0 : duration,
-      height: elementHeight(fakeMenuRef.current) + 85
+    gsap.to(menuRef.current!, {
+      duration: isInitRender ? 0 : 0.35,
+      height: elementHeight(fakeMenuRef.current!) + 85
     })
   }, [nextMenuState])
 
   function navKeyboardHandler(e) {
     if (!nextMenuState) return
     const isNestedMenu = nextMenuState?.prevMenu?.length > 0
-    isNestedMenu && e.key === 'Backspace' && changeMenuMemoized()
-    !isNestedMenu && e.key === 'Backspace' && closeMenuMemoized()
-    e.key === 'Escape' && closeMenuMemoized()
+    isNestedMenu && e.key === 'Backspace' && changeMenuMemo()
+    !isNestedMenu && e.key === 'Backspace' && closeMenuMemo()
+    e.key === 'Escape' && closeMenuMemo()
   }
-  const navKeyboardHandlerMemoized = useCallback(navKeyboardHandler, [nextMenuState, changeMenuMemoized, closeMenuMemoized])
-
-  const fakeMenuRef = useRef()
-  const menuRef = useRef()
+  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, changeMenuMemo, closeMenuMemo])
 
   useEffect(() => {
-    window.addEventListener('keydown', navKeyboardHandlerMemoized)
-    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemoized) }
-  }, [nextMenuState, navKeyboardHandlerMemoized, closeMenuMemoized])
+    window.addEventListener('keydown', navKeyboardHandlerMemo)
+    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
+  }, [nextMenuState, navKeyboardHandlerMemo, closeMenuMemo])
 
   useEffect(() => {
     const navItem = menuRef.current.parentElement
@@ -88,14 +83,12 @@ export function Menu() {
     function closeModalOnClickOutside(e) {
       const clickedEl = e.target
       if (!navItem) return
-      if (isClickedElOutsideThisEl(clickedEl, navItem)) closeMenuMemoized()
+      if (isClickedElOutsideThisEl(clickedEl, navItem)) closeMenuMemo()
     }
 
     document.addEventListener('mousedown', closeModalOnClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', closeModalOnClickOutside)
-    }
-  }, [closeMenuMemoized])
+    return () => { document.removeEventListener('mousedown', closeModalOnClickOutside) }
+  }, [closeMenuMemo])
 
   const isNestedMenu = nextMenuState?.prevMenu?.length > 0
 
