@@ -26,8 +26,7 @@ export function NavItem({ menuO }) {
           onClick={e => {
             console.log(666)
             const isLink = !!menuO.link
-            if (isLink) return
-            // if not a link, open menu
+            if (isLink) return // if a link, just follow it
             e.preventDefault()
             // e.nativeEvent.stopImmediatePropagation();
             showMenu(menuO)
