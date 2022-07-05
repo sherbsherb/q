@@ -130,9 +130,10 @@ export const Div = styled.div`
   width: 300px;
   background: rgb(52 52 52 / 98%);
   backdrop-filter: blur(4px);
+  /* margin: 0px 5px; */
 
   border: 1px solid #474a4d;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   z-index: 666;
 

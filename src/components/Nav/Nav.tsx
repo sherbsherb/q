@@ -11,12 +11,12 @@ export function Nav() {
 
 const NavStyled = styled.nav`
   margin: 0px 0px 5px 0px;
-  border-radius: 0px;
+  border-radius: 4px;
   background: rgb(52 52 52 / 98%);
   height: 60px;
   padding: 0 1rem;
-  position: relative;
-  /* position: sticky; */
-  /* top: 5px; */
+  position: sticky;
+  top: 0px;
+  margin: 5px;
   z-index: 2;
 `
