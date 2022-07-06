@@ -1,16 +1,15 @@
+import { useContext } from 'react'
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
-import React, { useContext } from 'react'
 import { SpanStyled } from './SpanStyled'
 import { Icon } from '../Icon'
 import { ContextMenu } from './Menu'
 
 export function MenuItem(props) {
-  // console.log('MenuItem')
   const { goLevelDown } = useContext(ContextMenu)
   const { menuItem } = props
   const isSubMenu = !!menuItem.menu
-  const isLeftIcon = !!menuItem.iconLeft
+  const isIcon = !!menuItem.icon
 
   return (
     <MenuLink
@@ -22,7 +21,7 @@ export function MenuItem(props) {
         goLevelDown(menuItem)
       }}
     >
-        {isLeftIcon && <Icon>{menuItem.iconLeft}</Icon>}
+        {isIcon && <Icon>{menuItem.icon}</Icon>}
         <SpanStyled isSubMenu={isSubMenu}>{menuItem.text}</SpanStyled>
         {isSubMenu && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuLink>

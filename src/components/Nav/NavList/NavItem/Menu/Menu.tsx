@@ -1,10 +1,9 @@
-// idea is taken from https://www.youtube.com/watch?v=IF6k0uZuypA
-import React, { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
+import { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
 import styled from 'styled-components'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
-import { ContextNavItem as navItemContext } from '../NavItem'
+import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
 import { useIsInitRender } from '@hooks/useIsInitRender'
@@ -14,7 +13,7 @@ import { theme } from '@src/theme'
 export const ContextMenu = createContext({})
 
 export function Menu() {
-  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(navItemContext)
+  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(ContextNavItem)
   const isNestedMenu = nextMenuState?.prevMenu?.length > 0
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
   const menuContainerRef = useRef()
