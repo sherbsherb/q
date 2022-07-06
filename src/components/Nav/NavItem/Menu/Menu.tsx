@@ -124,7 +124,7 @@ export function Menu() {
   const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
-      <Div ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
+      <MenuContainerStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
         {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
 
         <div ref={currentMenuRef} className='slidable'>
@@ -144,18 +144,19 @@ export function Menu() {
             menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
-      </Div>
+      </MenuContainerStyled>
     </ContextMenu.Provider>
   )
 }
 
-export const Div = styled.div`
+export const MenuContainerStyled = styled.div`
   position: absolute;
   top: calc(100% + 5px);
   right: 0px;
   /* if right corner goes over the screen fix the left instead of right */
   left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
   width: ${theme.menu.width}px;
+  padding: 16px 0px;
   background: rgb(52 52 52 / 98%);
   backdrop-filter: blur(4px);
   border: 1px solid #474a4d;

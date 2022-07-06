@@ -123,7 +123,7 @@ export const navStructure = [
         },
         {
           text: 'item in menu 1',
-          icon: '😇',
+          icon: 'IC',
           menu: null,
           id: id(5)
         },

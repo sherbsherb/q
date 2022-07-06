@@ -37,7 +37,7 @@ export function NavItem({ menuO }) {
             showMenu(menuO)
           }}
         >
-          {menuO.icon && <Icon>{menuO.icon}</Icon>}
+          {menuO.icon && <Icon icon={menuO.icon} />}
           {menuO.text && <span className='nav-item-text'>{menuO.text}</span>}
         </a>
 

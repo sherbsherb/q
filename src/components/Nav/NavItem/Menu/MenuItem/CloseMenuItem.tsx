@@ -1,5 +1,5 @@
 import { useContext, createElement } from 'react'
-import { TextInMenuItemStyled } from './TextInMenuItemStyled'
+import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { CgClose as CloseIcon } from 'react-icons/cg'
 import { ContextMenu } from '../Menu'
@@ -11,7 +11,7 @@ export function CloseMenuItem() {
   const { closeMenu } = useContext(ContextMenu)
 
   return (
-    <MenuItemStyled style={{ color: '#858383', marginTop: '16px' }}
+    <MenuItemStyled
       href=""
       onClick={e => {
         e.preventDefault()
@@ -19,8 +19,8 @@ export function CloseMenuItem() {
         closeMenu()
       }}
     >
-      <Icon>{closeIcon}</Icon>
-      <TextInMenuItemStyled>Close</TextInMenuItemStyled>
+      <Icon icon={closeIcon} />
+      <TextInMenu text={<span style={{ color: '#858383' }}>Close</span>} />
     </MenuItemStyled>
   )
 }

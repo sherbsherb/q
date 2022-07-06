@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { TextInMenuItemStyled } from './TextInMenuItemStyled'
+import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { FaChevronLeft as LeftArrowIcon } from 'react-icons/fa'
 import { ContextMenu } from '../Menu'
@@ -9,7 +9,7 @@ export function BackMenuItem() {
   const { goLevelUp } = useContext(ContextMenu)
 
   return (
-    <MenuItemStyled style={{ color: '#858383', marginTop: '16px' }}
+    <MenuItemStyled
       href=""
       onClick={e => {
         e.preventDefault()
@@ -17,8 +17,8 @@ export function BackMenuItem() {
         goLevelUp()
       }}
     >
-      <Icon><LeftArrowIcon /></Icon>
-      <TextInMenuItemStyled>Back</TextInMenuItemStyled>
+      <Icon icon={<LeftArrowIcon />} />
+      <TextInMenu text={<span style={{ color: '#858383' }}>Back</span>} />
     </MenuItemStyled>
   )
 }
