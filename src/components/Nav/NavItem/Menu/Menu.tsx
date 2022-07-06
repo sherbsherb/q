@@ -3,8 +3,8 @@ import { useIsInitRender } from '@hooks/useIsInitRender'
 import styled from 'styled-components'
 import { theme } from '@src/theme'
 import { gsap } from 'gsap'
-import { BackItem } from './BackItem'
-import { CloseItem } from './CloseItem'
+import { BackMenuItem } from './MenuItem/BackMenuItem'
+import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
@@ -125,7 +125,7 @@ export function Menu() {
   return (
     <ContextMenu.Provider value={menuContext}>
       <Div ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
-        {isNestedMenu ? <BackItem /> : <CloseItem />}
+        {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
 
         <div ref={currentMenuRef} className='slidable'>
           {currentMenuState?.menuItems.map(

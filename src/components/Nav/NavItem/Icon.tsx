@@ -11,10 +11,9 @@ export const Icon = styled.span`
   align-items: center;
   justify-content: center;
   color: #dadce1;
+  flex-shrink: 0; // to avoid logo shrink when menu item text is long
 
   svg {
     fill: #dadce1;
-    /* width: 20px; */
-    /* height: 20px; */
   }
 `
