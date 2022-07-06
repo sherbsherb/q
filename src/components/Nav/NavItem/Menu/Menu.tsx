@@ -56,8 +56,8 @@ export function Menu() {
 
   // #region animateMenuHeight
   /**
-  * @summary
-  * on menu navigation animate its height
+  * @function
+  * height animation on menu change
   * @descriptions
   * - on menu change gradually adjust its height
   * - on initial render set height without animation (duration: 0)

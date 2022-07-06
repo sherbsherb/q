@@ -7,8 +7,8 @@ type Props = {
 /**
  * Component returns grey circle with an icon inside
  * @descriptions
- * - we may pass icon prop as an icon or a string
- * - if a sting passed we make it bold
+ * - we may pass icon prop as a component or a string
+ * - if sting is passed it becomes bold
  */
 export function Icon({ icon }: Props) {
   return (
