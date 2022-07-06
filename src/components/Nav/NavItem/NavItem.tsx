@@ -13,8 +13,8 @@ export function NavItem({ menuO }) {
    */
   const liRef = useRef()
   const [showMenuState, setShowMenuState] = useState(false)
-  const [nextMenuState, setOpenedMenuState] = useState(null)
-  const contextValue = { nextMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
+  const [openedMenuState, setOpenedMenuState] = useState(null)
+  const contextValue = { openedMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
 
   function showMenu(o) {
     const menu = o.menu
@@ -42,7 +42,7 @@ export function NavItem({ menuO }) {
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {showMenuState && nextMenuState?.navItemId === menuO.id && <Menu />}
+        {showMenuState && openedMenuState?.navItemId === menuO.id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )

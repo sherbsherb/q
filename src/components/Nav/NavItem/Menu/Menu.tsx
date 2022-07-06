@@ -13,8 +13,8 @@ import { slideHorizontally } from '@functions/slideHorizontally'
 export const ContextMenu = createContext({})
 
 export function Menu() {
-  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(ContextNavItem)
-  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
+  const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(ContextNavItem)
+  const isNestedMenu = openedMenuState?.prevMenu?.length > 0
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
   const menuContainerRef = useRef()
   const currentMenuRef = useRef(null)
@@ -37,8 +37,8 @@ export function Menu() {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
-    setPrevMenuState(nextMenuState)
-    setOpenedMenuState({ ...subMenu, navItemId: nextMenuState.navItemId, prevMenu: [...nextMenuState.prevMenu, nextMenuState] })
+    setPrevMenuState(openedMenuState)
+    setOpenedMenuState({ ...subMenu, navItemId: openedMenuState.navItemId, prevMenu: [...openedMenuState.prevMenu, openedMenuState] })
     slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   }
@@ -46,12 +46,12 @@ export function Menu() {
 
   // #region goLevelUp
   function goLevelUp() {
-    setPrevMenuState(nextMenuState)
-    setOpenedMenuState(nextMenuState.prevMenu.pop())
+    setPrevMenuState(openedMenuState)
+    setOpenedMenuState(openedMenuState.prevMenu.pop())
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
-  const goLevelUpMemo = useCallback(goLevelUp, [setPrevMenuState, nextMenuState, setOpenedMenuState])
+  const goLevelUpMemo = useCallback(goLevelUp, [setPrevMenuState, openedMenuState, setOpenedMenuState])
   // #endregion
 
   // #region animateMenuHeight
@@ -69,7 +69,7 @@ export function Menu() {
       height: elementHeight(fakeMenuRef.current!) + 85
     })
   }
-  useEffect(animateMenuHeight, [nextMenuState])
+  useEffect(animateMenuHeight, [openedMenuState])
   // #endregion
 
   // #region keyShortcutsForMenu
@@ -78,15 +78,15 @@ export function Menu() {
     return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
   }
   function navKeyboardHandler(e) {
-    if (!nextMenuState) return
-    const isNestedMenu = nextMenuState?.prevMenu?.length > 0
+    if (!openedMenuState) return
+    const isNestedMenu = openedMenuState?.prevMenu?.length > 0
     isNestedMenu && e.key === 'Backspace' && goLevelUpMemo()
     !isNestedMenu && e.key === 'Backspace' && closeMenuMemo()
     e.key === 'Escape' && closeMenuMemo()
   }
-  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [nextMenuState, goLevelUpMemo, closeMenuMemo])
+  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [openedMenuState, goLevelUpMemo, closeMenuMemo])
 
-  useEffect(keyShortcutsForMenu, [nextMenuState, navKeyboardHandlerMemo, closeMenuMemo])
+  useEffect(keyShortcutsForMenu, [openedMenuState, navKeyboardHandlerMemo, closeMenuMemo])
   // #endregion
 
   // #region close menu on click outside
@@ -119,10 +119,6 @@ export function Menu() {
   const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
   const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
-
-  console.log('distanceToLiRightSide', distanceToLiRightSide)
-  console.log('menuWidth', menuWidth)
-  console.log('isMenuOutsideWindow', isMenuOutsideWindow)
   // #endregion
 
   const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
@@ -138,13 +134,13 @@ export function Menu() {
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
-          {nextMenuState.menuItems.map(
+          {openedMenuState.menuItems.map(
             menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
-          {nextMenuState.menuItems.map(
+          {openedMenuState.menuItems.map(
             menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
@@ -157,7 +153,7 @@ export const Div = styled.div`
   position: absolute;
   top: calc(100% + 5px);
   right: 0px;
-  /* if right corner goes over the screen let's fix left side */
+  /* if right corner goes over the screen fix the left instead of right */
   left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
   width: ${theme.menu.width}px;
   background: rgb(52 52 52 / 98%);
