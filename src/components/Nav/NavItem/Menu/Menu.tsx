@@ -9,7 +9,7 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { slideHorizontally } from '@functions/slideHorizontally'
-import type { MenuItemType } from '@components/Nav/navStructure'
+import type { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 
 export const ContextMenu = createContext({})
@@ -35,7 +35,7 @@ export function Menu() {
   // #endregion
 
   // #region goLevelDown
-  function goInside(o: MenuItemType) {
+  function goInside(o: MenuType) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
@@ -136,20 +136,20 @@ export function Menu() {
 
         <div ref={currentMenuRef} className='slidable'>
           {currentMenuState?.menuItems.map(
-            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
           {openedMenuState.menuItems.map(
-            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
           {openedMenuState.menuItems.map(
-            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
       </MenuStyled>

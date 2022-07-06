@@ -9,15 +9,16 @@ import logo from '@components/Main/DefaultViteComponent/logo.svg'
 const reactIcon = React.createElement(FaReact, {})
 const plusIcon = React.createElement(AiOutlinePlus, {})
 
-export type MenuItemType = {
+export type MenuType = {
   visible: boolean
   icon?: React.ReactNode | string
   text: string
   link?: any
   func?: () => void,
-  menu?: MenuItemType,
+  menu?: MenuType,
   id: string
 }
+export type MenuTypeInObject = { menuO: MenuType}
 
 export const navStructure = [
   {

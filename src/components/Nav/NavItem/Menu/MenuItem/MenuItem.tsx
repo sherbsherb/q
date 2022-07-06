@@ -6,14 +6,12 @@ import { ContextMenu } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
-import type { MenuItemType } from '@components/Nav/navStructure'
+import type { MenuTypeInObject } from '@components/Nav/navStructure'
 
-type MenuItemInObject = { menuItem: MenuItemType}
-
-export function MenuItem({ menuItem }: MenuItemInObject) {
+export function MenuItem({ menuO }: MenuTypeInObject) {
   const { goLevelDown } = useContext(ContextMenu)
-  const isSubMenu = !!menuItem.menu
-  const isIcon = !!menuItem.icon
+  const isSubMenu = !!menuO.menu
+  const isIcon = !!menuO.icon
 
   return (
     <MenuItemStyled
@@ -22,11 +20,11 @@ export function MenuItem({ menuItem }: MenuItemInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        goLevelDown(menuItem)
+        goLevelDown(menuO)
       }}
     >
-      {isIcon && <Icon icon={menuItem.icon} />}
-      <TextInMenu reserveSpaceForIcon={isSubMenu} text={menuItem.text} />
+      {isIcon && <Icon icon={menuO.icon} />}
+      <TextInMenu reserveSpaceForIcon={isSubMenu} text={menuO.text} />
       {isSubMenu && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuItemStyled>
   )
