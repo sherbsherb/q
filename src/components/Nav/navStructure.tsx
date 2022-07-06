@@ -9,13 +9,22 @@ import logo from '@components/Main/DefaultViteComponent/logo.svg'
 const reactIcon = React.createElement(FaReact, {})
 const plusIcon = React.createElement(AiOutlinePlus, {})
 
+export type MenuItemType = {
+  visible: boolean
+  icon?: React.ReactNode | string
+  text: string
+  link?: any
+  func?: () => void,
+  menu?: MenuItemType,
+  id: string
+}
+
 export const navStructure = [
   {
     visible: true,
     icon: <BookIcon />,
     text: 'Link A',
     link: '/linkA',
-    reactRoute: null,
     func: null,
     menu: null,
     id: id(5)
@@ -25,7 +34,6 @@ export const navStructure = [
     icon: <BookIcon />,
     text: 'Link B',
     link: '/linkB',
-    reactRoute: null,
     func: null,
     menu: null,
     id: id(5)
@@ -35,7 +43,6 @@ export const navStructure = [
     icon: <BookIcon />,
     text: 'Back',
     link: '/',
-    reactRoute: null,
     func: null,
     menu: null,
     id: id(5)

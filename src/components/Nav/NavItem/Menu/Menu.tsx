@@ -9,6 +9,8 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { slideHorizontally } from '@functions/slideHorizontally'
+import type { MenuItemType } from '@components/Nav/navStructure'
+import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 
 export const ContextMenu = createContext({})
 
@@ -16,10 +18,10 @@ export function Menu() {
   const { openedMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(ContextNavItem)
   const isNestedMenu = openedMenuState?.prevMenu?.length > 0
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
-  const menuContainerRef = useRef()
-  const currentMenuRef = useRef(null)
-  const nextMenuRef = useRef(null)
-  const fakeMenuRef = useRef()
+  const menuContainerRef = useRef<HTMLDivElement>(null)
+  const currentMenuRef = useRef<HTMLDivElement>(null)
+  const nextMenuRef = useRef<HTMLDivElement>(null)
+  const fakeMenuRef = useRef<HTMLDivElement>(null)
   const isInitRender = useIsInitRender()
 
   // #region Close menu
@@ -33,7 +35,7 @@ export function Menu() {
   // #endregion
 
   // #region goLevelDown
-  function goLevelDown(o) {
+  function goInside(o: MenuItemType) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
     const subMenu = o.menu
@@ -45,13 +47,13 @@ export function Menu() {
   // #endregion
 
   // #region goLevelUp
-  function goLevelUp() {
+  function goOutside() {
     setPrevMenuState(openedMenuState)
     setOpenedMenuState(openedMenuState.prevMenu.pop())
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
-  const goLevelUpMemo = useCallback(goLevelUp, [setPrevMenuState, openedMenuState, setOpenedMenuState])
+  const goLevelUpMemo = useCallback(goOutside, [setPrevMenuState, openedMenuState, setOpenedMenuState])
   // #endregion
 
   // #region animateMenuHeight
@@ -77,7 +79,7 @@ export function Menu() {
     window.addEventListener('keydown', navKeyboardHandlerMemo)
     return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
   }
-  function navKeyboardHandler(e) {
+  function navKeyboardHandler(e: KeyboardEvent) {
     if (!openedMenuState) return
     const isNestedMenu = openedMenuState?.prevMenu?.length > 0
     isNestedMenu && e.key === 'Backspace' && goLevelUpMemo()
@@ -91,21 +93,24 @@ export function Menu() {
 
   // #region close menu on click outside
   function closeMenuOnClickOutside() {
-    function isClickedElOutsideThisEl(clickedEl, thisEl) {
-      return !thisEl.contains(clickedEl)
-    }
-
-    function closeModalOnClickOutside(e) {
+    /**
+     * @descriptions
+     * - menu is positioned inside navItem li element
+     * - if we clicked on navItem (menu or li) do not close
+     * - if clicked outside - close
+     */
+    function closeModalOnClickOutside(e: MouseEvent) {
+      if (!menuContainerRef.current) return
       const navItem = menuContainerRef.current.parentElement
-      const clickedEl = e.target
       if (!navItem) return
-      if (isClickedElOutsideThisEl(clickedEl, navItem)) closeMenuMemo()
+      const clickedEl = e.target as HTMLElement
+      if (!isClickInsideThisElement(clickedEl, navItem)) closeMenuMemo()
     }
 
     document.addEventListener('mousedown', closeModalOnClickOutside)
     return () => { document.removeEventListener('mousedown', closeModalOnClickOutside) }
   }
-  useEffect(closeMenuOnClickOutside, [closeMenuMemo])
+  useEffect(closeMenuOnClickOutside, [])
   // #endregion
 
   // #region isMenuOutsideWindow
@@ -121,7 +126,7 @@ export function Menu() {
   const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
   // #endregion
 
-  const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
+  const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown: goInside, goLevelUp: goOutside, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
       <MenuStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
@@ -131,20 +136,20 @@ export function Menu() {
 
         <div ref={currentMenuRef} className='slidable'>
           {currentMenuState?.menuItems.map(
-            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
           {openedMenuState.menuItems.map(
-            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
           {openedMenuState.menuItems.map(
-            menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
+            (menuItem: MenuItemType) => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
       </MenuStyled>
@@ -152,7 +157,11 @@ export function Menu() {
   )
 }
 
-export const MenuStyled = styled.div`
+type PropsForSC = {
+  isMenuOutsideWindow: boolean
+}
+
+export const MenuStyled = styled.div<PropsForSC>`
   position: absolute;
   top: calc(100% + 5px);
   right: 0px;

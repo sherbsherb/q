@@ -6,15 +6,18 @@ import { ContextMenu } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
+import type { MenuItemType } from '@components/Nav/navStructure'
 
-export function MenuItem({ menuItem }) {
+type MenuItemInObject = { menuItem: MenuItemType}
+
+export function MenuItem({ menuItem }: MenuItemInObject) {
   const { goLevelDown } = useContext(ContextMenu)
   const isSubMenu = !!menuItem.menu
   const isIcon = !!menuItem.icon
 
   return (
     <MenuItemStyled
-      href=""
+      href=''
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
