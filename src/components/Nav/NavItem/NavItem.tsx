@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState } from 'react'
+import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { Icon } from './Icon'
@@ -7,6 +7,10 @@ import { Menu } from './Menu'
 export const ContextNavItem = createContext(null)
 
 export function NavItem({ menuO }) {
+  /**
+   * @constant
+   * Reference to menu item <li> to pass it into opening menu to let menu know where to put left or right side to avoid going over the window if window is narrow
+   */
   const liRef = useRef()
   const [showMenuState, setShowMenuState] = useState(false)
   const [nextMenuState, setOpenedMenuState] = useState(null)

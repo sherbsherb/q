@@ -1,14 +1,14 @@
 import { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
+import { useIsInitRender } from '@hooks/useIsInitRender'
 import styled from 'styled-components'
+import { theme } from '@src/theme'
+import { gsap } from 'gsap'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
 import { ContextNavItem } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
-import { gsap } from 'gsap'
-import { useIsInitRender } from '@hooks/useIsInitRender'
 import { slideHorizontally } from '@functions/slideHorizontally'
-import { theme } from '@src/theme'
 
 export const ContextMenu = createContext({})
 
@@ -112,14 +112,17 @@ export function Menu() {
   /**
   * @summary distance from the left side of the window to right side of nav menu item
   * @descriptions
-  * - menu is located inside <li>
-  * - menu opens below <li> and has same absolute right position
+  * - menu is absolute positioned below <li> and has same right position
   * - if window is narrow menu can go over the screen's left side
   * - if so, we can fix right side of the menu
   */
   const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
   const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
+
+  console.log('distanceToLiRightSide', distanceToLiRightSide)
+  console.log('menuWidth', menuWidth)
+  console.log('isMenuOutsideWindow', isMenuOutsideWindow)
   // #endregion
 
   const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
@@ -155,7 +158,7 @@ export const Div = styled.div`
   top: calc(100% + 5px);
   right: 0px;
   /* if right corner goes over the screen let's fix left side */
-  left: ${props => props.isRightCornerBeforeScreen ? '0' : 'not set'};
+  left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
   width: ${theme.menu.width}px;
   background: rgb(52 52 52 / 98%);
   backdrop-filter: blur(4px);

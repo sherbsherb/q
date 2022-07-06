@@ -1,10 +1,18 @@
 import styled from 'styled-components'
-import { NavList } from './NavList'
+import { useSelectorTyped } from '@store/storeHooks'
+import { NavItem } from './NavItem'
 
 export function Nav() {
+  const nav = useSelectorTyped(state => state.nav)
   return (
     <NavStyled>
-      <NavList />
+      {/* <Logo /> */}
+      <ul>
+        {nav.map(
+          menuO => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
+        )}
+      </ul>
+      {/* <Hamburger /> */}
     </NavStyled>
   )
 }
@@ -19,4 +27,10 @@ const NavStyled = styled.nav`
   top: 0px;
   margin: 5px;
   z-index: 2;
+
+  ul {
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
 `
