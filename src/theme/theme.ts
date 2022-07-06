@@ -6,6 +6,8 @@ export const theme: DefaultTheme = {
     red: 'red'
   },
   menu: {
-    width: 300
+    width: 300,
+    paddingTop: 16,
+    paddingBottom: 16
   }
 }

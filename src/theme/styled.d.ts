@@ -6,11 +6,13 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     borderRadius?: string
     colors: {
-      grey: string;
-      red: string;
+      grey: string
+      red: string
     }
     menu: {
       width: number
+      paddingTop: number
+      paddingBottom: number
     }
   }
 }

@@ -66,7 +66,7 @@ export function Menu() {
   function animateMenuHeight() {
     gsap.to(menuContainerRef.current!, {
       duration: isInitRender ? 0 : 0.35,
-      height: elementHeight(fakeMenuRef.current!) + 85
+      height: elementHeight(fakeMenuRef.current!) + theme.menu.paddingTop + theme.menu.paddingBottom
     })
   }
   useEffect(animateMenuHeight, [openedMenuState])
@@ -124,8 +124,10 @@ export function Menu() {
   const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
-      <MenuContainerStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
-        {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
+      <MenuStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
+        <div className='non-slidable'>
+          {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
+        </div>
 
         <div ref={currentMenuRef} className='slidable'>
           {currentMenuState?.menuItems.map(
@@ -140,23 +142,25 @@ export function Menu() {
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
+          <CloseMenuItem />
           {openedMenuState.menuItems.map(
             menuItem => <MenuItem menuItem={menuItem} key={menuItem.id} />
           )}
         </div>
-      </MenuContainerStyled>
+      </MenuStyled>
     </ContextMenu.Provider>
   )
 }
 
-export const MenuContainerStyled = styled.div`
+export const MenuStyled = styled.div`
   position: absolute;
   top: calc(100% + 5px);
   right: 0px;
   /* if right corner goes over the screen fix the left instead of right */
   left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
   width: ${theme.menu.width}px;
-  padding: 16px 0px;
+  padding-top: ${theme.menu.paddingTop}px;
+  padding-bottom: ${theme.menu.paddingBottom}px;
   background: rgb(52 52 52 / 98%);
   backdrop-filter: blur(4px);
   border: 1px solid #474a4d;
