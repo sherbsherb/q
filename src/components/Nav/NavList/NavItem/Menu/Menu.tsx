@@ -1,10 +1,10 @@
 // idea is taken from https://www.youtube.com/watch?v=IF6k0uZuypA
-import React, { useContext, useEffect, useRef, useState, useCallback, createContext, useLayoutEffect } from 'react'
+import React, { useContext, useEffect, useRef, useState, useCallback, createContext } from 'react'
 import styled from 'styled-components'
 import { BackItem } from './BackItem'
 import { CloseItem } from './CloseItem'
 import { MenuItem } from './MenuItem'
-import { ContextNavItem } from '../NavItem'
+import { ContextNavItem as navItemContext } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { gsap } from 'gsap'
 import { useIsInitRender } from '@hooks/useIsInitRender'
@@ -14,14 +14,14 @@ import { theme } from '@src/theme'
 export const ContextMenu = createContext({})
 
 export function Menu() {
-  const context = useContext(ContextNavItem)
-  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = context
+  const { nextMenuState, menuO, showMenuState, setShowMenuState, setOpenedMenuState, liRef } = useContext(navItemContext)
+  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
   const [currentMenuState, setPrevMenuState] = useState({ ...menuO.menu, navItemId: menuO.id, prevMenu: [] })
-  const nextMenuRef = useRef(null)
+  const menuContainerRef = useRef()
   const currentMenuRef = useRef(null)
-  const isInitRender = useIsInitRender()
+  const nextMenuRef = useRef(null)
   const fakeMenuRef = useRef()
-  const menuRef = useRef()
+  const isInitRender = useIsInitRender()
 
   // #region Close menu
   function closeMenu() {
@@ -57,14 +57,15 @@ export function Menu() {
 
   // #region animateMenuHeight
   /**
-  * @summary on menu navigation animate its height
+  * @summary
+  * on menu navigation animate its height
   * @descriptions
   * - on menu change gradually adjust its height
   * - on initial render set height without animation (duration: 0)
   * - height is calculated by measuring fake menu with height: 'auto'
   */
   function animateMenuHeight() {
-    gsap.to(menuRef.current!, {
+    gsap.to(menuContainerRef.current!, {
       duration: isInitRender ? 0 : 0.35,
       height: elementHeight(fakeMenuRef.current!) + 85
     })
@@ -96,7 +97,7 @@ export function Menu() {
     }
 
     function closeModalOnClickOutside(e) {
-      const navItem = menuRef.current.parentElement
+      const navItem = menuContainerRef.current.parentElement
       const clickedEl = e.target
       if (!navItem) return
       if (isClickedElOutsideThisEl(clickedEl, navItem)) closeMenuMemo()
@@ -108,15 +109,24 @@ export function Menu() {
   useEffect(closeMenuOnClickOutside, [closeMenuMemo])
   // #endregion
 
-  const contextValue = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
-  const isNestedMenu = nextMenuState?.prevMenu?.length > 0
+  // #region isMenuOutsideWindow
+  /**
+  * @summary distance from the left side of the window to right side of nav menu item
+  * @descriptions
+  * - menu is located inside <li>
+  * - menu opens below <li> and has same absolute right position
+  * - if window is narrow menu can go over the screen's left side
+  * - if so, we can fix right side of the menu
+  */
   const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
-  const isRightCornerBeforeScreen = menuWidth > distanceToLiRightSide
+  const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
+  // #endregion
 
+  const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown, goLevelUp, navKeyboardHandler }
   return (
-    <ContextMenu.Provider value={contextValue}>
-      <Div ref={menuRef} isRightCornerBeforeScreen={isRightCornerBeforeScreen}>
+    <ContextMenu.Provider value={menuContext}>
+      <Div ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
         {isNestedMenu ? <BackItem /> : <CloseItem />}
 
         <div ref={currentMenuRef} className='slidable'>
