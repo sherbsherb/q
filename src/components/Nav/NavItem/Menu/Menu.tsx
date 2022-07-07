@@ -108,7 +108,6 @@ export function Menu() {
   // #endregion
 
   // #region CHECK IF MENU GOES OUTSIDE WINDOW
-
   /**
   * @summary distance from the left side of the window to right side of nav menu item
   * @descriptions

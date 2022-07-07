@@ -5,21 +5,21 @@ import { Icon } from './Icon'
 import { Menu } from './Menu'
 import type { MenuType, MenuTypeInObject } from '../navStructure'
 
+// #region CONTEXT NAV ITEM
 export type MenuStateType = {
   menu: MenuType[]
   openedId: string
   prevMenus: MenuStateType[]
 }
-
 export type ContextNavItemType = {
   menuState: MenuStateType
   setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
-  showMenu: (menuO: MenuType) => void
   hideMenu: () => void
   menuO: MenuType
   navItemRef: React.MutableRefObject<HTMLLIElement>
 }
 export const ContextNavItem = createContext<ContextNavItemType | null>(null)
+// #endregion
 
 /**
 * @descriptions
@@ -37,7 +37,6 @@ export function NavItem({ menuO }: MenuTypeInObject) {
    */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
-  const contextValue = { menuState, setMenuState, showMenu, hideMenu, menuO, navItemRef }
 
   function showMenu(menuO: MenuType) {
     setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
@@ -52,6 +51,8 @@ export function NavItem({ menuO }: MenuTypeInObject) {
     e.preventDefault()
     showMenu(menuO)
   }
+
+  const contextValue = { menuState, setMenuState, hideMenu, menuO, navItemRef }
 
   return (
     <ContextNavItem.Provider value={contextValue}>
