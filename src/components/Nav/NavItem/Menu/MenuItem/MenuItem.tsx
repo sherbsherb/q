@@ -2,14 +2,14 @@ import { useContext } from 'react'
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
 import { Icon } from '../../Icon'
-import { ContextMenu } from '../Menu'
+import { ContextMenu, MenuContextType } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
 
 export function MenuItem({ menuO }: MenuTypeInObject) {
-  const { goInside } = useContext(ContextMenu)
+  const { goInside } = useContext(ContextMenu) as MenuContextType
   const isSubMenu = !!menuO.menu
   const isIcon = !!menuO.icon
 

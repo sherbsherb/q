@@ -6,16 +6,24 @@ import { gsap } from 'gsap'
 import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
-import { ContextNavItem } from '../NavItem'
+import { ContextNavItem, ContextNavItemType, MenuStateType } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { slideHorizontally } from '@functions/slideHorizontally'
 import type { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 
-export const ContextMenu = createContext({})
+export type MenuContextType = {
+  menuState: MenuStateType
+  setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
+  hideMenu: () => void
+  goInside: (menuO: MenuType) => void
+  goOutside: () => void
+  navKeyboardHandler: (e: KeyboardEvent) => void
+}
+export const ContextMenu = createContext<MenuContextType | null>(null)
 
 export function Menu() {
-  const { menuState, setMenuState, navItemRef, hideMenu } = useContext(ContextNavItem)
+  const { menuState, setMenuState, navItemRef, hideMenu } = useContext(ContextNavItem) as ContextNavItemType
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -35,7 +43,7 @@ export function Menu() {
 
   // #region GO TO PREVIOUS MENU
   function goOutside() {
-    setMenuState({ ...menuState, menu: menuState.prevMenus.at(-1).menu, prevMenus: menuState.prevMenus.slice(0, -1) })
+    setMenuState({ ...menuState, menu: menuState.prevMenus?.at(-1)?.menu || [], prevMenus: menuState.prevMenus.slice(0, -1) })
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
@@ -125,7 +133,6 @@ export function Menu() {
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
-          {console.log(menuState)}
           {menuState.menu.map(
             (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
           )}

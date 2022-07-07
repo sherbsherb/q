@@ -1,16 +1,25 @@
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import type { MenuType, MenuTypeInObject } from '../navStructure'
 
-type MenuStateType = {
+export type MenuStateType = {
   menu: MenuType[]
   openedId: string
-  prevMenus: MenuType[]
+  prevMenus: MenuStateType[]
 }
-export const ContextNavItem = createContext(null)
+
+export type ContextNavItemType = {
+  menuState: MenuStateType
+  setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
+  showMenu: (menuO: MenuType) => void
+  hideMenu: () => void
+  menuO: MenuType
+  navItemRef: React.MutableRefObject<HTMLLIElement>
+}
+export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 
 /**
 * @descriptions
@@ -31,7 +40,6 @@ export function NavItem({ menuO }: MenuTypeInObject) {
   const contextValue = { menuState, setMenuState, showMenu, hideMenu, menuO, navItemRef }
 
   function showMenu(menuO: MenuType) {
-    console.log(666)
     setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
   }
 
@@ -39,7 +47,7 @@ export function NavItem({ menuO }: MenuTypeInObject) {
     setMenuState({ ...menuState, openedId: '' })
   }
 
-  function onClickHandler(e) {
+  function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     if (menuO.link) return // if a link, just follow it
     e.preventDefault()
     showMenu(menuO)

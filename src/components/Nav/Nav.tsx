@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useSelectorTyped } from '@store/storeHooks'
 import { NavItem } from './NavItem'
+import { MenuType } from './navStructure'
 
 export function Nav() {
   const nav = useSelectorTyped(state => state.nav)
@@ -9,7 +10,7 @@ export function Nav() {
       {/* <Logo /> */}
       <ul>
         {nav.map(
-          (menuO) => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
+          (menuO: MenuType) => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
         )}
       </ul>
       {/* <Hamburger /> */}

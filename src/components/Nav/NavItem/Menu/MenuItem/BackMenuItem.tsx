@@ -2,11 +2,11 @@ import { useContext } from 'react'
 import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { FaChevronLeft as LeftArrowIcon } from 'react-icons/fa'
-import { ContextMenu } from '../Menu'
+import { ContextMenu, MenuContextType } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 
 export function BackMenuItem() {
-  const { goOutside } = useContext(ContextMenu)
+  const { goOutside } = useContext(ContextMenu) as MenuContextType
 
   return (
     <MenuItemStyled
