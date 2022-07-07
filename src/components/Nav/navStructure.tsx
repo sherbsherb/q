@@ -15,10 +15,10 @@ export type MenuType = {
   text: string
   link?: any
   func?: () => void,
-  menu?: MenuType,
+  menu: MenuType[] | null | undefined,
   id: string
 }
-export type MenuTypeInObject = { menuO: MenuType}
+export type MenuTypeInObject = { menuO: MenuType }
 
 export const navStructure = [
   {

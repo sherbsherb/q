@@ -15,11 +15,11 @@ import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 export const ContextMenu = createContext({})
 
 export function Menu() {
-  const { menuState, setMenuState, liRef, hideMenu } = useContext(ContextNavItem)
-  const menuContainerRef = useRef<HTMLDivElement>(null)
-  const currentMenuRef = useRef<HTMLDivElement>(null)
-  const nextMenuRef = useRef<HTMLDivElement>(null)
-  const fakeMenuRef = useRef<HTMLDivElement>(null)
+  const { menuState, setMenuState, navItemRef, hideMenu } = useContext(ContextNavItem)
+  const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const isInitRender = useIsInitRender()
   const isNestedMenu = menuState.prevMenus.length > 0
 
@@ -105,7 +105,7 @@ export function Menu() {
   * - if window is narrow menu can go over the screen's left side
   * - if so, we can fix right side of the menu
   */
-  const distanceToLiRightSide = liRef.current.getBoundingClientRect().right
+  const distanceToLiRightSide = navItemRef.current.getBoundingClientRect().right
   const menuWidth = theme.menu.width
   const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
   // #endregion

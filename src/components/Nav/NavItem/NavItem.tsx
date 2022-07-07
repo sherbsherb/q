@@ -5,6 +5,11 @@ import { Icon } from './Icon'
 import { Menu } from './Menu'
 import type { MenuType, MenuTypeInObject } from '../navStructure'
 
+type MenuStateType = {
+  menu: MenuType[]
+  openedId: string
+  prevMenus: MenuType[]
+}
 export const ContextNavItem = createContext(null)
 
 /**
@@ -21,16 +26,19 @@ export function NavItem({ menuO }: MenuTypeInObject) {
    * - to let it know where to put set left:0 or right:0
    * - to avoid going over the window if window is narrow
    */
-  const liRef = useRef()
-  const [menuState, setMenuState] = useState({ menu: [], openedId: '', prevMenus: [] })
-  const contextValue = { menuState, setMenuState, showMenu, hideMenu, menuO, liRef }
+  const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
+  const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
+  const contextValue = { menuState, setMenuState, showMenu, hideMenu, menuO, navItemRef }
 
   function showMenu(menuO: MenuType) {
-    setMenuState({ menu: menuO.menu, openedId: menuO.id, prevMenus: [] })
+    console.log(666)
+    setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
   }
+
   function hideMenu() {
     setMenuState({ ...menuState, openedId: '' })
   }
+
   function onClickHandler(e) {
     if (menuO.link) return // if a link, just follow it
     e.preventDefault()
@@ -39,7 +47,7 @@ export function NavItem({ menuO }: MenuTypeInObject) {
 
   return (
     <ContextNavItem.Provider value={contextValue}>
-      <LiStyled ref={liRef}>
+      <LiStyled ref={navItemRef}>
         <a
           href={menuO.link || '/'}
           onClick={onClickHandler}
