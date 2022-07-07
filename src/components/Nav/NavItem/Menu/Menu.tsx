@@ -24,7 +24,7 @@ export function Menu() {
   const fakeMenuRef = useRef<HTMLDivElement>(null)
   const isInitRender = useIsInitRender()
 
-  // #region Close menu
+  // #region CLOSE MENU
   function closeMenu() {
     if (!showMenuState) return
     setShowMenuState(false)
@@ -34,7 +34,7 @@ export function Menu() {
   const closeMenuMemo = useCallback(closeMenu, [showMenuState, setShowMenuState, setOpenedMenuState, setPrevMenuState])
   // #endregion
 
-  // #region goLevelDown
+  // #region GO INTO NESTED MENU
   function goInside(o: MenuType) {
     const isSubMenu = o.menu
     if (!isSubMenu) return
@@ -46,7 +46,7 @@ export function Menu() {
   }
   // #endregion
 
-  // #region goLevelUp
+  // #region GO OUT FROM NESTED MENU
   function goOutside() {
     setPrevMenuState(openedMenuState)
     setOpenedMenuState(openedMenuState.prevMenu.pop())
@@ -56,7 +56,7 @@ export function Menu() {
   const goLevelUpMemo = useCallback(goOutside, [setPrevMenuState, openedMenuState, setOpenedMenuState])
   // #endregion
 
-  // #region animateMenuHeight
+  // #region ANIMATE MENU HEIGHT
   /**
   * @function
   * height animation on menu change
@@ -74,7 +74,7 @@ export function Menu() {
   useEffect(animateMenuHeight, [openedMenuState])
   // #endregion
 
-  // #region keyShortcutsForMenu
+  // #region KEYBOARD SHORTCUTS
   function keyShortcutsForMenu() {
     window.addEventListener('keydown', navKeyboardHandlerMemo)
     return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
@@ -91,7 +91,7 @@ export function Menu() {
   useEffect(keyShortcutsForMenu, [openedMenuState, navKeyboardHandlerMemo, closeMenuMemo])
   // #endregion
 
-  // #region close menu on click outside
+  // #region CLOSE MENU ON CLICK OUTSIDE
   function closeMenuOnClickOutside() {
     /**
      * @descriptions
@@ -113,7 +113,7 @@ export function Menu() {
   useEffect(closeMenuOnClickOutside, [])
   // #endregion
 
-  // #region isMenuOutsideWindow
+  // #region CHECK IF MENU GOES OUTSIDE WINDOW
   /**
   * @summary distance from the left side of the window to right side of nav menu item
   * @descriptions
@@ -157,6 +157,7 @@ export function Menu() {
   )
 }
 
+// #region CSS
 type PropsForSC = {
   isMenuOutsideWindow: boolean
 }
@@ -195,3 +196,4 @@ export const MenuStyled = styled.div<PropsForSC>`
     right: 1000px;
   }
 `
+// #endregion
