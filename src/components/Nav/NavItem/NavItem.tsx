@@ -7,41 +7,49 @@ import type { MenuType, MenuTypeInObject } from '../navStructure'
 
 export const ContextNavItem = createContext(null)
 
+/**
+* @descriptions
+* - menu is placed under navItem (li)
+* - navItems are elements on top of navStructure array
+* - navItem gets its menu object (menuO) from navStructure via props
+* - and we can open corresponding menu on click event
+*/
 export function NavItem({ menuO }: MenuTypeInObject) {
   /**
    * @constant
-   * Reference to menu item <li> to pass it into opening menu to let menu know where to put left or right side to avoid going over the window if window is narrow
+   * - Reference to menu item <li> to pass it into menu
+   * - to let it know where to put set left:0 or right:0
+   * - to avoid going over the window if window is narrow
    */
   const liRef = useRef()
-  const [showMenuState, setShowMenuState] = useState(false)
-  const [menuState, setMenuState] = useState(null)
-  const contextValue = { menuState, setMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
+  const [menuState, setMenuState] = useState({ menu: [], openedId: '', prevMenus: [] })
+  const contextValue = { menuState, setMenuState, showMenu, hideMenu, menuO, liRef }
 
   function showMenu(menuO: MenuType) {
-    setShowMenuState(true)
-    setMenuState({ menu: [...menuO.menu], navItemId: menuO.id, prevMenu: [] })
+    setMenuState({ menu: menuO.menu, openedId: menuO.id, prevMenus: [] })
+  }
+  function hideMenu() {
+    setMenuState({ ...menuState, openedId: '' })
+  }
+  function onClickHandler(e) {
+    if (menuO.link) return // if a link, just follow it
+    e.preventDefault()
+    showMenu(menuO)
   }
 
-  // every li get its menuO from navStructure via props and we can open it on click event
   return (
     <ContextNavItem.Provider value={contextValue}>
       <LiStyled ref={liRef}>
         <a
           href={menuO.link || '/'}
-          onClick={e => {
-            const isLink = !!menuO.link
-            if (isLink) return // if a link, just follow it
-            e.preventDefault()
-            // e.nativeEvent.stopImmediatePropagation();
-            showMenu(menuO)
-          }}
+          onClick={onClickHandler}
         >
           {menuO.icon && <Icon icon={menuO.icon} />}
           {menuO.text && <span className='nav-item-text'>{menuO.text}</span>}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {showMenuState && menuState?.navItemId === menuO.id && <Menu />}
+        {menuState.openedId === menuO.id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )

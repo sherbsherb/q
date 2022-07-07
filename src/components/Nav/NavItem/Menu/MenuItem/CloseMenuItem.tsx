@@ -8,7 +8,7 @@ import { MenuItemStyled } from './MenuItemStyled'
 const closeIcon = createElement(CloseIcon, {})
 
 export function CloseMenuItem() {
-  const { closeMenu } = useContext(ContextMenu)
+  const { hideMenu } = useContext(ContextMenu)
 
   return (
     <MenuItemStyled
@@ -16,7 +16,7 @@ export function CloseMenuItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        closeMenu()
+        hideMenu()
       }}
     >
       <Icon icon={closeIcon} />
