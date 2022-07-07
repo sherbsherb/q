@@ -9,7 +9,7 @@ import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
 
 export function MenuItem({ menuO }: MenuTypeInObject) {
-  const { goLevelDown } = useContext(ContextMenu)
+  const { goInside } = useContext(ContextMenu)
   const isSubMenu = !!menuO.menu
   const isIcon = !!menuO.icon
 
@@ -20,7 +20,7 @@ export function MenuItem({ menuO }: MenuTypeInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        goLevelDown(menuO)
+        goInside(menuO)
       }}
     >
       {isIcon && <Icon icon={menuO.icon} />}

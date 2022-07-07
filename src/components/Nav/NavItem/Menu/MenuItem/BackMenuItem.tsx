@@ -6,7 +6,7 @@ import { ContextMenu } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 
 export function BackMenuItem() {
-  const { goLevelUp } = useContext(ContextMenu)
+  const { goOutside } = useContext(ContextMenu)
 
   return (
     <MenuItemStyled
@@ -14,7 +14,7 @@ export function BackMenuItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        goLevelUp()
+        goOutside()
       }}
     >
       <Icon icon={<LeftArrowIcon />} />

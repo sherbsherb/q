@@ -53,7 +53,7 @@ export function Menu() {
     slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
     slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
-  const goLevelUpMemo = useCallback(goOutside, [setPrevMenuState, openedMenuState, setOpenedMenuState])
+  const goOutsideMemo = useCallback(goOutside, [setPrevMenuState, openedMenuState, setOpenedMenuState])
   // #endregion
 
   // #region ANIMATE MENU HEIGHT
@@ -82,11 +82,11 @@ export function Menu() {
   function navKeyboardHandler(e: KeyboardEvent) {
     if (!openedMenuState) return
     const isNestedMenu = openedMenuState?.prevMenu?.length > 0
-    isNestedMenu && e.key === 'Backspace' && goLevelUpMemo()
+    isNestedMenu && e.key === 'Backspace' && goOutsideMemo()
     !isNestedMenu && e.key === 'Backspace' && closeMenuMemo()
     e.key === 'Escape' && closeMenuMemo()
   }
-  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [openedMenuState, goLevelUpMemo, closeMenuMemo])
+  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [openedMenuState, goOutsideMemo, closeMenuMemo])
 
   useEffect(keyShortcutsForMenu, [openedMenuState, navKeyboardHandlerMemo, closeMenuMemo])
   // #endregion
@@ -126,7 +126,7 @@ export function Menu() {
   const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
   // #endregion
 
-  const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goLevelDown: goInside, goLevelUp: goOutside, navKeyboardHandler }
+  const menuContext = { currentMenuState, setPrevMenuState, closeMenu, goInside, goOutside, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
       <MenuStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
