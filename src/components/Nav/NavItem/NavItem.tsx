@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
-import { MenuTypeInObject } from '../navStructure'
+import type { MenuType, MenuTypeInObject } from '../navStructure'
 
 export const ContextNavItem = createContext(null)
 
@@ -14,13 +14,12 @@ export function NavItem({ menuO }: MenuTypeInObject) {
    */
   const liRef = useRef()
   const [showMenuState, setShowMenuState] = useState(false)
-  const [openedMenuState, setOpenedMenuState] = useState(null)
-  const contextValue = { openedMenuState, setOpenedMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
+  const [menuState, setMenuState] = useState(null)
+  const contextValue = { menuState, setMenuState, showMenuState, setShowMenuState, showMenu, menuO, liRef }
 
-  function showMenu(o) {
-    const menu = o.menu
+  function showMenu(menuO: MenuType) {
     setShowMenuState(true)
-    setOpenedMenuState({ ...menu, navItemId: o.id, prevMenu: [] })
+    setMenuState({ menu: [...menuO.menu], navItemId: menuO.id, prevMenu: [] })
   }
 
   // every li get its menuO from navStructure via props and we can open it on click event
@@ -42,7 +41,7 @@ export function NavItem({ menuO }: MenuTypeInObject) {
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {showMenuState && openedMenuState?.navItemId === menuO.id && <Menu />}
+        {showMenuState && menuState?.navItemId === menuO.id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )

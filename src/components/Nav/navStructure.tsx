@@ -22,361 +22,230 @@ export type MenuTypeInObject = { menuO: MenuType}
 
 export const navStructure = [
   {
+    id: id(5),
     visible: true,
     icon: <BookIcon />,
     text: 'Link A',
     link: '/linkA',
     func: null,
-    menu: null,
-    id: id(5)
+    menu: null
   },
   {
+    id: id(5),
     visible: true,
     icon: <BookIcon />,
     text: 'Link B',
     link: '/linkB',
     func: null,
-    menu: null,
-    id: id(5)
+    menu: null
   },
   {
+    id: id(5),
     visible: true,
     icon: <BookIcon />,
     text: 'Back',
     link: '/',
     func: null,
-    menu: null,
-    id: id(5)
+    menu: null
   },
   {
+    id: id(5),
     visible: true,
     icon: plusIcon,
     text: 'menu 1',
-    menu: {
-      visible: true,
-      menuItems: [
-        {
-          text: 'item in menu 1',
-          icon: '😇',
-          menu: {
-            visible: false,
-            menuItems: [
+    menu: [
+      {
+        id: id(5),
+        text: 'item in menu 1',
+        icon: '😇',
+        menu: [
+          {
+            text: 'item in menu 1',
+            icon: '😎',
+            menu: [
               {
-                text: 'item in menu 1',
-                icon: '😎',
-                menu: {
-                  visible: false,
-                  menuItems: [
-                    {
-                      text: 'long long long long long long long long text',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: null,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: <img src={logo} />,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 1',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    }
-                  ]
-                },
-                id: id(5)
-              },
-              {
-                text: 'item in menu 1',
-                icon: '😎',
+                text: 'long long long long long long long long text',
+                icon: reactIcon,
                 menu: null,
                 id: id(5)
               },
               {
                 text: 'item in menu 1',
-                icon: '😎',
+                icon: null,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 1',
+                icon: <img src={logo} />,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 1',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 1',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 1',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 1',
+                icon: reactIcon,
                 menu: null,
                 id: id(5)
               }
-            ]
+            ],
+            id: id(5)
           },
-          id: id(5)
-        },
-        {
-          text: 'item in menu 1',
-          icon: 'IC',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 1',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 1',
-          icon: '',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 1',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        }
-      ]
-    },
-    id: id(5)
+          {
+            text: 'item in menu 1',
+            icon: '😎',
+            menu: null,
+            id: id(5)
+          },
+          {
+            text: 'item in menu 1',
+            icon: '😎',
+            menu: null,
+            id: id(5)
+          }
+        ]
+      },
+      {
+        id: id(5),
+        text: 'item in menu 1',
+        icon: 'IC',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 1',
+        icon: '😇',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 1',
+        icon: '',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 1',
+        icon: '😇',
+        menu: null
+      }
+    ]
   },
   {
+    id: id(5),
     visible: true,
     icon: plusIcon,
     text: 'menu 2',
-    menu: {
-      visible: true,
-      menuItems: [
-        {
-          text: 'item in menu 2',
-          icon: '😇',
-          menu: {
-            visible: false,
-            menuItems: [
+    menu: [
+      {
+        id: id(5),
+        text: 'item in menu 2',
+        icon: '😇',
+        menu: [
+          {
+            text: 'item in menu 2',
+            icon: '😎',
+            menu: [
               {
-                text: 'item in menu 2',
-                icon: '😎',
-                menu: {
-                  visible: false,
-                  menuItems: [
-                    {
-                      text: 'long long long long long long long long text',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 2',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    }
-                  ]
-                },
-                id: id(5)
-              },
-              {
-                text: 'item in menu 2',
-                icon: '😎',
+                text: 'long long long long long long long long text',
+                icon: reactIcon,
                 menu: null,
                 id: id(5)
               },
               {
                 text: 'item in menu 2',
-                icon: '😎',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 2',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 2',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 2',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 2',
+                icon: reactIcon,
+                menu: null,
+                id: id(5)
+              },
+              {
+                text: 'item in menu 2',
+                icon: reactIcon,
                 menu: null,
                 id: id(5)
               }
-
-            ]
+            ],
+            id: id(5)
           },
-          id: id(5)
-        },
-        {
-          text: 'item in menu 2',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 2',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 2',
-          icon: '',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 2',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        }
-      ],
-      id: id(5)
-    },
-    id: id(5)
-  },
-  {
-    visible: true,
-    icon: plusIcon,
-    text: 'menu 3',
-    menu: {
-      visible: true,
-      menuItems: [
-        {
-          text: 'item in menu 3',
-          icon: '😇',
-          menu: {
-            visible: false,
-            menuItems: [
-              {
-                text: 'item in menu 3',
-                icon: '😎',
-                menu: {
-                  visible: false,
-                  menuItems: [
-                    {
-                      text: 'long long long long long long long long text',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    },
-                    {
-                      text: 'item in menu 3',
-                      icon: reactIcon,
-                      menu: null,
-                      id: id(5)
-                    }
-                  ]
-                },
-                id: id(5)
-              },
-              {
-                text: 'item in menu 3',
-                icon: '😎',
-                menu: null,
-                id: id(5)
-              },
-              {
-                text: 'item in menu 3',
-                icon: '😎',
-                menu: null,
-                id: id(5)
-              }
-
-            ]
+          {
+            text: 'item in menu 2',
+            icon: '😎',
+            menu: null,
+            id: id(5)
           },
-          id: id(5)
-        },
-        {
-          text: 'item in menu 3',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 3',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 3',
-          icon: '',
-          menu: null,
-          id: id(5)
-        },
-        {
-          text: 'item in menu 3',
-          icon: '😇',
-          menu: null,
-          id: id(5)
-        }
-      ],
-      id: id(5)
-    },
-    id: id(5)
+          {
+            text: 'item in menu 2',
+            icon: '😎',
+            menu: null,
+            id: id(5)
+          }
+        ]
+      },
+      {
+        id: id(5),
+        text: 'item in menu 2',
+        icon: '😇',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 2',
+        icon: '😇',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 2',
+        icon: '',
+        menu: null
+      },
+      {
+        id: id(5),
+        text: 'item in menu 2',
+        icon: '😇',
+        menu: null
+      }
+    ]
   }
 ]

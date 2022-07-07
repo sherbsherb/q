@@ -9,7 +9,7 @@ export function Nav() {
       {/* <Logo /> */}
       <ul>
         {nav.map(
-          menuO => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
+          (menuO) => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
         )}
       </ul>
       {/* <Hamburger /> */}
