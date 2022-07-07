@@ -12,6 +12,7 @@ import { slideHorizontally } from '@functions/slideHorizontally'
 import type { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 
+// #region MENU CONTEXT
 export type MenuContextType = {
   menuState: MenuStateType
   setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
@@ -21,6 +22,7 @@ export type MenuContextType = {
   navKeyboardHandler: (e: KeyboardEvent) => void
 }
 export const ContextMenu = createContext<MenuContextType | null>(null)
+// #endregion
 
 export function Menu() {
   const { menuState, setMenuState, navItemRef, hideMenu } = useContext(ContextNavItem) as ContextNavItemType
@@ -106,6 +108,7 @@ export function Menu() {
   // #endregion
 
   // #region CHECK IF MENU GOES OUTSIDE WINDOW
+
   /**
   * @summary distance from the left side of the window to right side of nav menu item
   * @descriptions
