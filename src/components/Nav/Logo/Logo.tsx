@@ -15,8 +15,10 @@ const LogoContainer = styled.div`
   justify-content: center;
   background: red;
 
-  /* position: absolute;
-  left: 0px;
-  height: 100%;
-  margin-left: 5px; */
+
+  /* first nav item will be overflown if there is no space anymore
+  we detect it with JS by comparing el.scrollWidth !== el.clientWidth
+  show hamburger */
+  overflow-x: auto;
+
 `
