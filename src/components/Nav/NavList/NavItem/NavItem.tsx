@@ -101,4 +101,12 @@ const LiStyled = styled.li`
   @media screen and (max-width: 480px) {
     position: static;
   }
+
+  &:first-child {
+    background: green;
+    /* first nav item will be overflown if there is no space anymore
+    we detect it with JS by comparing scrollWidth !== clientWidth
+    show hamburger */
+    overflow-x: clip;
+  }
 `

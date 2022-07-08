@@ -19,5 +19,5 @@ const Ul = styled.ul`
   flex-grow: 1;
   justify-content: flex-end;
   background: yellow;
-  overflow-x: hidden;
+  overflow-x: clip;
 `
