@@ -1,9 +1,11 @@
 import styled from 'styled-components'
+import { Fade as HamburgerIcon } from 'hamburger-react'
+// https://hamburger-react.netlify.app/
 
 export function Hamburger() {
   return (
     <HamburgerContainer>
-      Hamburger
+      <HamburgerIcon size={20} color='white'/>
     </HamburgerContainer>
   )
 }
