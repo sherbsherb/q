@@ -1,8 +1,20 @@
 import styled from 'styled-components'
+import useResizeObserver from 'beautiful-react-hooks/useResizeObserver'
+import { useEffect, useRef } from 'react'
+import { isOverflown } from '@src/functions/isOverflown'
 
 export function Logo() {
+  const logoRef = useRef()
+  const DOMRect = useResizeObserver(logoRef)
+
+  useEffect(() => {
+    console.log('resized')
+    if (isOverflown(logoRef.current)) console.log('show hamburger')
+    if (!isOverflown(logoRef.current)) console.log('hide hamburger')
+  }, [DOMRect])
+
   return (
-    <LogoContainer>
+    <LogoContainer ref={logoRef}>
       Logo
     </LogoContainer>
   )

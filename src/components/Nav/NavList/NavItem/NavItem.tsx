@@ -85,6 +85,7 @@ const LiStyled = styled.li`
     display: flex;
     align-items: center;
     text-decoration: none;
+    -webkit-user-drag: none;
 
     &:hover {
       filter: brightness(1.2);
