@@ -10,7 +10,7 @@ export function Nav() {
       {/* <Logo /> */}
       <ul>
         {nav.map(
-          (menuO: MenuType) => menuO.visible && <NavItem menuO={menuO} key={menuO.id} />
+          (menuO: MenuType) => !menuO.hidden && <NavItem menuO={menuO} key={menuO.id} />
         )}
       </ul>
       {/* <Hamburger /> */}

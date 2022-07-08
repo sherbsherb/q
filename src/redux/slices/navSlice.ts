@@ -9,7 +9,7 @@ const navSlice = createSlice({
   reducers: {
     toggleLastNavItem: (state) => {
       if (state.length < 1) return
-      state.at(-1)!.visible = !state.at(-1)!.visible
+      state.at(-1)!.hidden = !state.at(-1)!.hidden
     }
   }
 })
