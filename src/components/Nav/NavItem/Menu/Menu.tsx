@@ -130,20 +130,20 @@ export function Menu() {
 
         <div ref={currentMenuRef} className='slidable'>
           {menuState.menu.map(
-            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
+            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
           {menuState.menu.map(
-            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
+            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
           {menuState.menu.map(
-            (menuO: MenuType) => <MenuItem menuO={menuO} key={menuO.id} />
+            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
           )}
         </div>
       </MenuStyled>

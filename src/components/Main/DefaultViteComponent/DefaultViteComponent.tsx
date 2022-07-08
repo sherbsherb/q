@@ -11,11 +11,6 @@ import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
 import { navStructure } from '@components/Nav/navStructure'
 import { toggleLastNavItem } from '@slices/navSlice'
 
-function modifyNavStructure() {
-  console.log(navStructure)
-  navStructure.at(-1)!.visible = !navStructure.at(-1)!.visible
-}
-
 /**
  * Component with counter
  * @returns component with react spinner

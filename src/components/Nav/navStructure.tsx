@@ -11,40 +11,36 @@ const plusIcon = React.createElement(AiOutlinePlus, {})
 
 export type MenuType = {
   id: string
-  visible?: boolean
   icon?: React.ReactNode | string
   text?: string
   link?: any
   func?: () => void,
-  menu?: MenuType[] | null | undefined,
+  menu?: MenuType[] | null | undefined
+  hidden?: boolean
 }
 export type MenuTypeInObject = { menuO: MenuType }
 
-export const navStructure = [
+export const navStructure: MenuType[] = [
   {
     id: id(5),
-    visible: true,
     icon: <BookIcon />,
     text: 'Link A',
     link: '/linkA'
   },
   {
     id: id(5),
-    visible: true,
     icon: <BookIcon />,
     text: 'Link B',
     link: '/linkB'
   },
   {
     id: id(5),
-    visible: true,
     icon: <BookIcon />,
     text: 'Back',
     link: '/'
   },
   {
     id: id(5),
-    visible: true,
     icon: plusIcon,
     text: 'menu 1',
     menu: [
@@ -54,56 +50,57 @@ export const navStructure = [
         icon: '😇',
         menu: [
           {
+            id: id(5),
             text: 'item in menu 1',
             icon: '😎',
             menu: [
               {
+                id: id(5),
                 text: 'long long long long long long long long text',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: null,
-                id: id(5)
+                icon: null
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: <img src={logo} />,
-                id: id(5)
+                icon: <img src={logo} />
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 1',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               }
-            ],
-            id: id(5)
+            ]
+
           },
           {
+            id: id(5),
             text: 'item in menu 1',
-            icon: '😎',
-            id: id(5)
+            icon: '😎'
           },
           {
+            id: id(5),
             text: 'item in menu 1',
-            icon: '😎',
-            id: id(5)
+            icon: '😎'
           }
         ]
       },
@@ -131,7 +128,6 @@ export const navStructure = [
   },
   {
     id: id(5),
-    visible: true,
     icon: plusIcon,
     text: 'menu 2',
     menu: [
@@ -141,56 +137,57 @@ export const navStructure = [
         icon: '😇',
         menu: [
           {
+            id: id(5),
             text: 'item in menu 2',
             icon: '😎',
             menu: [
               {
+                id: id(5),
                 text: 'long long long long long long long long text',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               },
               {
+                id: id(5),
                 text: 'item in menu 2',
-                icon: reactIcon,
-                id: id(5)
+                icon: reactIcon
               }
-            ],
-            id: id(5)
+            ]
+
           },
           {
+            id: id(5),
             text: 'item in menu 2',
-            icon: '😎',
-            id: id(5)
+            icon: '😎'
           },
           {
+            id: id(5),
             text: 'item in menu 2',
-            icon: '😎',
-            id: id(5)
+            icon: '😎'
           }
         ]
       },
