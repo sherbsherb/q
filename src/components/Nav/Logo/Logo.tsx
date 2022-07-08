@@ -14,4 +14,9 @@ const LogoContainer = styled.div`
   align-items: center;
   justify-content: center;
   background: red;
+
+  /* position: absolute;
+  left: 0px;
+  height: 100%;
+  margin-left: 5px; */
 `

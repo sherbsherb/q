@@ -19,4 +19,7 @@ const Ul = styled.ul`
   flex-grow: 1;
   justify-content: flex-end;
   background: yellow;
+
+  overflow-x: hidden;
+  /* margin-left: 50px; */
 `

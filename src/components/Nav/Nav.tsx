@@ -21,7 +21,7 @@ const NavStyled = styled.nav`
   position: sticky;
   top: 0px;
   margin: 5px;
-  padding: 0 1rem;
+  padding: 0 10px;
   /* margin: 0px 0px 5px 0px; */
   height: 60px;
   border-radius: 4px;
