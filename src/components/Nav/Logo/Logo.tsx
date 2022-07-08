@@ -9,8 +9,9 @@ export function Logo() {
 }
 
 const LogoContainer = styled.div`
-  display: flex-block;
-  height: 95%;
-  width:50px;
+  display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: red;
 `

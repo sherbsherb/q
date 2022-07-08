@@ -1,20 +1,13 @@
 import styled from 'styled-components'
-import { useSelectorTyped } from '@store/storeHooks'
-import { NavItem } from './NavItem'
-import { MenuType } from './navStructure'
 import { Logo } from './Logo'
 import { Hamburger } from './Hamburger'
+import { NavList } from './NavList/NavList'
 
 export function Nav() {
-  const nav = useSelectorTyped(state => state.nav)
   return (
     <NavStyled>
       <Logo />
-      <Ul>
-        {nav.map(
-          (menuO: MenuType) => !menuO.hidden && <NavItem menuO={menuO} key={menuO.id} />
-        )}
-      </Ul>
+      <NavList />
       <Hamburger />
     </NavStyled>
   )
@@ -22,6 +15,9 @@ export function Nav() {
 
 const NavStyled = styled.nav`
   display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: stretch;
   position: sticky;
   top: 0px;
   margin: 5px;
@@ -32,11 +28,4 @@ const NavStyled = styled.nav`
   background: rgb(52 52 52 / 98%);
   z-index: 2;
   
-`
-
-const Ul = styled.ul`
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  background: yellow;
 `

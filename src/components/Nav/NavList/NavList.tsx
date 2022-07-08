@@ -1,6 +1,10 @@
+import { useSelectorTyped } from '@src/redux/store/storeHooks'
 import styled from 'styled-components'
+import { MenuType } from '../navStructure'
+import { NavItem } from './NavItem'
 
-export function NavList(props) {
+export function NavList() {
+  const nav = useSelectorTyped(state => state.nav)
   return (
     <Ul>
       {nav.map(
@@ -11,8 +15,8 @@ export function NavList(props) {
 }
 
 const Ul = styled.ul`
-  height: 100%;
   display: flex;
+  flex-grow: 1;
   justify-content: flex-end;
   background: yellow;
 `

@@ -9,8 +9,9 @@ export function Hamburger() {
 }
 
 const HamburgerContainer = styled.div`
-  display: flex-block;
-  height: 95%;
-  width:50px;
+  display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #00aaff;
 `
