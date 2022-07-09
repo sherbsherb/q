@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Logo } from './Logo'
-import { Hamburger } from './Hamburger'
 import { NavList } from './NavList/NavList'
 
 export function Nav() {
@@ -8,7 +7,6 @@ export function Nav() {
     <NavStyled>
       <Logo />
       <NavList />
-      <Hamburger />
     </NavStyled>
   )
 }
@@ -16,16 +14,15 @@ export function Nav() {
 const NavStyled = styled.nav`
   display: flex;
   flex-wrap: nowrap;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: stretch;
   position: sticky;
   top: 0px;
   margin: 5px;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   /* margin: 0px 0px 5px 0px; */
   height: 60px;
   border-radius: 4px;
   background: rgb(52 52 52 / 98%);
   z-index: 2;
-  
 `

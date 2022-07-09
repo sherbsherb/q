@@ -17,7 +17,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "axios": "^0.27.2",
-    "beautiful-react-hooks": "^3.6.2",
     "concurrently": "^7.2.1",
     "express": "^4.18.1",
     "gsap": "^3.10.4",
@@ -30,7 +29,9 @@
     "react-router-dom": "^6.3.0",
     "shortid": "^2.2.16",
     "styled-components": "^5.3.5",
-    "vite-plugin-babel-macros": "^1.0.6"
+    "vite-plugin-babel-macros": "^1.0.6",
+    "beautiful-react-hooks": "^3.6.2",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

@@ -1,23 +1,12 @@
 import styled from 'styled-components'
-import useResizeObserver from 'beautiful-react-hooks/useResizeObserver'
-import { useEffect, useRef } from 'react'
-import { isOverflown } from '@src/functions/isOverflown'
-import { useIsInitRender } from '@src/hooks/useIsInitRender'
 
 export function Logo() {
-  const isInitRender = useIsInitRender()
-  const logoRef = useRef()
-  const DOMRect = useResizeObserver(logoRef)
-
-  useEffect(() => {
-    if (isInitRender) return
-    if (isOverflown(logoRef.current)) console.log('show hamburger')
-    if (!isOverflown(logoRef.current)) console.log('hide hamburger')
-  }, [DOMRect])
-
   return (
-    <LogoContainer ref={logoRef}>
-      Logo
+    <LogoContainer >
+      <a href="https://quotation.app/">
+        <span className='white'>Q</span>
+        <span className='not-white'>uotation.app</span>
+      </a>
     </LogoContainer>
   )
 }
@@ -27,12 +16,28 @@ const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: red;
+  flex-shrink: 0;
+  padding: 3px;
+  padding-left: 10px;
 
+  a {
+    cursor: pointer;
+  }
 
-  /* first nav item will be overflown if there is no space anymore
-  we detect it with JS by comparing el.scrollWidth !== el.clientWidth
-  show hamburger */
-  overflow-x: auto;
+  .white {
+    color: white; 
+    font-size: 16px
+  }
+
+  .not-white {
+    color: #e7e7e7bf; 
+    font-size: 16px;
+
+    &:hover {
+      color: white !important;
+      -webkit-transition: 0.3s ease;
+      transition: 0.3s ease;
+    }
+  }
 
 `

@@ -94,11 +94,16 @@ export function Menu() {
      * - if clicked outside - close
      */
     function mouseDownHandler(e: MouseEvent) {
-      if (!menuContainerRef.current) return
+      const menu = menuContainerRef.current
+      if (!menu) return
       const navItem = menuContainerRef.current.parentElement
       if (!navItem) return
       const clickedEl = e.target as HTMLElement
-      if (!isClickInsideThisElement(clickedEl, navItem)) hideMenu()
+      if (isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)) {
+        // will handle it in openMenu function
+        return
+      }
+      if (!isClickInsideThisElement(clickedEl, menu)) hideMenu()
     }
 
     document.addEventListener('mousedown', mouseDownHandler)

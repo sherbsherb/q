@@ -1,9 +1,9 @@
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { MenuType, MenuTypeInObject } from '../../navStructure'
 // import Link from 'next/link'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
-import type { MenuType, MenuTypeInObject } from '../navStructure'
 
 // #region CONTEXT NAV ITEM
 export type MenuStateType = {
@@ -28,7 +28,7 @@ export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 * - navItem gets its menu object (menuO) from navStructure via props
 * - and we can open corresponding menu on click event
 */
-export function NavItem({ menuO }: MenuTypeInObject) {
+export function NavItem({ menuO, children }: MenuTypeInObject) {
   /**
    * @constant
    * - Reference to menu item <li> to pass it into menu
@@ -39,6 +39,7 @@ export function NavItem({ menuO }: MenuTypeInObject) {
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
 
   function showMenu(menuO: MenuType) {
+    console.log('show menu')
     setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
   }
 
@@ -48,7 +49,12 @@ export function NavItem({ menuO }: MenuTypeInObject) {
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     if (menuO.link) return // if a link, just follow it
-    e.preventDefault()
+    e.preventDefault() // to avoid link navigation
+    const isThisMenuAlreadyOpened = menuState.openedId === menuO.id
+    if (isThisMenuAlreadyOpened) {
+      hideMenu()
+      return
+    }
     showMenu(menuO)
   }
 
@@ -63,6 +69,7 @@ export function NavItem({ menuO }: MenuTypeInObject) {
         >
           {menuO.icon && <Icon icon={menuO.icon} />}
           {menuO.text && <span className='nav-item-text'>{menuO.text}</span>}
+          {children}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}

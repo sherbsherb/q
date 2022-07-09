@@ -7,9 +7,9 @@ import { theme } from '@src/theme'
 import { decrement, increment } from '@slices/counterSlice'
 import { login } from '@slices/loginSlice'
 import { fetchUsers } from '@slices/usersSlice'
-import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
-import { navStructure } from '@components/Nav/navStructure'
+import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
 import { toggleLastNavItem } from '@slices/navSlice'
+import { navStructure } from '@components/Nav/navStructure'
 
 /**
  * Component with counter
