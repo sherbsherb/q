@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 
 export function Logo({ logoRef }) {
-  logoRef = useRef(null)
-
   return (
     <LogoContainer ref={logoRef}>
       <a href="https://quotation.app/">

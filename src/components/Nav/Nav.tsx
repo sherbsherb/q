@@ -1,11 +1,8 @@
-import { isOverflown } from '@src/functions/isOverflown'
+import { isOverflown } from '@functions/isOverflown'
 import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
-
-function clacMediaQueryWindowWidths() {
-}
 
 export function Nav() {
   const navRef = useRef(null)
@@ -15,6 +12,9 @@ export function Nav() {
     const nav = navRef.current
     const logo = logoRef.current
     const initNavWidth = nav.offsetWidth
+
+    console.log(navRef)
+    console.log(logoRef)
 
     function shrinkElementSlightly(element) {
       element.style.width = element.offsetWidth - 10 + 'px'
@@ -30,7 +30,6 @@ export function Nav() {
     screenWidthWhenLogoHasToBeSmaller = nav.offsetWidth + 10
 
     nav.style.width = ''
-
   }, [])
 
   return (
