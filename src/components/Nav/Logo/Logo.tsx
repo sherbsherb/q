@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
-export function Logo() {
+export function Logo({ logoRef }) {
+  logoRef = useRef(null)
+
   return (
-    <LogoContainer >
+    <LogoContainer ref={logoRef}>
       <a href="https://quotation.app/">
         <span>Q</span>
         <span>uotation.app</span>
@@ -16,9 +18,10 @@ const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 1;
   padding: 3px;
   padding-left: 10px;
+  overflow: clip;
 
   a {
     cursor: pointer;
