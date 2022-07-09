@@ -1,11 +1,41 @@
+import { isOverflown } from '@src/functions/isOverflown'
+import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
 
+function clacMediaQueryWindowWidths() {
+}
+
 export function Nav() {
+  const navRef = useRef(null)
+  const logoRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const nav = navRef.current
+    const logo = logoRef.current
+    const initNavWidth = nav.offsetWidth
+
+    function shrinkElementSlightly(element) {
+      element.style.width = element.offsetWidth - 10 + 'px'
+    }
+
+    nav.style.width = 2000 + 'px'
+
+    let screenWidthWhenLogoHasToBeSmaller
+    while (!isOverflown(logo)) {
+      shrinkElementSlightly(nav)
+      console.log(nav.offsetWidth)
+    }
+    screenWidthWhenLogoHasToBeSmaller = nav.offsetWidth + 10
+
+    nav.style.width = ''
+
+  }, [])
+
   return (
-    <NavStyled>
-      <Logo />
+    <NavStyled ref={navRef}>
+      <Logo logoRef={logoRef}/>
       <NavList />
     </NavStyled>
   )
@@ -23,6 +53,6 @@ const NavStyled = styled.nav`
   /* margin: 0px 0px 5px 0px; */
   height: 60px;
   border-radius: 4px;
-  background: rgb(52 52 52 / 98%);
+  background: rgb(52 52 52 / 95%);
   z-index: 2;
 `

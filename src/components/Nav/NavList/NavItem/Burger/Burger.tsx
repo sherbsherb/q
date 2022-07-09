@@ -14,7 +14,7 @@ export function Burger() {
         toggled={isOpen}
         toggle={() => dispatch(toggleBurger())}
         size={20}
-        color='white'
+        color='#bcbcbc'
         rounded
         label='Show menu'
         onToggle={toggled => {
@@ -26,8 +26,9 @@ export function Burger() {
 }
 
 const BurgerContainer = styled.div`
-  display: flex;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
+  @media only screen and (min-width: 728px) {
+    /* display: none; */
+  }
+  
 `
