@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Logo } from './Logo'
-import { NavList } from './NavList/NavList'
+import { NavList } from './NavList'
 
 export function Nav() {
   return (

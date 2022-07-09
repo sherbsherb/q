@@ -19,7 +19,6 @@ import { navStructure } from '@components/Nav/navStructure'
 export function DefaultViteComponent(): JSX.Element {
   const [count, setCount] = useState(0)
   const theme = useTheme()
-  console.log(theme)
 
   const counter = useSelectorTyped(state => state.counter.counter)
   const isLogged = useSelectorTyped(state => state.login.isLogged)

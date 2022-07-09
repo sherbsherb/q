@@ -1,3 +1,5 @@
+import { closeBurger } from '@src/redux/slices/navSlice'
+import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { MenuType, MenuTypeInObject } from '../../navStructure'
@@ -37,14 +39,15 @@ export function NavItem({ menuO, children }: MenuTypeInObject) {
    */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
+  const dispatch = useDispatchTyped()
 
   function showMenu(menuO: MenuType) {
-    console.log('show menu')
     setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
   }
 
   function hideMenu() {
     setMenuState({ ...menuState, openedId: '' })
+    dispatch(closeBurger())
   }
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {

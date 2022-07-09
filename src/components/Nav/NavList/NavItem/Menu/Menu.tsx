@@ -103,7 +103,10 @@ export function Menu() {
         // will handle it in openMenu function
         return
       }
-      if (!isClickInsideThisElement(clickedEl, menu)) hideMenu()
+      if (!isClickInsideThisElement(clickedEl, menu)) {
+        hideMenu()
+
+      }
     }
 
     document.addEventListener('mousedown', mouseDownHandler)

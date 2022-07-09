@@ -4,8 +4,8 @@ export function Logo() {
   return (
     <LogoContainer >
       <a href="https://quotation.app/">
-        <span className='white'>Q</span>
-        <span className='not-white'>uotation.app</span>
+        <span>Q</span>
+        <span>uotation.app</span>
       </a>
     </LogoContainer>
   )
@@ -22,22 +22,21 @@ const LogoContainer = styled.div`
 
   a {
     cursor: pointer;
-  }
 
-  .white {
-    color: white; 
-    font-size: 16px
-  }
+    span:first-child {
+      color: white; 
+      font-size: 16px
+    }
 
-  .not-white {
-    color: #e7e7e7bf; 
-    font-size: 16px;
+    span:last-child {
+      color: #e7e7e7bf; 
+      font-size: 16px;
 
-    &:hover {
-      color: white !important;
-      -webkit-transition: 0.3s ease;
-      transition: 0.3s ease;
+      &:hover {
+        color: white !important;
+        -webkit-transition: 0.3s ease;
+        transition: 0.3s ease;
+      }
     }
   }
-
 `

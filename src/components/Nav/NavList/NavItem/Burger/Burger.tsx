@@ -1,18 +1,18 @@
 import styled from 'styled-components'
 import { Fade as BurgerIcon } from 'hamburger-react'
-import { useState } from 'react'
+import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
+import { toggleBurger } from '@src/redux/slices/navSlice'
 // https://hamburger-react.netlify.app/
 
 export function Burger() {
-  const [isOpen, setOpen] = useState(false)
-  // console.log('isOpen', isOpen)
-  // setTimeout(() => { setOpen(!isOpen) }, 1000)
+  const isOpen = useSelectorTyped(state => state.nav.burger.isOpen)
+  const dispatch = useDispatchTyped()
 
   return (
     <BurgerContainer>
       <BurgerIcon
         toggled={isOpen}
-        toggle={setOpen}
+        toggle={() => dispatch(toggleBurger())}
         size={20}
         color='white'
         rounded
