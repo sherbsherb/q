@@ -3,4 +3,7 @@
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,
   "javascript.suggest.completeJSDocs": true,
+  "cSpell.words": [
+    "uotation"
+  ],
 }
