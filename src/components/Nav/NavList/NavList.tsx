@@ -1,11 +1,11 @@
 import { useSelectorTyped } from '@redux/store/storeHooks'
 import styled from 'styled-components'
-import { MenuType } from '../navStructure'
+import { MenuType, navStructure } from '../navStructure'
 import { NavItem } from './NavItem'
 import { Burger } from './NavItem/Burger'
 
 export function NavList() {
-  const navStructure = useSelectorTyped(state => state.nav.navStructure)
+  // const navStructure = useSelectorTyped(state => state.nav.navStructure)
   return (
     <Ul>
       {navStructure.map(
