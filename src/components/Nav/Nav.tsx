@@ -55,7 +55,7 @@ const NavStyled = styled.nav<PropsForSC>`
   justify-content: space-between;
   align-items: stretch;
   position: sticky;
-  top: 0px;
+  top: 5px;
   margin: 5px;
   height: 60px;
   border-radius: 4px;
