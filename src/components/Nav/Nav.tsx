@@ -4,7 +4,7 @@ import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
 import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@src/redux/slices/navSlice'
-import { calcMediaQueriesParams } from './calcMediaQueriesParams'
+import { calcNavMediaQueryParams } from './calcNavMediaQueryParams'
 
 export function Nav() {
   const navRef = useRef(null)
@@ -21,7 +21,7 @@ export function Nav() {
       screenWidthWhenHideIcon,
       screenWidthWhenHideText,
       screenWidthWhenDisplayBurger
-    } = calcMediaQueriesParams(navRef.current, logoRef.current)
+    } = calcNavMediaQueryParams(navRef.current, logoRef.current)
 
     dispatch(setScreenWidthWhenHideLogoExtension(screenWidthWhenHideLogoExtension))
     dispatch(setScreenWidthWhenHideLogoPart(screenWidthWhenHideLogoPart))
