@@ -9,5 +9,6 @@ export const theme: DefaultTheme = {
     width: 300,
     paddingTop: 16,
     paddingBottom: 16
-  }
+  },
+  media: 500
 }

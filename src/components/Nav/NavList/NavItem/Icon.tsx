@@ -12,7 +12,7 @@ type Props = {
  */
 export function Icon({ icon }: Props) {
   return (
-    <RoundSpanForIconStyled>
+    <RoundSpanForIconStyled className='icon-round-wrapper'>
       {typeof icon === 'string' ? <span style={{ fontWeight: 600 }}>{icon}</span> : icon}
     </RoundSpanForIconStyled>
   )

@@ -7,9 +7,11 @@ import { toggleBurger } from '@src/redux/slices/navSlice'
 export function Burger() {
   const isOpen = useSelectorTyped(state => state.nav.burger.isOpen)
   const dispatch = useDispatchTyped()
+  const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
+
 
   return (
-    <BurgerContainer>
+    <BurgerContainer screenWidthWhenShowBurger={screenWidthWhenShowBurger}>
       <BurgerIcon
         toggled={isOpen}
         toggle={() => dispatch(toggleBurger())}
@@ -27,8 +29,14 @@ export function Burger() {
 
 const BurgerContainer = styled.div`
   display: none;
-  @media only screen and (min-width: 728px) {
+  @media only screen and (max-width: 728px) {
     /* display: none; */
   }
+
+
+  @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
+    display: block;
+  }
+
   
 `
