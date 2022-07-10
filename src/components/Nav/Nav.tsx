@@ -94,8 +94,8 @@ const NavStyled = styled.nav`
   z-index: 2;
   contain: layout inline-size;
 
-  .icon-round-wrapper {
-    @media (max-width: ${props => props.screenWidthWhenHideIcon}px)  and (min-width: ${props => props.screenWidthWhenHideText}px) {
+  & > ul > li > a > .icon-round-wrapper {
+    @media (max-width: ${props => props.screenWidthWhenHideIcon}px) and (min-width: ${props => props.screenWidthWhenHideText}px) {
       display: none;
     }
     @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
@@ -114,5 +114,16 @@ const NavStyled = styled.nav`
       display: none;
     }
   }
+
+  li:last-child {
+    display: none;
+
+    @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
+      display: flex;
+    }
+
+  }
+
+
 
 `

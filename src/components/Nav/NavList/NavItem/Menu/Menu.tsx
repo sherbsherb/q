@@ -105,7 +105,6 @@ export function Menu() {
       }
       if (!isClickInsideThisElement(clickedEl, menu)) {
         hideMenu()
-
       }
     }
 
@@ -131,7 +130,7 @@ export function Menu() {
   const menuContext = { menuState, setMenuState, hideMenu, goInside, goOutside, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
-      <MenuStyled ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
+      <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
         <div className='non-slidable'>
           {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
         </div>
