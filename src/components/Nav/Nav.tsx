@@ -18,35 +18,31 @@ export function Nav() {
 
   const shrinkElementSlightly = (element) => { element.style.width = element.offsetWidth - 10 + 'px' }
 
-  function windowWidthWhenHideLogoExtension() {
+  function calcMediaQueriesParams() {
     const nav = navRef.current
     const logo = logoRef.current
     nav.style.width = 1000 + 'px'
 
     // get width when hide '.app' from logo
     while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    console.log(nav.offsetWidth + 30)
     dispatch(setScreenWidthWhenHideLogoExtension(nav.offsetWidth + 30))
     nav.querySelector('.app-ext').style.display = 'none'
     nav.style.width = nav.offsetWidth + 100 + 'px'
 
     // get width when hide 'uotation' from logo
     while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    console.log(nav.offsetWidth + 30)
     dispatch(setScreenWidthWhenHideLogoPart(nav.offsetWidth + 30))
     nav.querySelector('.uotation').style.display = 'none'
     nav.style.width = nav.offsetWidth + 100 + 'px'
 
     // get width when hide icons
     while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    console.log(nav.offsetWidth + 30)
     dispatch(setScreenWidthWhenHideIcon(nav.offsetWidth + 30))
     Array.from(nav.querySelectorAll('.icon-round-wrapper')).forEach((el) => { el.style.display = 'none' })
     nav.style.width = nav.offsetWidth + 100 + 'px'
 
     // get width when hide text
     while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    console.log(nav.offsetWidth + 30)
     dispatch(setScreenWidthWhenHideText(nav.offsetWidth + 30))
     Array.from(nav.querySelectorAll('.nav-item-text')).forEach((el) => { el.style.display = 'none' })
     Array.from(nav.querySelectorAll('.icon-round-wrapper')).forEach((el) => { el.style = '' })
@@ -54,7 +50,6 @@ export function Nav() {
 
     // get width when show burger
     while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    console.log(nav.offsetWidth + 30)
     dispatch(setScreenWidthWhenDisplayBurger(nav.offsetWidth + 30))
 
     // show elements back on screen after calculation
@@ -65,7 +60,7 @@ export function Nav() {
     nav.style = ''
   }
 
-  useLayoutEffect(windowWidthWhenHideLogoExtension, [])
+  useLayoutEffect(calcMediaQueriesParams, [])
 
   return (
     <NavStyled
