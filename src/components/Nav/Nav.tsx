@@ -7,8 +7,8 @@ import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenW
 import { calcNavMediaQueryParams } from './calcNavMediaQueryParams'
 
 export function Nav() {
-  const navRef = useRef(null)
-  const logoRef = useRef(null)
+  const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
+  const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const screenWidthWhenHideIcon = useSelectorTyped(state => state.nav.mediaQueryWidth.icon)
   const screenWidthWhenHideText = useSelectorTyped(state => state.nav.mediaQueryWidth.text)
   const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
@@ -43,7 +43,13 @@ export function Nav() {
   )
 }
 
-const NavStyled = styled.nav`
+type PropsForSC = {
+  screenWidthWhenHideIcon: number
+  screenWidthWhenShowBurger: number
+  screenWidthWhenHideText: number
+}
+
+const NavStyled = styled.nav<PropsForSC>`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -86,7 +92,4 @@ const NavStyled = styled.nav`
     }
 
   }
-
-
-
 `

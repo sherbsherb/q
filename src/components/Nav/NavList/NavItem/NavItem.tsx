@@ -30,7 +30,12 @@ export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 * - navItem gets its menu object (menuO) from navStructure via props
 * - and we can open corresponding menu on click event
 */
-export function NavItem({ menuO, children }: MenuTypeInObject) {
+
+type NavItemType = {
+  children?: React.ReactNode
+} & MenuTypeInObject
+
+export function NavItem({ menuO, children }: NavItemType) {
   /**
    * @constant
    * - Reference to menu item <li> to pass it into menu

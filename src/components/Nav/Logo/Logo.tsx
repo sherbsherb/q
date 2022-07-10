@@ -1,7 +1,11 @@
 import { useSelectorTyped } from '@src/redux/store/storeHooks'
 import styled from 'styled-components'
 
-export function Logo({ logoRef }) {
+type Prop = {
+  logoRef: React.MutableRefObject<HTMLDivElement>
+}
+
+export function Logo({ logoRef }: Prop) {
   const screenWidthWhenHideLogoExtension = useSelectorTyped(state => state.nav.mediaQueryWidth.logoExtension)
   const screenWidthWhenHideLogoPart = useSelectorTyped(state => state.nav.mediaQueryWidth.logoPart)
   const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
@@ -22,7 +26,13 @@ export function Logo({ logoRef }) {
   )
 }
 
-const LogoContainer = styled.div`
+type PropsForSC = {
+  screenWidthWhenHideLogoPart: number
+  screenWidthWhenHideLogoExtension: number
+  screenWidthWhenShowBurger: number
+}
+
+const LogoContainer = styled.div<PropsForSC>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,8 +48,6 @@ const LogoContainer = styled.div`
     @media (max-width: ${props => props.screenWidthWhenHideLogoPart}px) and (min-width: ${props => props.screenWidthWhenShowBurger}px)  {
       font-size: 30px;
     }
-
-
 
     span:first-child {
       color: white; 

@@ -9,7 +9,6 @@ export function Burger() {
   const dispatch = useDispatchTyped()
   const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
 
-
   return (
     <BurgerContainer screenWidthWhenShowBurger={screenWidthWhenShowBurger}>
       <BurgerIcon
@@ -26,17 +25,14 @@ export function Burger() {
     </BurgerContainer>
   )
 }
+type PropsForSC = {
+  screenWidthWhenShowBurger: number
+}
 
-const BurgerContainer = styled.div`
+const BurgerContainer = styled.div<PropsForSC>`
   display: none;
-  @media only screen and (max-width: 728px) {
-    /* display: none; */
-  }
-
 
   @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
     display: block;
   }
-
-  
 `

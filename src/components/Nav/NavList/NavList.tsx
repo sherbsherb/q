@@ -1,4 +1,3 @@
-import { useSelectorTyped } from '@redux/store/storeHooks'
 import styled from 'styled-components'
 import { MenuType, navStructure } from '../navStructure'
 import { NavItem } from './NavItem'
