@@ -1,10 +1,10 @@
-import { isOverflown } from '@functions/isOverflown'
 import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
 import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@src/redux/slices/navSlice'
+import { calcMediaQueriesParams } from './calcMediaQueriesParams'
 
 export function Nav() {
   const navRef = useRef(null)
@@ -12,55 +12,23 @@ export function Nav() {
   const screenWidthWhenHideIcon = useSelectorTyped(state => state.nav.mediaQueryWidth.icon)
   const screenWidthWhenHideText = useSelectorTyped(state => state.nav.mediaQueryWidth.text)
   const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
-
-
   const dispatch = useDispatchTyped()
 
-  const shrinkElementSlightly = (element) => { element.style.width = element.offsetWidth - 10 + 'px' }
+  useLayoutEffect(() => {
+    const {
+      screenWidthWhenHideLogoExtension,
+      screenWidthWhenHideLogoPart,
+      screenWidthWhenHideIcon,
+      screenWidthWhenHideText,
+      screenWidthWhenDisplayBurger
+    } = calcMediaQueriesParams(navRef.current, logoRef.current)
 
-  function calcMediaQueriesParams() {
-    const nav = navRef.current
-    const logo = logoRef.current
-    nav.style.width = 1000 + 'px'
-
-    // get width when hide '.app' from logo
-    while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    dispatch(setScreenWidthWhenHideLogoExtension(nav.offsetWidth + 30))
-    nav.querySelector('.app-ext').style.display = 'none'
-    nav.style.width = nav.offsetWidth + 100 + 'px'
-
-    // get width when hide 'uotation' from logo
-    while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    dispatch(setScreenWidthWhenHideLogoPart(nav.offsetWidth + 30))
-    nav.querySelector('.uotation').style.display = 'none'
-    nav.style.width = nav.offsetWidth + 100 + 'px'
-
-    // get width when hide icons
-    while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    dispatch(setScreenWidthWhenHideIcon(nav.offsetWidth + 30))
-    Array.from(nav.querySelectorAll('.icon-round-wrapper')).forEach((el) => { el.style.display = 'none' })
-    nav.style.width = nav.offsetWidth + 100 + 'px'
-
-    // get width when hide text
-    while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    dispatch(setScreenWidthWhenHideText(nav.offsetWidth + 30))
-    Array.from(nav.querySelectorAll('.nav-item-text')).forEach((el) => { el.style.display = 'none' })
-    Array.from(nav.querySelectorAll('.icon-round-wrapper')).forEach((el) => { el.style = '' })
-    nav.style.width = nav.offsetWidth + 100 + 'px'
-
-    // get width when show burger
-    while (!isOverflown(logo)) shrinkElementSlightly(nav)
-    dispatch(setScreenWidthWhenDisplayBurger(nav.offsetWidth + 30))
-
-    // show elements back on screen after calculation
-    nav.querySelector('.app-ext').style = ''
-    nav.querySelector('.uotation').style = ''
-    Array.from(nav.querySelectorAll('.icon-round-wrapper')).forEach((el) => { el.style = '' })
-    Array.from(nav.querySelectorAll('.nav-item-text')).forEach((el) => { el.style = '' })
-    nav.style = ''
-  }
-
-  useLayoutEffect(calcMediaQueriesParams, [])
+    dispatch(setScreenWidthWhenHideLogoExtension(screenWidthWhenHideLogoExtension))
+    dispatch(setScreenWidthWhenHideLogoPart(screenWidthWhenHideLogoPart))
+    dispatch(setScreenWidthWhenHideIcon(screenWidthWhenHideIcon))
+    dispatch(setScreenWidthWhenHideText(screenWidthWhenHideText))
+    dispatch(setScreenWidthWhenDisplayBurger(screenWidthWhenDisplayBurger))
+  }, [])
 
   return (
     <NavStyled
