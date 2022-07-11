@@ -24,7 +24,7 @@ export function MenuItem({ menuO }: MenuTypeInObject) {
       }}
     >
       {isIcon && <Icon icon={menuO.icon} />}
-      <TextInMenu reserveSpaceForIcon={isSubMenu} text={menuO.text} />
+      <TextInMenu reserveSpaceForIcon={isSubMenu} name={menuO.name} />
       {isSubMenu && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuItemStyled>
   )

@@ -10,7 +10,7 @@ export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const screenWidthWhenHideIcon = useSelectorTyped(state => state.nav.mediaQueryWidth.icon)
-  const screenWidthWhenHideText = useSelectorTyped(state => state.nav.mediaQueryWidth.text)
+  const screenWidthWhenHideText = useSelectorTyped(state => state.nav.mediaQueryWidth.name)
   const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
   const dispatch = useDispatchTyped()
 

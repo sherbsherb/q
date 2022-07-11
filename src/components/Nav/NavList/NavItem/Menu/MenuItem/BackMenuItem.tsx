@@ -18,7 +18,7 @@ export function BackMenuItem() {
       }}
     >
       <Icon icon={<LeftArrowIcon />} />
-      <TextInMenu text={<span style={{ color: '#858383' }}>Back</span>} />
+      <TextInMenu name={<span style={{ color: '#858383' }}>Back</span>} />
     </MenuItemStyled>
   )
 }

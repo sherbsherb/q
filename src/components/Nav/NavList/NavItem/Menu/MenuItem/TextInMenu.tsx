@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 type PropsForComponent = {
   reserveSpaceForIcon?: boolean
-  text: string | React.ReactNode
+  name: string | React.ReactNode
 }
 
 type PropsForSC = {
@@ -10,15 +10,15 @@ type PropsForSC = {
 }
 
 /**
- * Component for text in menu item
+ * Component for name in menu item
  * @descriptions
  * - if we have nested menu some space should be left for 'go inside' icon
- * - if text is long it will be trimmed ellipsis (... dots)
+ * - if name is long it will be trimmed ellipsis (... dots)
  */
-export function TextInMenu({ reserveSpaceForIcon, text }: PropsForComponent) {
+export function TextInMenu({ reserveSpaceForIcon, name }: PropsForComponent) {
   return (
     <Span reserveSpaceForIcon={reserveSpaceForIcon}>
-      {text}
+      {name}
     </Span>
   )
 }

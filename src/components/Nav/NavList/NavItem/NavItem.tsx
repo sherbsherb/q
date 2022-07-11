@@ -76,7 +76,7 @@ export function NavItem({ menuO, children }: NavItemType) {
           onClick={onClickHandler}
         >
           {menuO.icon && <Icon icon={menuO.icon} />}
-          {menuO.text && <span className='nav-item-text'>{menuO.text}</span>}
+          {menuO.name && <span className='nav-item-text'>{menuO.name}</span>}
           {children}
         </a>
 

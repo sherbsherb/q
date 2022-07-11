@@ -12,7 +12,7 @@ const plusIcon = React.createElement(AiOutlinePlus, {})
 export type MenuType = {
   id: string
   icon?: React.ReactNode | string
-  text?: string
+  name?: string
   link?: any
   func?: () => void,
   menu?: MenuType[] | null | undefined
@@ -24,69 +24,69 @@ export const navStructure: MenuType[] = [
   {
     id: id(5),
     icon: <BookIcon />,
-    text: 'Link A',
+    name: 'Link A',
     link: '/linkA'
   },
   {
     id: id(5),
     icon: <BookIcon />,
-    text: 'Link B',
+    name: 'Link B',
     link: '/linkB'
   },
   {
     id: id(5),
     icon: <BookIcon />,
-    text: 'Back',
+    name: 'Back',
     link: '/'
   },
   {
     id: id(5),
     icon: plusIcon,
-    text: 'menu 1',
+    name: 'menu 1',
     menu: [
       {
         id: id(5),
-        text: 'item in menu 1',
+        name: 'item in menu 1',
         icon: '😇',
         menu: [
           {
             id: id(5),
-            text: 'item in menu 1',
+            name: 'item in menu 1',
             icon: '😎',
             menu: [
               {
                 id: id(5),
-                text: 'long long long long long long long long text',
+                name: 'long long long long long long long long name',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: null
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: <img src={logo} />
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 1',
+                name: 'item in menu 1',
                 icon: reactIcon
               }
             ]
@@ -94,34 +94,34 @@ export const navStructure: MenuType[] = [
           },
           {
             id: id(5),
-            text: 'item in menu 1',
+            name: 'item in menu 1',
             icon: '😎'
           },
           {
             id: id(5),
-            text: 'item in menu 1',
+            name: 'item in menu 1',
             icon: '😎'
           }
         ]
       },
       {
         id: id(5),
-        text: 'item in menu 1',
+        name: 'item in menu 1',
         icon: 'IC'
       },
       {
         id: id(5),
-        text: 'item in menu 1',
+        name: 'item in menu 1',
         icon: '😇'
       },
       {
         id: id(5),
-        text: 'item in menu 1',
+        name: 'item in menu 1',
         icon: ''
       },
       {
         id: id(5),
-        text: 'item in menu 1',
+        name: 'item in menu 1',
         icon: '😇'
       }
     ]
@@ -129,51 +129,51 @@ export const navStructure: MenuType[] = [
   {
     id: id(5),
     icon: plusIcon,
-    text: 'menu 2',
+    name: 'menu 2',
     menu: [
       {
         id: id(5),
-        text: 'item in menu 2',
+        name: 'item in menu 2',
         icon: '😇',
         menu: [
           {
             id: id(5),
-            text: 'item in menu 2',
+            name: 'item in menu 2',
             icon: '😎',
             menu: [
               {
                 id: id(5),
-                text: 'long long long long long long long long text',
+                name: 'long long long long long long long long name',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               },
               {
                 id: id(5),
-                text: 'item in menu 2',
+                name: 'item in menu 2',
                 icon: reactIcon
               }
             ]
@@ -181,34 +181,34 @@ export const navStructure: MenuType[] = [
           },
           {
             id: id(5),
-            text: 'item in menu 2',
+            name: 'item in menu 2',
             icon: '😎'
           },
           {
             id: id(5),
-            text: 'item in menu 2',
+            name: 'item in menu 2',
             icon: '😎'
           }
         ]
       },
       {
         id: id(5),
-        text: 'item in menu 2',
+        name: 'item in menu 2',
         icon: '😇'
       },
       {
         id: id(5),
-        text: 'item in menu 2',
+        name: 'item in menu 2',
         icon: '😇'
       },
       {
         id: id(5),
-        text: 'item in menu 2',
+        name: 'item in menu 2',
         icon: ''
       },
       {
         id: id(5),
-        text: 'item in menu 2',
+        name: 'item in menu 2',
         icon: '😇'
       }
     ]

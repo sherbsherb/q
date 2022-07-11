@@ -21,7 +21,7 @@ export function CloseMenuItem() {
       }}
     >
       <Icon icon={closeIcon} />
-      <TextInMenu text={<span style={{ color: '#858383' }}>Close</span>} />
+      <TextInMenu name={<span style={{ color: '#858383' }}>Close</span>} />
     </MenuItemStyled>
   )
 }
