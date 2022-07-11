@@ -17,7 +17,7 @@ export type MenuContextType = {
   menuState: MenuStateType
   setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
   hideMenu: () => void
-  goInside: (menuO: MenuType) => void
+  goInside: (menu: MenuType) => void
   goOutside: () => void
   navKeyboardHandler: (e: KeyboardEvent) => void
 }
@@ -34,8 +34,8 @@ export function Menu() {
   const isNestedMenu = menuState.prevMenus.length > 0
 
   // #region GO INTO NESTED MENU
-  function goInside(menuO: MenuType) {
-    const subMenu = menuO.menu
+  function goInside(menu: MenuType) {
+    const subMenu = menu.menu
     if (!subMenu) return
     setMenuState({ ...menuState, menu: [...subMenu], prevMenus: [...menuState.prevMenus, menuState] })
     slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
@@ -137,20 +137,20 @@ export function Menu() {
 
         <div ref={currentMenuRef} className='slidable'>
           {menuState.menu.map(
-            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
           )}
         </div>
 
         <div ref={nextMenuRef} className='slidable'>
           {menuState.menu.map(
-            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
           {menuState.menu.map(
-            (menuO: MenuType) => !menuO.hidden && <MenuItem menuO={menuO} key={menuO.id} />
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
           )}
         </div>
       </MenuStyled>

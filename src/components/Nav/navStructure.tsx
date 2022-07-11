@@ -18,7 +18,7 @@ export type MenuType = {
   menu?: MenuType[] | null | undefined
   hidden?: boolean
 }
-export type MenuTypeInObject = { menuO: MenuType }
+export type MenuTypeInObject = { menu: MenuType }
 
 export const navStructure: MenuType[] = [
   {

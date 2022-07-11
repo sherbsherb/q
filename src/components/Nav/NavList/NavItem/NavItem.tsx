@@ -17,7 +17,7 @@ export type ContextNavItemType = {
   menuState: MenuStateType
   setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
   hideMenu: () => void
-  menuO: MenuType
+  menu: MenuType
   navItemRef: React.MutableRefObject<HTMLLIElement>
 }
 export const ContextNavItem = createContext<ContextNavItemType | null>(null)
@@ -27,7 +27,7 @@ export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 * @descriptions
 * - menu is placed under navItem (li)
 * - navItems are elements on top of navStructure array
-* - navItem gets its menu object (menuO) from navStructure via props
+* - navItem gets its menu object (menu) from navStructure via props
 * - and we can open corresponding menu on click event
 */
 
@@ -35,7 +35,7 @@ type NavItemType = {
   children?: React.ReactNode
 } & MenuTypeInObject
 
-export function NavItem({ menuO, children }: NavItemType) {
+export function NavItem({ menu, children }: NavItemType) {
   /**
    * @constant
    * - Reference to menu item <li> to pass it into menu
@@ -46,8 +46,8 @@ export function NavItem({ menuO, children }: NavItemType) {
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
   const dispatch = useDispatchTyped()
 
-  function showMenu(menuO: MenuType) {
-    setMenuState({ menu: menuO.menu || [], openedId: menuO.id, prevMenus: [] })
+  function showMenu(menu: MenuType) {
+    setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
   }
 
   function hideMenu() {
@@ -56,32 +56,32 @@ export function NavItem({ menuO, children }: NavItemType) {
   }
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (menuO.link) return // if a link, just follow it
+    if (menu.link) return // if a link, just follow it
     e.preventDefault() // to avoid link navigation
-    const isThisMenuAlreadyOpened = menuState.openedId === menuO.id
+    const isThisMenuAlreadyOpened = menuState.openedId === menu.id
     if (isThisMenuAlreadyOpened) {
       hideMenu()
       return
     }
-    showMenu(menuO)
+    showMenu(menu)
   }
 
-  const contextValue = { menuState, setMenuState, hideMenu, menuO, navItemRef }
+  const contextValue = { menuState, setMenuState, hideMenu, menu, navItemRef }
 
   return (
     <ContextNavItem.Provider value={contextValue}>
       <LiStyled ref={navItemRef}>
         <a
-          href={menuO.link || '/'}
+          href={menu.link || '/'}
           onClick={onClickHandler}
         >
-          {menuO.icon && <Icon icon={menuO.icon} />}
-          {menuO.name && <span className='nav-item-text'>{menuO.name}</span>}
+          {menu.icon && <Icon icon={menu.icon} />}
+          {menu.name && <span className='nav-item-text'>{menu.name}</span>}
           {children}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {menuState.openedId === menuO.id && <Menu />}
+        {menuState.openedId === menu.id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )

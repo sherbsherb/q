@@ -8,10 +8,10 @@ import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
 
-export function MenuItem({ menuO }: MenuTypeInObject) {
+export function MenuItem({ menu }: MenuTypeInObject) {
   const { goInside } = useContext(ContextMenu) as MenuContextType
-  const isSubMenu = !!menuO.menu
-  const isIcon = !!menuO.icon
+  const isSubMenu = !!menu.menu
+  const isIcon = !!menu.icon
 
   return (
     <MenuItemStyled
@@ -20,11 +20,11 @@ export function MenuItem({ menuO }: MenuTypeInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        goInside(menuO)
+        goInside(menu)
       }}
     >
-      {isIcon && <Icon icon={menuO.icon} />}
-      <TextInMenu reserveSpaceForIcon={isSubMenu} name={menuO.name} />
+      {isIcon && <Icon icon={menu.icon} />}
+      <TextInMenu reserveSpaceForIcon={isSubMenu} name={menu.name} />
       {isSubMenu && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuItemStyled>
   )
