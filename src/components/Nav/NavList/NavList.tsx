@@ -4,7 +4,6 @@ import { NavItem } from './NavItem'
 import { Burger } from './NavItem/Burger'
 
 export function NavList() {
-  // const navStructure = useSelectorTyped(state => state.nav.navStructure)
   return (
     <Ul>
       {navStructure.map(

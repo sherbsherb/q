@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   burger: { isOpen: false },
-  mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, text: 0, burger: 0 }
+  mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, text: 0, burger: 0 },
+  idsFromTopToActiveMenu: ['top'],
+  nextMenuId: '',
+  activeMenuItemId: ''
 }
 
 const navSlice = createSlice({
