@@ -12,10 +12,10 @@ export function NavList() {
       {navStructure.map(
         (menu: MenuType) => {
           const isVisible = !hiddenItemNames.includes(menu.name || '')
-          return isVisible && <NavItem menu={menu} key={menu.id} />
+          return isVisible && <NavItem menu={menu} id={menu.id} key={menu.id} />
         }
       )}
-      <NavItem menu={{ id: 'burgerId', menu: navStructure }} key={'burgerId'}> <Burger /></NavItem>
+      <NavItem menu={{ id: 'burgerId', menu: navStructure }} id={'burgerId'} key={'burgerId'}><Burger /></NavItem>
     </Ul>
   )
 }

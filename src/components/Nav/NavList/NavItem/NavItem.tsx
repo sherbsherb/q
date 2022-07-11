@@ -2,7 +2,7 @@ import { closeBurger } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { MenuType, MenuTypeInObject } from '../../navStructure'
+import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
 // import Link from 'next/link'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
@@ -35,7 +35,7 @@ type NavItemType = {
   children?: React.ReactNode
 } & MenuTypeInObject
 
-export function NavItem({ menu, children }: NavItemType) {
+export function NavItem({ menu, children, id }: NavItemType) {
   /**
    * @constant
    * - Reference to menu item <li> to pass it into menu
@@ -68,15 +68,20 @@ export function NavItem({ menu, children }: NavItemType) {
 
   const contextValue = { menuState, setMenuState, hideMenu, menu, navItemRef }
 
+  const navItem = navStructure.find(menu => menu.id === id)
+  const icon = navItem?.icon
+  const name = navItem?.name
+  const link = navItem?.link
+
   return (
     <ContextNavItem.Provider value={contextValue}>
       <LiStyled ref={navItemRef}>
         <a
-          href={menu.link || '/'}
+          href={link || '/'}
           onClick={onClickHandler}
         >
-          {menu.icon && <Icon icon={menu.icon} />}
-          {menu.name && <span className='nav-item-text'>{menu.name}</span>}
+          {icon && <Icon icon={icon} />}
+          {name && <span className='nav-item-text'>{name}</span>}
           {children}
         </a>
 

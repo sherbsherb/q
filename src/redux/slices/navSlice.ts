@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
-  idsFromTopToActiveMenu: ['top'],
+  idsFromTopToActiveMenu: [],
   nextMenuId: '',
   activeMenuItemId: '',
   hiddenItemNames: ['Link B']
