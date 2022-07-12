@@ -2,12 +2,11 @@
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
 import { Icon } from '../../Icon'
-// import { ContextMenu, MenuContextType } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
-import { goDownInMenuXXX } from '@src/redux/slices/navSlice'
+import { goDownInMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 
 export function MenuItem({ menu, id }: MenuTypeInObject) {
@@ -22,7 +21,7 @@ export function MenuItem({ menu, id }: MenuTypeInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        dispatch(goDownInMenuXXX(id))
+        dispatch(goDownInMenu(id))
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}

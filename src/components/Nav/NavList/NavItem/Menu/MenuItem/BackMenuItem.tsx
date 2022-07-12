@@ -2,7 +2,7 @@ import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { FaChevronLeft as LeftArrowIcon } from 'react-icons/fa'
 import { MenuItemStyled } from './MenuItemStyled'
-import { goUpInMenuXXX } from '@src/redux/slices/navSlice'
+import { goUpInMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@store/storeHooks'
 
 export function BackMenuItem() {
@@ -14,7 +14,7 @@ export function BackMenuItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        dispatch(goUpInMenuXXX())
+        dispatch(goUpInMenu())
       }}
     >
       <Icon icon={<LeftArrowIcon />} />

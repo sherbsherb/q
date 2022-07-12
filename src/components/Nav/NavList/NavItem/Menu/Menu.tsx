@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, createContext } from 'react'
+import { useEffect, useRef } from 'react'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import styled from 'styled-components'
 import { theme } from '@src/theme'
@@ -6,22 +6,13 @@ import { gsap } from 'gsap'
 import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
-import { ContextNavItem, ContextNavItemType, MenuStateType } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { slideHorizontally } from '@functions/slideHorizontally'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeMenuXXX, goUpInMenuXXX } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenu, goUpInMenu } from '@src/redux/slices/navSlice'
 import { store } from '@src/redux/store'
-
-// #region MENU CONTEXT
-export type MenuContextType = {
-  menuState: MenuStateType
-  setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
-}
-export const ContextMenu = createContext<MenuContextType | null>(null)
-// #endregion
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -82,11 +73,11 @@ export function Menu() {
     const isNestedMenu = store.getState().nav.menuIdsChain.length > 2
 
     if (isNestedMenu && e.key === 'Backspace') {
-      dispatch(goUpInMenuXXX())
+      dispatch(goUpInMenu())
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
-      dispatch(closeMenuXXX())
+      dispatch(closeMenu())
       dispatch(closeBurger())
     }
   }
@@ -109,11 +100,10 @@ export function Menu() {
       if (!navItem) return
       const clickedEl = e.target as HTMLElement
       if (isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)) {
-        // will handle it in openMenu function
-        return
+        return // handle it in openMenu function
       }
       if (!isClickInsideThisElement(clickedEl, menu)) {
-        dispatch(closeMenuXXX())
+        dispatch(closeMenu())
         dispatch(closeBurger())
       }
     }

@@ -21,10 +21,10 @@ const navSlice = createSlice({
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
-    openMenuXXX: (state, action) => { state.menuIdsChain = ['top', action.payload] },
-    goDownInMenuXXX: (state, action) => { state.menuIdsChain = [...state.menuIdsChain, action.payload] },
-    goUpInMenuXXX: (state) => { state.menuIdsChain = state.menuIdsChain.slice(0, -1) },
-    closeMenuXXX: (state) => { state.menuIdsChain = ['top'] }
+    openMenu: (state, action) => { state.menuIdsChain = ['top', action.payload] },
+    goDownInMenu: (state, action) => { state.menuIdsChain = [...state.menuIdsChain, action.payload] },
+    goUpInMenu: (state) => { state.menuIdsChain = state.menuIdsChain.slice(0, -1) },
+    closeMenu: (state) => { state.menuIdsChain = ['top'] }
   }
 })
 
@@ -38,8 +38,8 @@ export const {
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
   setNavItemRightPos,
-  openMenuXXX,
-  goDownInMenuXXX,
-  goUpInMenuXXX,
-  closeMenuXXX
+  openMenu,
+  goDownInMenu,
+  goUpInMenu,
+  closeMenu
 } = navSlice.actions

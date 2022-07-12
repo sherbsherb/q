@@ -1,6 +1,6 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { openMenuXXX, closeBurger, closeMenuXXX, setNavItemRightPos } from '@src/redux/slices/navSlice'
+import { openMenu, closeBurger, closeMenu, setNavItemRightPos } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef } from 'react'
 import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
@@ -48,7 +48,7 @@ export function NavItem({ menu, children, id }: NavItemType) {
   function showMenu(menu: MenuType) {
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
-    dispatch(openMenuXXX(id))
+    dispatch(openMenu(id))
   }
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -56,7 +56,7 @@ export function NavItem({ menu, children, id }: NavItemType) {
     e.preventDefault()
     const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id
     if (isThisMenuAlreadyOpened) {
-      dispatch(closeMenuXXX())
+      dispatch(closeMenu())
       dispatch(closeBurger())
       return
     }
@@ -69,18 +69,18 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const link = navItem?.link
 
   return (
-      <LiStyled ref={navItemRef}>
-        <a
-          href={link || '/'}
-          onClick={onClickHandler}
-        >
-          {icon && <Icon icon={icon} />}
-          {name && <span className='nav-item-name'>{name}</span>}
-          {children}
-        </a>
+    <LiStyled ref={navItemRef}>
+      <a
+        href={link || '/'}
+        onClick={onClickHandler}
+      >
+        {icon && <Icon icon={icon} />}
+        {name && <span className='nav-item-name'>{name}</span>}
+        {children}
+      </a>
 
-        {menuIdsChain.at(1) === id && <Menu />}
-      </LiStyled>
+      {menuIdsChain.at(1) === id && <Menu />}
+    </LiStyled>
   )
 }
 
