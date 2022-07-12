@@ -22,281 +22,283 @@ export type MenuTypeInObject = { menu: MenuType }
 
 export const navStructure: MenuType[] = [
   {
-    id: id(5),
-    icon: <BookIcon />,
-    name: 'Link A',
-    link: '/linkA'
-  },
-  {
-    id: id(5),
-    icon: plusIcon,
-    name: 'menu 1',
+    id: 'top',
     menu: [
       {
         id: id(5),
-        name: 'item in menu 1',
-        icon: '😇',
+        icon: <BookIcon />,
+        name: 'Link A',
+        link: '/linkA'
+      },
+      {
+        id: id(5),
+        icon: plusIcon,
+        name: 'menu 1',
         menu: [
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎',
+            icon: '😇',
             menu: [
               {
                 id: id(5),
-                name: 'long long long long long long long long name',
-                icon: reactIcon
+                name: 'item in menu 1',
+                icon: '😎',
+                menu: [
+                  {
+                    id: id(5),
+                    name: 'long long long long long long long long name',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: null
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: <img src={logo} />
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  }
+                ]
               },
               {
                 id: id(5),
                 name: 'item in menu 1',
-                icon: null
+                icon: '😎'
               },
               {
                 id: id(5),
                 name: 'item in menu 1',
-                icon: <img src={logo} />
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
+                icon: '😎'
               }
             ]
-
           },
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎'
+            icon: 'IC'
           },
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎'
+            icon: '😇'
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: ''
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: '😇'
           }
         ]
       },
       {
         id: id(5),
-        name: 'item in menu 1',
-        icon: 'IC'
+        icon: <BookIcon />,
+        name: 'Link B',
+        link: '/linkB'
       },
       {
         id: id(5),
-        name: 'item in menu 1',
-        icon: '😇'
+        icon: <BookIcon />,
+        name: 'Back',
+        link: '/'
       },
       {
         id: id(5),
-        name: 'item in menu 1',
-        icon: ''
-      },
-      {
-        id: id(5),
-        name: 'item in menu 1',
-        icon: '😇'
-      }
-    ]
-  },
-  {
-    id: id(5),
-    icon: <BookIcon />,
-    name: 'Link B',
-    link: '/linkB'
-  },
-  {
-    id: id(5),
-    icon: <BookIcon />,
-    name: 'Back',
-    link: '/'
-  },
-  {
-    id: id(5),
-    icon: plusIcon,
-    name: 'menu 1',
-    menu: [
-      {
-        id: id(5),
-        name: 'item in menu 1',
-        icon: '😇',
+        icon: plusIcon,
+        name: 'menu 1',
         menu: [
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎',
+            icon: '😇',
             menu: [
               {
                 id: id(5),
-                name: 'long long long long long long long long name',
-                icon: reactIcon
+                name: 'item in menu 1',
+                icon: '😎',
+                menu: [
+                  {
+                    id: id(5),
+                    name: 'long long long long long long long long name',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: null
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: <img src={logo} />
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 1',
+                    icon: reactIcon
+                  }
+                ]
               },
               {
                 id: id(5),
                 name: 'item in menu 1',
-                icon: null
+                icon: '😎'
               },
               {
                 id: id(5),
                 name: 'item in menu 1',
-                icon: <img src={logo} />
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 1',
-                icon: reactIcon
+                icon: '😎'
               }
             ]
-
           },
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎'
+            icon: 'IC'
           },
           {
             id: id(5),
             name: 'item in menu 1',
-            icon: '😎'
+            icon: '😇'
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: ''
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: '😇'
           }
         ]
       },
       {
         id: id(5),
-        name: 'item in menu 1',
-        icon: 'IC'
-      },
-      {
-        id: id(5),
-        name: 'item in menu 1',
-        icon: '😇'
-      },
-      {
-        id: id(5),
-        name: 'item in menu 1',
-        icon: ''
-      },
-      {
-        id: id(5),
-        name: 'item in menu 1',
-        icon: '😇'
-      }
-    ]
-  },
-  {
-    id: id(5),
-    icon: plusIcon,
-    name: 'menu 2',
-    menu: [
-      {
-        id: id(5),
-        name: 'item in menu 2',
-        icon: '😇',
+        icon: plusIcon,
+        name: 'menu 2',
         menu: [
           {
             id: id(5),
             name: 'item in menu 2',
-            icon: '😎',
+            icon: '😇',
             menu: [
               {
                 id: id(5),
-                name: 'long long long long long long long long name',
-                icon: reactIcon
+                name: 'item in menu 2',
+                icon: '😎',
+                menu: [
+                  {
+                    id: id(5),
+                    name: 'long long long long long long long long name',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  },
+                  {
+                    id: id(5),
+                    name: 'item in menu 2',
+                    icon: reactIcon
+                  }
+                ]
               },
               {
                 id: id(5),
                 name: 'item in menu 2',
-                icon: reactIcon
+                icon: '😎'
               },
               {
                 id: id(5),
                 name: 'item in menu 2',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 2',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 2',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 2',
-                icon: reactIcon
-              },
-              {
-                id: id(5),
-                name: 'item in menu 2',
-                icon: reactIcon
+                icon: '😎'
               }
             ]
-
           },
           {
             id: id(5),
             name: 'item in menu 2',
-            icon: '😎'
+            icon: '😇'
           },
           {
             id: id(5),
             name: 'item in menu 2',
-            icon: '😎'
+            icon: '😇'
+          },
+          {
+            id: id(5),
+            name: 'item in menu 2',
+            icon: ''
+          },
+          {
+            id: id(5),
+            name: 'item in menu 2',
+            icon: '😇'
           }
         ]
-      },
-      {
-        id: id(5),
-        name: 'item in menu 2',
-        icon: '😇'
-      },
-      {
-        id: id(5),
-        name: 'item in menu 2',
-        icon: '😇'
-      },
-      {
-        id: id(5),
-        name: 'item in menu 2',
-        icon: ''
-      },
-      {
-        id: id(5),
-        name: 'item in menu 2',
-        icon: '😇'
       }
     ]
   }

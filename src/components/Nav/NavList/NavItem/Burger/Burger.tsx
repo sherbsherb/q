@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 import { Fade as BurgerIcon } from 'hamburger-react'
-import { useDispatchTyped, useSelectorTyped } from '@src/redux/store/storeHooks'
+import { useDispatchTyped, useSelectorTyped as useSelector} from '@src/redux/store/storeHooks'
 import { toggleBurger } from '@src/redux/slices/navSlice'
 // https://hamburger-react.netlify.app/
 
 export function Burger() {
-  const isOpen = useSelectorTyped(state => state.nav.burger.isOpen)
+  const isOpen = useSelector(state => state.nav.burger.isOpen)
   const dispatch = useDispatchTyped()
-  const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
+  const screenWidthWhenShowBurger = useSelector(state => state.nav.mediaQueryWidth.burger)
 
   return (
     <BurgerContainer screenWidthWhenShowBurger={screenWidthWhenShowBurger}>

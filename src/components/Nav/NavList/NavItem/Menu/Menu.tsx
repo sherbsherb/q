@@ -26,17 +26,15 @@ export function Menu() {
   const isNestedMenu = useSelector(state => state.nav.menuIdsChain.length > 2)
 
   function getMenu(menuIdsChain: string[]) {
+    console.log(menuIdsChain)
     let clicked
     let menu = navStructure
     let prev
     menuIdsChain.forEach((id: string) => {
-      if (id === 'top') return
       prev = menu
       clicked = menu.find((menu) => menu.id === id)?.menu
       menu = clicked
     })
-    // console.log('menuIdsChain', menuIdsChain)
-    // console.log({ clicked, prev })
     return { clicked, prev }
   }
 
@@ -99,9 +97,8 @@ export function Menu() {
       const navItem = menuContainerRef.current.parentElement
       if (!navItem) return
       const clickedEl = e.target as HTMLElement
-      if (isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)) {
-        return // handle it in openMenu function
-      }
+      const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
+      if (isClickOnOpenedNavItem) return // close it in openMenu function, otherwise it closes and opens immediately
       if (!isClickInsideThisElement(clickedEl, menu)) {
         dispatch(closeMenu())
         dispatch(closeBurger())

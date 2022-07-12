@@ -34,7 +34,7 @@ type NavItemType = {
   id: string
 } & MenuTypeInObject
 
-export function NavItem({ menu, children, id }: NavItemType) {
+export function NavItem({ children, id }: NavItemType) {
   /**
    * @constant
    * - Reference to menu item <li> to pass it into menu
@@ -45,28 +45,25 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const dispatch = useDispatchTyped()
   const menuIdsChain = useSelector(state => state.nav.menuIdsChain)
 
-  function showMenu(menu: MenuType) {
-    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
-    dispatch(setNavItemRightPos(navItemRightPos))
-    dispatch(openMenu(id))
-  }
+  const navItem = navStructure[0].menu.find(menu => menu.id === id)
+  const icon = navItem?.icon
+  const name = navItem?.name
+  const link = navItem?.link
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (menu.link) return
+    if (link) return
     e.preventDefault()
     const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id
     if (isThisMenuAlreadyOpened) {
+      // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())
       dispatch(closeBurger())
       return
     }
-    showMenu(menu)
+    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
+    dispatch(setNavItemRightPos(navItemRightPos))
+    dispatch(openMenu(id))
   }
-
-  const navItem = navStructure.find(menu => menu.id === id)
-  const icon = navItem?.icon
-  const name = navItem?.name
-  const link = navItem?.link
 
   return (
     <LiStyled ref={navItemRef}>
@@ -78,7 +75,6 @@ export function NavItem({ menu, children, id }: NavItemType) {
         {name && <span className='nav-item-name'>{name}</span>}
         {children}
       </a>
-
       {menuIdsChain.at(1) === id && <Menu />}
     </LiStyled>
   )
