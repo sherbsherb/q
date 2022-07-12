@@ -6,10 +6,10 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
-import { goDownInMenu } from '@src/redux/slices/navSlice'
+import { goDownInMenu, goDownInNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 
-export function MenuItem({ menu, id }: MenuTypeInObject) {
+export function MenuItem({ menu, id, goDownMenuAnimate }: MenuTypeInObject) {
   const dispatch = useDispatchTyped()
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
@@ -21,7 +21,18 @@ export function MenuItem({ menu, id }: MenuTypeInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        dispatch(goDownInMenu(id))
+        dispatch(goDownInNextMenu(id))
+        // slide next menu from left to right into view
+        // slide current menu to right out of view
+        
+        goDownMenuAnimate(() => { 
+          dispatch(goDownInMenu(id))
+          // gsapReset()
+        })
+        // dispatch(goDownInMenu(id)) // update current menu
+        // reverse animation without duration
+
+
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}

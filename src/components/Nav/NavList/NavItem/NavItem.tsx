@@ -1,6 +1,6 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { openMenu, closeBurger, closeMenu, setNavItemRightPos } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenu, setNavItemRightPos, closeNextMenu, openMenu, openNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef } from 'react'
 import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
@@ -43,7 +43,7 @@ export function NavItem({ children, id }: NavItemType) {
    */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const dispatch = useDispatchTyped()
-  const menuIdsChain = useSelector(state => state.nav.menuIdsChain)
+  const currentMenuIdsChain = useSelector(state => state.nav.currentMenuIdsChain)
 
   const navItem = navStructure[0].menu.find(menu => menu.id === id)
   const icon = navItem?.icon
@@ -54,16 +54,18 @@ export function NavItem({ children, id }: NavItemType) {
     console.log('on click handler')
     if (link) return
     e.preventDefault()
-    const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id && store.getState().nav.menuIdsChain.at(-1) !== 'top'
+    const isThisMenuAlreadyOpened = store.getState().nav.currentMenuIdsChain.at(-1) === id && store.getState().nav.currentMenuIdsChain.at(-1) !== 'top'
     if (isThisMenuAlreadyOpened) {
       // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())
+      dispatch(closeNextMenu())
       dispatch(closeBurger())
       return
     }
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
     dispatch(openMenu(id))
+    dispatch(openNextMenu(id))
   }
 
   return (
@@ -76,7 +78,7 @@ export function NavItem({ children, id }: NavItemType) {
         {name && <span className='nav-item-name'>{name}</span>}
         {children}
       </a>
-      {menuIdsChain.at(1) === id && <Menu />}
+      {currentMenuIdsChain.at(1) === id && <Menu />}
     </LiStyled>
   )
 }

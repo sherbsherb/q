@@ -4,7 +4,7 @@ import { Icon } from '../../Icon'
 import { CgClose as CloseIcon } from 'react-icons/cg'
 import { MenuItemStyled } from './MenuItemStyled'
 import { useDispatchTyped } from '@store/storeHooks'
-import { closeBurger, closeMenu } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenu, closeNextMenu } from '@src/redux/slices/navSlice'
 
 const closeIcon = createElement(CloseIcon, {})
 
@@ -18,6 +18,7 @@ export function CloseMenuItem() {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         dispatch(closeMenu())
+        dispatch(closeNextMenu())
         dispatch(closeBurger())
       }}
     >

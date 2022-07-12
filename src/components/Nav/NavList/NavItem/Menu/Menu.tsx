@@ -11,7 +11,7 @@ import { slideHorizontally } from '@functions/slideHorizontally'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeMenu, goUpInMenu } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenu, closeNextMenu, goUpInMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { store } from '@src/redux/store'
 
 export function Menu() {
@@ -22,15 +22,17 @@ export function Menu() {
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
 
-  const menu = useSelector(state => getMenu(state.nav.menuIdsChain))
-  const isNestedMenu = useSelector(state => state.nav.menuIdsChain.length > 2)
+  const currentMenu = useSelector(state => getMenu(state.nav.currentMenuIdsChain))
+  const nextMenu = useSelector(state => getMenu(state.nav.nextMenuIdsChain))
 
-  function getMenu(menuIdsChain: string[]) {
-    console.log(menuIdsChain)
+  const isNestedMenu = useSelector(state => state.nav.currentMenuIdsChain.length > 2)
+
+  function getMenu(currentMenuIdsChain: string[]) {
+    console.log(currentMenuIdsChain)
     let clicked
     let menu = navStructure
     let prev
-    menuIdsChain.forEach((id: string) => {
+    currentMenuIdsChain.forEach((id: string) => {
       prev = menu
       if (id === 'burger') clicked = navStructure[0].menu
       if (id !== 'burger') clicked = menu.find((menu) => menu.id === id)?.menu
@@ -43,6 +45,20 @@ export function Menu() {
   // slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
   // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
+
+  function goDownMenuAnimate(cb: () => void) {
+    gsap.set(currentMenuRef.current, { xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100 })
+    gsap.set(nextMenuRef.current, { xPercent: 100 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100, onComplete: cb })
+  }
+
+  function goUpMenuAnimate(cb: () => void) {
+    gsap.set(currentMenuRef.current, { xPercent: 0 })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: 100 })
+    gsap.set(nextMenuRef.current, { xPercent: -200 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration: 0.35, xPercent: -100, onComplete: cb })
+  }
 
   // #region ANIMATE MENU HEIGHT
   /**
@@ -59,7 +75,7 @@ export function Menu() {
       height: elementHeight(fakeMenuRef.current!) + theme.menu.paddingTop + theme.menu.paddingBottom
     })
   }
-  useEffect(animateMenuHeight, [menu])
+  useEffect(animateMenuHeight, [currentMenu, nextMenu])
   // #endregion
 
   // #region KEYBOARD SHORTCUTS
@@ -69,14 +85,16 @@ export function Menu() {
   }
 
   function navKeyboardHandler(e: KeyboardEvent) {
-    const isNestedMenu = store.getState().nav.menuIdsChain.length > 2
+    const isNestedMenu = store.getState().nav.currentMenuIdsChain.length > 2
 
     if (isNestedMenu && e.key === 'Backspace') {
       dispatch(goUpInMenu())
+      dispatch(goUpInNextMenu())
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
       dispatch(closeMenu())
+      dispatch(closeNextMenu())
       dispatch(closeBurger())
     }
   }
@@ -102,6 +120,7 @@ export function Menu() {
       if (isClickOnOpenedNavItem) return // close it in openMenu function, otherwise it closes and opens immediately
       if (!isClickInsideThisElement(clickedEl, menu)) {
         dispatch(closeMenu())
+        dispatch(closeNextMenu())
         dispatch(closeBurger())
       }
     }
@@ -130,24 +149,36 @@ export function Menu() {
       <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
 
         <div className='non-slidable'>
-          {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
+          {isNestedMenu ? <BackMenuItem goUpMenuAnimate={goUpMenuAnimate}/> : <CloseMenuItem />}
         </div>
 
-        <div ref={currentMenuRef} className='slidable'>
-          {menu.clicked.map(
-            (menu: MenuType) => <MenuItem menu={menu} id={menu.id} key={menu.id} />
+        <div ref={currentMenuRef} className='slidable current'>
+          {currentMenu.clicked.map(
+            (menu: MenuType) => <MenuItem 
+            menu={menu} 
+            id={menu.id} 
+            key={menu.id} 
+            goDownMenuAnimate={goDownMenuAnimate} 
+            
+            />
           )}
         </div>
 
-        {/* <div ref={nextMenuRef} className='slidable'>
-          {menu.prev.map(
-            (menu: MenuType) => <MenuItem menu={menu} id={menu.id} key={menu.id} />
+        <div ref={nextMenuRef} className='slidable next'>
+          {console.log('next')}
+          {nextMenu.clicked.map(
+            (menu: MenuType) => <MenuItem 
+            menu={menu} 
+            id={menu.id} 
+            key={menu.id} 
+            goDownMenuAnimate={goDownMenuAnimate} 
+            />
           )}
-        </div> */}
+        </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
-          {menu.clicked.map(
+          {nextMenu.clicked.map(
             (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div>
@@ -187,6 +218,10 @@ export const MenuStyled = styled.div<PropsForSC>`
     right: 0px;
     left: 0px;
     height: auto;
+  }
+
+  .next {
+    transform: translateX(100%)
   }
 
   .measurable-div {
