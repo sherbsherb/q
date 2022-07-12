@@ -1,15 +1,15 @@
-import { useContext, createElement } from 'react'
+import { createElement } from 'react'
 import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { CgClose as CloseIcon } from 'react-icons/cg'
-import { ContextMenu } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
-import { ContextNavItemType } from '../../NavItem'
+import { useDispatchTyped } from '@store/storeHooks'
+import { closeBurger, closeMenuXXX } from '@src/redux/slices/navSlice'
 
 const closeIcon = createElement(CloseIcon, {})
 
 export function CloseMenuItem() {
-  const { hideMenu } = useContext(ContextMenu) as unknown as ContextNavItemType
+  const dispatch = useDispatchTyped()
 
   return (
     <MenuItemStyled
@@ -17,7 +17,8 @@ export function CloseMenuItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        hideMenu()
+        dispatch(closeMenuXXX())
+        dispatch(closeBurger())
       }}
     >
       <Icon icon={closeIcon} />

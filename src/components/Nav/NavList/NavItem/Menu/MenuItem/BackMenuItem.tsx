@@ -1,12 +1,12 @@
-import { useContext } from 'react'
 import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { FaChevronLeft as LeftArrowIcon } from 'react-icons/fa'
-import { ContextMenu, MenuContextType } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
+import { goUpInMenuXXX } from '@src/redux/slices/navSlice'
+import { useDispatchTyped } from '@store/storeHooks'
 
 export function BackMenuItem() {
-  const { goOutside } = useContext(ContextMenu) as MenuContextType
+  const dispatch = useDispatchTyped()
 
   return (
     <MenuItemStyled
@@ -14,7 +14,7 @@ export function BackMenuItem() {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        goOutside()
+        dispatch(goUpInMenuXXX())
       }}
     >
       <Icon icon={<LeftArrowIcon />} />

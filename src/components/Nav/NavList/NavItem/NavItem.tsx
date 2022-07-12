@@ -1,11 +1,12 @@
-import { openMenuXXX, closeBurger, openMenu, closeMenuXXX, setNavItemRightPos } from '@src/redux/slices/navSlice'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { createContext, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
 // import Link from 'next/link'
+import styled from 'styled-components'
+import { openMenuXXX, closeBurger, closeMenuXXX, setNavItemRightPos } from '@src/redux/slices/navSlice'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { createContext, useRef } from 'react'
+import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
+import { store } from '@src/redux/store'
 
 // #region CONTEXT NAV ITEM
 export type MenuStateType = {
@@ -14,9 +15,6 @@ export type MenuStateType = {
   prevMenus: MenuStateType[]
 }
 export type ContextNavItemType = {
-  menuState: MenuStateType
-  setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
-  hideMenu: () => void
   menu: MenuType
   navItemRef: React.MutableRefObject<HTMLLIElement>
 }
@@ -44,35 +42,26 @@ export function NavItem({ menu, children, id }: NavItemType) {
    * - to avoid going over the window if window is narrow
    */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
-  const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
   const dispatch = useDispatchTyped()
   const menuIdsChain = useSelector(state => state.nav.menuIdsChain)
 
   function showMenu(menu: MenuType) {
-    // setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
     dispatch(openMenuXXX(id))
   }
 
-  function hideMenu() {
-    // setMenuState({ ...menuState, openedId: '' })
-    dispatch(closeMenuXXX())
-    dispatch(closeBurger())
-  }
-
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (menu.link) return // if a link, just follow it
-    e.preventDefault() // to avoid link navigation
-    const isThisMenuAlreadyOpened = menuState.openedId === menu.id
+    if (menu.link) return
+    e.preventDefault()
+    const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id
     if (isThisMenuAlreadyOpened) {
-      hideMenu()
+      dispatch(closeMenuXXX())
+      dispatch(closeBurger())
       return
     }
     showMenu(menu)
   }
-
-  const contextValue = { menuState, setMenuState, hideMenu, menu }
 
   const navItem = navStructure.find(menu => menu.id === id)
   const icon = navItem?.icon
@@ -80,7 +69,6 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const link = navItem?.link
 
   return (
-    <ContextNavItem.Provider value={contextValue}>
       <LiStyled ref={navItemRef}>
         <a
           href={link || '/'}
@@ -91,10 +79,8 @@ export function NavItem({ menu, children, id }: NavItemType) {
           {children}
         </a>
 
-        {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
         {menuIdsChain.at(1) === id && <Menu />}
       </LiStyled>
-    </ContextNavItem.Provider>
   )
 }
 

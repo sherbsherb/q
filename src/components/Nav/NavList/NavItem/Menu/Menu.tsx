@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useCallback, createContext } from 'react'
+import { useContext, useEffect, useRef, createContext } from 'react'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import styled from 'styled-components'
 import { theme } from '@src/theme'
@@ -12,23 +12,19 @@ import { slideHorizontally } from '@functions/slideHorizontally'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { goDownInMenuXXX, goUpInMenuXXX } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenuXXX, goUpInMenuXXX } from '@src/redux/slices/navSlice'
+import { store } from '@src/redux/store'
 
 // #region MENU CONTEXT
 export type MenuContextType = {
   menuState: MenuStateType
   setMenuState: React.Dispatch<React.SetStateAction<MenuStateType>>
-  hideMenu: () => void
-  goInside: (menu: MenuType) => void
-  goOutside: () => void
-  navKeyboardHandler: (e: KeyboardEvent) => void
 }
 export const ContextMenu = createContext<MenuContextType | null>(null)
 // #endregion
 
 export function Menu() {
   const dispatch = useDispatchTyped()
-  const { menuState, setMenuState, hideMenu } = useContext(ContextNavItem) as ContextNavItemType
   const isInitRender = useIsInitRender()
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -53,23 +49,10 @@ export function Menu() {
     return { clicked, prev }
   }
 
-  // #region GO INTO NESTED MENU
-  function goInside(menu: MenuType) {
-    // const subMenu = menu.menu
-    // if (!subMenu) return
-    // slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
-    // slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
-  }
-  // #endregion
-
-  // #region GO TO PREVIOUS MENU
-  function goOutside() {
-    dispatch(goUpInMenuXXX())
-    // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
-    // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
-  }
-  const goOutsideMemo = useCallback(goOutside, [menuState, setMenuState])
-  // #endregion
+  // slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
+  // slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
+  // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
+  // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
 
   // #region ANIMATE MENU HEIGHT
   /**
@@ -91,17 +74,24 @@ export function Menu() {
 
   // #region KEYBOARD SHORTCUTS
   function keyShortcutsForMenu() {
-    window.addEventListener('keydown', navKeyboardHandlerMemo)
-    return () => { window.removeEventListener('keydown', navKeyboardHandlerMemo) }
+    window.addEventListener('keydown', navKeyboardHandler)
+    return () => { window.removeEventListener('keydown', navKeyboardHandler) }
   }
-  function navKeyboardHandler(e: KeyboardEvent) {
-    isNestedMenu && e.key === 'Backspace' && goOutsideMemo()
-    !isNestedMenu && e.key === 'Backspace' && hideMenu()
-    e.key === 'Escape' && hideMenu()
-  }
-  const navKeyboardHandlerMemo = useCallback(navKeyboardHandler, [menuState, goOutsideMemo, hideMenu])
 
-  useEffect(keyShortcutsForMenu, [menuState, navKeyboardHandlerMemo, hideMenu])
+  function navKeyboardHandler(e: KeyboardEvent) {
+    const isNestedMenu = store.getState().nav.menuIdsChain.length > 2
+
+    if (isNestedMenu && e.key === 'Backspace') {
+      dispatch(goUpInMenuXXX())
+      return
+    }
+    if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
+      dispatch(closeMenuXXX())
+      dispatch(closeBurger())
+    }
+  }
+
+  useEffect(keyShortcutsForMenu, [])
   // #endregion
 
   // #region CLOSE MENU ON CLICK OUTSIDE
@@ -123,7 +113,8 @@ export function Menu() {
         return
       }
       if (!isClickInsideThisElement(clickedEl, menu)) {
-        hideMenu()
+        dispatch(closeMenuXXX())
+        dispatch(closeBurger())
       }
     }
 
@@ -147,9 +138,7 @@ export function Menu() {
   const isMenuOutsideWindow = menuWidth > navItemRightPos
   // #endregion
 
-  const menuContext = { menuState, setMenuState, hideMenu, goInside, goOutside, navKeyboardHandler }
   return (
-    <ContextMenu.Provider value={menuContext}>
       <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
 
         <div className='non-slidable'>
@@ -175,7 +164,6 @@ export function Menu() {
           )}
         </div>
       </MenuStyled>
-    </ContextMenu.Provider>
   )
 }
 
