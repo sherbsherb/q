@@ -12,7 +12,6 @@ import { useDispatchTyped } from '@src/redux/store/storeHooks'
 
 export function MenuItem({ menu, id }: MenuTypeInObject) {
   const dispatch = useDispatchTyped()
-  // const { goInside } = useContext(ContextMenu) as MenuContextType
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
@@ -24,7 +23,6 @@ export function MenuItem({ menu, id }: MenuTypeInObject) {
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
         dispatch(goDownInMenuXXX(id))
-        // goInside(menu)
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}
