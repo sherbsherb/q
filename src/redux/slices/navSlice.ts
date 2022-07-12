@@ -5,7 +5,8 @@ const initialState = {
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
   activeMenuIdsChain: ['top'],
   nextMenuId: '',
-  hiddenItemNames: ['Link B']
+  hiddenItemNames: ['Link B'],
+  menuDefaultRightPosition: 0
 }
 
 const navSlice = createSlice({
@@ -19,6 +20,7 @@ const navSlice = createSlice({
     setScreenWidthWhenHideIcon: (state, action) => { state.mediaQueryWidth.icon = action.payload },
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
+    setMenuDefaultRightPosition: (state, action) => { state.menuDefaultRightPosition = action.payload },
     openMenuXXX: (state, action) => { state.activeMenuIdsChain = ['top', action.payload] },
     goDownInMenuXXX: (state, action) => { state.activeMenuIdsChain = [...state.activeMenuIdsChain, action.payload] },
     goUpInMenuXXX: (state) => { state.activeMenuIdsChain = state.activeMenuIdsChain.slice(0, -1) },
@@ -35,6 +37,7 @@ export const {
   setScreenWidthWhenHideIcon,
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
+  setMenuDefaultRightPosition,
   openMenuXXX,
   goDownInMenuXXX,
   goUpInMenuXXX,

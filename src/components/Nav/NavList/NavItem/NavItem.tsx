@@ -1,4 +1,4 @@
-import { openMenuXXX, closeBurger, openMenu, closeMenuXXX } from '@src/redux/slices/navSlice'
+import { openMenuXXX, closeBurger, openMenu, closeMenuXXX, setMenuDefaultRightPosition } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -49,12 +49,14 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const activeMenuIdsChain = useSelector(state => state.nav.activeMenuIdsChain)
 
   function showMenu(menu: MenuType) {
-    setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
+    // setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
+    console.log(navItemRef.current.getBoundingClientRect().right)
+    dispatch(setMenuDefaultRightPosition(navItemRef.current.getBoundingClientRect().right))
     dispatch(openMenuXXX(id))
   }
 
   function hideMenu() {
-    setMenuState({ ...menuState, openedId: '' })
+    // setMenuState({ ...menuState, openedId: '' })
     dispatch(closeMenuXXX())
     dispatch(closeBurger())
   }
