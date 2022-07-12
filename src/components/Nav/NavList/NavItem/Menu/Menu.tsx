@@ -9,8 +9,10 @@ import { MenuItem } from './MenuItem'
 import { ContextNavItem, ContextNavItemType, MenuStateType } from '../NavItem'
 import { elementHeight } from '@functions/elementHeight'
 import { slideHorizontally } from '@functions/slideHorizontally'
-import type { MenuType } from '@components/Nav/navStructure'
+import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { goDownInMenuXXX } from '@src/redux/slices/navSlice'
 
 // #region MENU CONTEXT
 export type MenuContextType = {
@@ -25,21 +27,39 @@ export const ContextMenu = createContext<MenuContextType | null>(null)
 // #endregion
 
 export function Menu() {
-  const { menuState, setMenuState, navItemRef, hideMenu } = useContext(ContextNavItem) as ContextNavItemType
+  const dispatch = useDispatchTyped()
+  const { menuState, setMenuState, hideMenu } = useContext(ContextNavItem) as ContextNavItemType
+  const isInitRender = useIsInitRender()
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const isInitRender = useIsInitRender()
   const isNestedMenu = menuState.prevMenus.length > 0
+
+  const clickedMenu = useSelector(state => getMenu(state.nav.menuIdsChain).clicked)
+  const prevMenu = useSelector(state => getMenu(state.nav.menuIdsChain).prev)
+
+  function getMenu(menuIdsChain: string[]) {
+    let clicked
+    let menu = navStructure
+    let prev
+    menuIdsChain.forEach((id: string) => {
+      if (id === 'top') return
+      prev = menu
+      clicked = menu.find((menu) => menu.id === id)?.menu
+      menu = clicked
+    })
+    // console.log('menuIdsChain', menuIdsChain)
+    // console.log({ clicked, prev })
+    return { clicked, prev }
+  }
 
   // #region GO INTO NESTED MENU
   function goInside(menu: MenuType) {
-    const subMenu = menu.menu
-    if (!subMenu) return
-    setMenuState({ ...menuState, menu: [...subMenu], prevMenus: [...menuState.prevMenus, menuState] })
-    slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
-    slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
+    // const subMenu = menu.menu
+    // if (!subMenu) return
+    // slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
+    // slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
   }
   // #endregion
 
@@ -122,35 +142,37 @@ export function Menu() {
   * - if window is narrow menu can go over the screen's left side
   * - if so, we can fix right side of the menu
   */
-  const distanceToLiRightSide = navItemRef.current.getBoundingClientRect().right
+
+  const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
   const menuWidth = theme.menu.width
-  const isMenuOutsideWindow = menuWidth > distanceToLiRightSide
+  const isMenuOutsideWindow = menuWidth > navItemRightPos
   // #endregion
 
   const menuContext = { menuState, setMenuState, hideMenu, goInside, goOutside, navKeyboardHandler }
   return (
     <ContextMenu.Provider value={menuContext}>
       <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
+
         <div className='non-slidable'>
           {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
         </div>
 
         <div ref={currentMenuRef} className='slidable'>
-          {menuState.menu.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
+          {clickedMenu.map(
+            (menu: MenuType) => <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div>
 
-        <div ref={nextMenuRef} className='slidable'>
-          {menuState.menu.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
+        {/* <div ref={nextMenuRef} className='slidable'>
+          {prevMenu.map(
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
-        </div>
+        </div> */}
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
-          {menuState.menu.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
+          {clickedMenu.map(
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div>
       </MenuStyled>

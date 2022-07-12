@@ -1,15 +1,18 @@
-import { useContext } from 'react'
+// import { useContext } from 'react'
 import styled from 'styled-components'
 import { FaChevronRight as ForwardIcon } from 'react-icons/fa'
 import { Icon } from '../../Icon'
-import { ContextMenu, MenuContextType } from '../Menu'
+// import { ContextMenu, MenuContextType } from '../Menu'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import type { MenuTypeInObject } from '@components/Nav/navStructure'
+import { goDownInMenuXXX } from '@src/redux/slices/navSlice'
+import { useDispatchTyped } from '@src/redux/store/storeHooks'
 
-export function MenuItem({ menu }: MenuTypeInObject) {
-  const { goInside } = useContext(ContextMenu) as MenuContextType
+export function MenuItem({ menu, id }: MenuTypeInObject) {
+  const dispatch = useDispatchTyped()
+  // const { goInside } = useContext(ContextMenu) as MenuContextType
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
@@ -20,7 +23,8 @@ export function MenuItem({ menu }: MenuTypeInObject) {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
-        goInside(menu)
+        dispatch(goDownInMenuXXX(id))
+        // goInside(menu)
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}

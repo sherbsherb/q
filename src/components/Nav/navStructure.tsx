@@ -29,6 +29,93 @@ export const navStructure: MenuType[] = [
   },
   {
     id: id(5),
+    icon: plusIcon,
+    name: 'menu 1',
+    menu: [
+      {
+        id: id(5),
+        name: 'item in menu 1',
+        icon: '😇',
+        menu: [
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: '😎',
+            menu: [
+              {
+                id: id(5),
+                name: 'long long long long long long long long name',
+                icon: reactIcon
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: null
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: <img src={logo} />
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: reactIcon
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: reactIcon
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: reactIcon
+              },
+              {
+                id: id(5),
+                name: 'item in menu 1',
+                icon: reactIcon
+              }
+            ]
+
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: '😎'
+          },
+          {
+            id: id(5),
+            name: 'item in menu 1',
+            icon: '😎'
+          }
+        ]
+      },
+      {
+        id: id(5),
+        name: 'item in menu 1',
+        icon: 'IC'
+      },
+      {
+        id: id(5),
+        name: 'item in menu 1',
+        icon: '😇'
+      },
+      {
+        id: id(5),
+        name: 'item in menu 1',
+        icon: ''
+      },
+      {
+        id: id(5),
+        name: 'item in menu 1',
+        icon: '😇'
+      }
+    ]
+  },
+  {
+    id: id(5),
     icon: <BookIcon />,
     name: 'Link B',
     link: '/linkB'

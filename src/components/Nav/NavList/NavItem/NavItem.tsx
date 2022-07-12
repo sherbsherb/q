@@ -1,4 +1,4 @@
-import { openMenuXXX, closeBurger, openMenu, closeMenuXXX, setMenuDefaultRightPosition } from '@src/redux/slices/navSlice'
+import { openMenuXXX, closeBurger, openMenu, closeMenuXXX, setNavItemRightPos } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -46,12 +46,12 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
   const dispatch = useDispatchTyped()
-  const activeMenuIdsChain = useSelector(state => state.nav.activeMenuIdsChain)
+  const menuIdsChain = useSelector(state => state.nav.menuIdsChain)
 
   function showMenu(menu: MenuType) {
     // setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
-    console.log(navItemRef.current.getBoundingClientRect().right)
-    dispatch(setMenuDefaultRightPosition(navItemRef.current.getBoundingClientRect().right))
+    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
+    dispatch(setNavItemRightPos(navItemRightPos))
     dispatch(openMenuXXX(id))
   }
 
@@ -72,7 +72,7 @@ export function NavItem({ menu, children, id }: NavItemType) {
     showMenu(menu)
   }
 
-  const contextValue = { menuState, setMenuState, hideMenu, menu, navItemRef }
+  const contextValue = { menuState, setMenuState, hideMenu, menu }
 
   const navItem = navStructure.find(menu => menu.id === id)
   const icon = navItem?.icon
@@ -92,7 +92,9 @@ export function NavItem({ menu, children, id }: NavItemType) {
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {activeMenuIdsChain.at(-1) === id && <Menu />}
+        {console.log('menuIdsChain.at(-1))', menuIdsChain.at(-1))}
+        {console.log('id', id)}
+        {menuIdsChain.at(1) === id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )

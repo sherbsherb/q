@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
-  activeMenuIdsChain: ['top'],
+  menuIdsChain: ['top'],
   nextMenuId: '',
-  hiddenItemNames: ['Link B'],
-  menuDefaultRightPosition: 0
+  hiddenItemNames: ['Link D'],
+  navItemRightPos: 0
 }
 
 const navSlice = createSlice({
@@ -20,11 +20,11 @@ const navSlice = createSlice({
     setScreenWidthWhenHideIcon: (state, action) => { state.mediaQueryWidth.icon = action.payload },
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
-    setMenuDefaultRightPosition: (state, action) => { state.menuDefaultRightPosition = action.payload },
-    openMenuXXX: (state, action) => { state.activeMenuIdsChain = ['top', action.payload] },
-    goDownInMenuXXX: (state, action) => { state.activeMenuIdsChain = [...state.activeMenuIdsChain, action.payload] },
-    goUpInMenuXXX: (state) => { state.activeMenuIdsChain = state.activeMenuIdsChain.slice(0, -1) },
-    closeMenuXXX: (state) => { state.activeMenuIdsChain = ['top'] }
+    setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
+    openMenuXXX: (state, action) => { state.menuIdsChain = ['top', action.payload] },
+    goDownInMenuXXX: (state, action) => { state.menuIdsChain = [...state.menuIdsChain, action.payload] },
+    goUpInMenuXXX: (state) => { state.menuIdsChain = state.menuIdsChain.slice(0, -1) },
+    closeMenuXXX: (state) => { state.menuIdsChain = ['top'] }
   }
 })
 
@@ -37,7 +37,7 @@ export const {
   setScreenWidthWhenHideIcon,
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
-  setMenuDefaultRightPosition,
+  setNavItemRightPos,
   openMenuXXX,
   goDownInMenuXXX,
   goUpInMenuXXX,
