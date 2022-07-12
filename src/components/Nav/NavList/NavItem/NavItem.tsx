@@ -1,5 +1,5 @@
-import { closeBurger } from '@src/redux/slices/navSlice'
-import { useDispatchTyped } from '@src/redux/store/storeHooks'
+import { openMenuXXX, closeBurger, openMenu, closeMenuXXX } from '@src/redux/slices/navSlice'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
@@ -32,7 +32,8 @@ export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 */
 
 type NavItemType = {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  id: string
 } & MenuTypeInObject
 
 export function NavItem({ menu, children, id }: NavItemType) {
@@ -45,13 +46,16 @@ export function NavItem({ menu, children, id }: NavItemType) {
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const [menuState, setMenuState] = useState<MenuStateType>({ menu: [], openedId: '', prevMenus: [] })
   const dispatch = useDispatchTyped()
+  const activeMenuIdsChain = useSelector(state => state.nav.activeMenuIdsChain)
 
   function showMenu(menu: MenuType) {
     setMenuState({ menu: menu.menu || [], openedId: menu.id, prevMenus: [] })
+    dispatch(openMenuXXX(id))
   }
 
   function hideMenu() {
     setMenuState({ ...menuState, openedId: '' })
+    dispatch(closeMenuXXX())
     dispatch(closeBurger())
   }
 
@@ -81,12 +85,12 @@ export function NavItem({ menu, children, id }: NavItemType) {
           onClick={onClickHandler}
         >
           {icon && <Icon icon={icon} />}
-          {name && <span className='nav-item-text'>{name}</span>}
+          {name && <span className='nav-item-name'>{name}</span>}
           {children}
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {menuState.openedId === menu.id && <Menu />}
+        {activeMenuIdsChain.at(-1) === id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
   )
@@ -111,7 +115,7 @@ const LiStyled = styled.li`
       filter: brightness(1.2);
     }
 
-    .nav-item-text {
+    .nav-item-name {
       margin-left: 5px;
       margin-right: 5px;
       color: #bcbcbc;

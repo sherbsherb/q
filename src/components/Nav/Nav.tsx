@@ -2,16 +2,16 @@ import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
-import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@src/redux/slices/navSlice'
 import { calcNavMediaQueryParams } from './calcNavMediaQueryParams'
 
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const screenWidthWhenHideIcon = useSelectorTyped(state => state.nav.mediaQueryWidth.icon)
-  const screenWidthWhenHideText = useSelectorTyped(state => state.nav.mediaQueryWidth.name)
-  const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
+  const screenWidthWhenHideIcon = useSelector(state => state.nav.mediaQueryWidth.icon)
+  const screenWidthWhenHideText = useSelector(state => state.nav.mediaQueryWidth.name)
+  const screenWidthWhenShowBurger = useSelector(state => state.nav.mediaQueryWidth.burger)
   const dispatch = useDispatchTyped()
 
   useLayoutEffect(() => {
@@ -72,7 +72,7 @@ const NavStyled = styled.nav<PropsForSC>`
     }
   }
 
-  .nav-item-text {
+  .nav-item-name {
     @media (max-width: ${props => props.screenWidthWhenHideText}px) {
       display: none;
     }

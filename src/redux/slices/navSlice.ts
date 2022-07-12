@@ -3,9 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
-  idsFromTopToActiveMenu: [],
+  activeMenuIdsChain: ['top'],
   nextMenuId: '',
-  activeMenuItemId: '',
   hiddenItemNames: ['Link B']
 }
 
@@ -19,7 +18,11 @@ const navSlice = createSlice({
     setScreenWidthWhenHideLogoPart: (state, action) => { state.mediaQueryWidth.logoPart = action.payload },
     setScreenWidthWhenHideIcon: (state, action) => { state.mediaQueryWidth.icon = action.payload },
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
-    setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload }
+    setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
+    openMenuXXX: (state, action) => { state.activeMenuIdsChain = ['top', action.payload] },
+    goDownInMenuXXX: (state, action) => { state.activeMenuIdsChain = [...state.activeMenuIdsChain, action.payload] },
+    goUpInMenuXXX: (state) => { state.activeMenuIdsChain = state.activeMenuIdsChain.slice(0, -1) },
+    closeMenuXXX: (state) => { state.activeMenuIdsChain = ['top'] }
   }
 })
 
@@ -31,5 +34,9 @@ export const {
   setScreenWidthWhenHideLogoPart,
   setScreenWidthWhenHideIcon,
   setScreenWidthWhenHideText,
-  setScreenWidthWhenDisplayBurger
+  setScreenWidthWhenDisplayBurger,
+  openMenuXXX,
+  goDownInMenuXXX,
+  goUpInMenuXXX,
+  closeMenuXXX
 } = navSlice.actions

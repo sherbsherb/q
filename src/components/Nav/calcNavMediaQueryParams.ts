@@ -31,7 +31,7 @@ export function calcNavMediaQueryParams(nav: HTMLElement, logo: HTMLElement) {
   // get width when hide text
   while (!isOverflown(logo)) shrinkElementSlightly(nav)
   const screenWidthWhenHideText = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-  const navItems = nav.querySelectorAll('.nav-item-text')
+  const navItems = nav.querySelectorAll('.nav-item-name')
   const navItemsArr = Array.from(navItems)
   navItemsArr.forEach((el) => { (el as HTMLElement).style.display = 'none' })
   iconWrappersArr.forEach((el) => { (el as HTMLElement).style.display = '' })
