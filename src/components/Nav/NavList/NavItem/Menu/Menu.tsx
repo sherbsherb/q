@@ -46,18 +46,16 @@ export function Menu() {
   // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
   // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
 
+  const duration = 0.35
+
   function goDownMenuAnimate(cb: () => void) {
-    gsap.set(currentMenuRef.current, { xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100 })
-    gsap.set(nextMenuRef.current, { xPercent: 100 })
-    gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: -100, onComplete: cb })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100, onComplete: cb })
   }
 
   function goUpMenuAnimate(cb: () => void) {
-    gsap.set(currentMenuRef.current, { xPercent: 0 })
-    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration: 0.35, xPercent: 100 })
-    gsap.set(nextMenuRef.current, { xPercent: -200 })
-    gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration: 0.35, xPercent: -100, onComplete: cb })
+    gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
+    gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration, xPercent: -100, onComplete: cb })
   }
 
   // #region ANIMATE MENU HEIGHT
@@ -71,11 +69,11 @@ export function Menu() {
   */
   function animateMenuHeight() {
     gsap.to(menuContainerRef.current!, {
-      duration: isInitRender ? 0 : 0.35,
+      duration: isInitRender ? 0 : duration,
       height: elementHeight(fakeMenuRef.current!) + theme.menu.paddingTop + theme.menu.paddingBottom
     })
   }
-  useEffect(animateMenuHeight, [currentMenu, nextMenu])
+  useEffect(animateMenuHeight, [nextMenu])
   // #endregion
 
   // #region KEYBOARD SHORTCUTS

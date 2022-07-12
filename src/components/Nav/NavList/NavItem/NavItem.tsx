@@ -74,8 +74,8 @@ export function NavItem({ children, id }: NavItemType) {
         href={link || '/'}
         onClick={onClickHandler}
       >
-        {icon && <Icon icon={icon} />}
         {name && <span className='nav-item-name'>{name}</span>}
+        {icon && <Icon icon={icon} />}
         {children}
       </a>
       {currentMenuIdsChain.at(1) === id && <Menu />}
