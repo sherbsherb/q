@@ -51,9 +51,10 @@ export function NavItem({ children, id }: NavItemType) {
   const link = navItem?.link
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
+    console.log('on click handler')
     if (link) return
     e.preventDefault()
-    const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id
+    const isThisMenuAlreadyOpened = store.getState().nav.menuIdsChain.at(-1) === id && store.getState().nav.menuIdsChain.at(-1) !== 'top'
     if (isThisMenuAlreadyOpened) {
       // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())

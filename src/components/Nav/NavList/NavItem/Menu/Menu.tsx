@@ -32,7 +32,8 @@ export function Menu() {
     let prev
     menuIdsChain.forEach((id: string) => {
       prev = menu
-      clicked = menu.find((menu) => menu.id === id)?.menu
+      if (id === 'burger') clicked = navStructure[0].menu
+      if (id !== 'burger') clicked = menu.find((menu) => menu.id === id)?.menu
       menu = clicked
     })
     return { clicked, prev }

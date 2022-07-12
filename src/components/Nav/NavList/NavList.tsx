@@ -15,7 +15,7 @@ export function NavList() {
           return isVisible && <NavItem id={menu.id} key={menu.id} />
         }
       )}
-      <NavItem id={'top'} key={'top'}><Burger /></NavItem>
+      <NavItem id={'burger'} key={'burger'}><Burger /></NavItem>
     </Ul>
   )
 }
