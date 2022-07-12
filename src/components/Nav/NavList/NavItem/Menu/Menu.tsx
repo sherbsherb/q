@@ -12,7 +12,7 @@ import { slideHorizontally } from '@functions/slideHorizontally'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { goDownInMenuXXX } from '@src/redux/slices/navSlice'
+import { goDownInMenuXXX, goUpInMenuXXX } from '@src/redux/slices/navSlice'
 
 // #region MENU CONTEXT
 export type MenuContextType = {
@@ -34,10 +34,9 @@ export function Menu() {
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const isNestedMenu = menuState.prevMenus.length > 0
 
-  const clickedMenu = useSelector(state => getMenu(state.nav.menuIdsChain).clicked)
-  const prevMenu = useSelector(state => getMenu(state.nav.menuIdsChain).prev)
+  const menu = useSelector(state => getMenu(state.nav.menuIdsChain))
+  const isNestedMenu = useSelector(state => state.nav.menuIdsChain.length > 2)
 
   function getMenu(menuIdsChain: string[]) {
     let clicked
@@ -65,9 +64,9 @@ export function Menu() {
 
   // #region GO TO PREVIOUS MENU
   function goOutside() {
-    setMenuState({ ...menuState, menu: menuState.prevMenus?.at(-1)?.menu || [], prevMenus: menuState.prevMenus.slice(0, -1) })
-    slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
-    slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
+    dispatch(goUpInMenuXXX())
+    // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
+    // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
   }
   const goOutsideMemo = useCallback(goOutside, [menuState, setMenuState])
   // #endregion
@@ -87,7 +86,7 @@ export function Menu() {
       height: elementHeight(fakeMenuRef.current!) + theme.menu.paddingTop + theme.menu.paddingBottom
     })
   }
-  useEffect(animateMenuHeight, [menuState])
+  useEffect(animateMenuHeight, [menu])
   // #endregion
 
   // #region KEYBOARD SHORTCUTS
@@ -158,20 +157,20 @@ export function Menu() {
         </div>
 
         <div ref={currentMenuRef} className='slidable'>
-          {clickedMenu.map(
+          {menu.clicked.map(
             (menu: MenuType) => <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div>
 
         {/* <div ref={nextMenuRef} className='slidable'>
-          {prevMenu.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
+          {menu.prev.map(
+            (menu: MenuType) => <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div> */}
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
-          {clickedMenu.map(
+          {menu.clicked.map(
             (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
           )}
         </div>

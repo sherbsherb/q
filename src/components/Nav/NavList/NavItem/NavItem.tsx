@@ -92,8 +92,6 @@ export function NavItem({ menu, children, id }: NavItemType) {
         </a>
 
         {/* show only specific menu for navItemId, otherwise all existing menus are shown */}
-        {console.log('menuIdsChain.at(-1))', menuIdsChain.at(-1))}
-        {console.log('id', id)}
         {menuIdsChain.at(1) === id && <Menu />}
       </LiStyled>
     </ContextNavItem.Provider>
