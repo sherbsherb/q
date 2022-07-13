@@ -79,8 +79,8 @@ export function Menu() {
     const isNestedMenu = store.getState().nav.idsToCurrentMenu.length > 2
 
     if (isNestedMenu && e.key === 'Backspace') {
-      dispatch(goUpInCurrentMenu())
       dispatch(goUpInNextMenu())
+      goUpMenuAnimate(() => { dispatch(goUpInCurrentMenu()) })
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {

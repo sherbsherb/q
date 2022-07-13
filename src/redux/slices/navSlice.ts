@@ -42,7 +42,7 @@ export const {
   setNavItemRightPos,
   openMenu,
   closeMenu,
-  // such split into current and next menu is needed for slide effect, we actually have two parallel menus
+  // such split into current and next menu is needed for menu slide effect, coz we actually have two parallel menus
   goDownInCurrentMenu,
   goUpInCurrentMenu,
   goDownInNextMenu,
