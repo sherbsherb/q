@@ -1,6 +1,6 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { closeBurger, setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
+import { setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef } from 'react'
 import { MenuType, navStructure } from '../../navStructure'

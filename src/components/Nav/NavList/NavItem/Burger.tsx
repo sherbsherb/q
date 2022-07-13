@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Fade as BurgerIcon } from 'hamburger-react'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@src/redux/store/storeHooks'
-import { closeMenu, toggleBurger } from '@src/redux/slices/navSlice'
+import { toggleBurger } from '@src/redux/slices/navSlice'
 // https://hamburger-react.netlify.app/
 
 export function Burger() {
@@ -21,7 +21,8 @@ export function Burger() {
         onToggle={toggled => {
           // if (toggled) console.log('menu opened')
           // if (!toggled) dispatch(closeMenu())
-        }} />
+        }}
+      />
     </BurgerContainer>
   )
 }

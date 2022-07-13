@@ -151,7 +151,6 @@ export function Menu() {
         </div>
 
         <div ref={nextMenuRef} className='slidable next'>
-          {console.log('next')}
           {nextMenu.clicked.map((menu: MenuType) =>
             <MenuItem
               menu={menu}

@@ -7,7 +7,8 @@ declare module 'styled-components' {
     borderRadius?: string
     colors: {
       grey: string
-      red: string
+      red: string,
+      closeAndBackMenuItems: string
     }
     menu: {
       width: number
