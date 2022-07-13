@@ -53,12 +53,19 @@ export function NavItem({ children, id }: NavItemType) {
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     if (link) return
     e.preventDefault()
-    const isThisMenuAlreadyOpened = store.getState().nav.idsToCurrentMenu.at(-1) === id && store.getState().nav.idsToCurrentMenu.at(-1) !== 'top'
-    if (isThisMenuAlreadyOpened) {
+    const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
+    const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
+    if (isMenuOpenedUnderThisNavItem) {
       // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())
       return
     }
+    const isBurger = store.getState().nav.idsToCurrentMenu.includes('burger')
+    if (isBurger) {
+      dispatch(closeMenu())
+      return
+    }
+
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
     dispatch(openMenu(id))
