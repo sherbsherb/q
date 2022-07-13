@@ -7,17 +7,17 @@ import { useDispatchTyped } from '@store/storeHooks'
 import { theme } from '@src/theme'
 
 type BackMenuItemType = {
-  goUpMenuAnimate: (arg: () => void) => void
+  goUpInMenuAnimate: (arg: () => void) => void
 }
 
-export function BackMenuItem({ goUpMenuAnimate }: BackMenuItemType) {
+export function BackMenuItem({ goUpInMenuAnimate }: BackMenuItemType) {
   const dispatch = useDispatchTyped()
   const color = theme.colors.closeAndBackMenuItems
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     dispatch(goUpInNextMenu())
-    goUpMenuAnimate(() => { dispatch(goUpInCurrentMenu()) })
+    goUpInMenuAnimate(() => { dispatch(goUpInCurrentMenu()) })
   }
 
   return (

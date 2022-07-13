@@ -10,11 +10,10 @@ import { MenuType } from '@src/components/Nav/navStructure'
 
 type MenuItemType = {
   menu: MenuType
-  id: string
-  goDownMenuAnimate: (arg: () => void) => void
+  goDownInMenuAnimate?: (arg: () => void) => void
 }
 
-export function MenuItem({ menu, id, goDownMenuAnimate }: MenuItemType) {
+export function MenuItem({ menu, goDownInMenuAnimate }: MenuItemType) {
   const dispatch = useDispatchTyped()
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
@@ -22,8 +21,8 @@ export function MenuItem({ menu, id, goDownMenuAnimate }: MenuItemType) {
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     if (!isSubMenu) return
-    dispatch(goDownInNextMenu(id))
-    goDownMenuAnimate(() => { dispatch(goDownInCurrentMenu(id)) })
+    dispatch(goDownInNextMenu(menu.id))
+    goDownInMenuAnimate!(() => dispatch(goDownInCurrentMenu(menu.id)))
   }
 
   return (

@@ -41,12 +41,12 @@ export function Menu() {
 
   const duration = 0.35
 
-  function goDownMenuAnimate(cb: () => void) {
+  function goDownInMenuAnimate(cb: () => void) {
     gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
     gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100, onComplete: cb })
   }
 
-  function goUpMenuAnimate(cb: () => void) {
+  function goUpInMenuAnimate(cb: () => void) {
     gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
     gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration, xPercent: -100, onComplete: cb })
   }
@@ -80,7 +80,7 @@ export function Menu() {
 
     if (isNestedMenu && e.key === 'Backspace') {
       dispatch(goUpInNextMenu())
-      goUpMenuAnimate(() => { dispatch(goUpInCurrentMenu()) })
+      goUpInMenuAnimate(() => dispatch(goUpInCurrentMenu()))
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
@@ -136,16 +136,15 @@ export function Menu() {
       <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
 
         <div className='non-slidable'>
-          {isNestedMenu ? <BackMenuItem goUpMenuAnimate={goUpMenuAnimate}/> : <CloseMenuItem />}
+          {isNestedMenu ? <BackMenuItem goUpInMenuAnimate={goUpInMenuAnimate}/> : <CloseMenuItem />}
         </div>
 
         <div ref={currentMenuRef} className='slidable current'>
           {currentMenu.clicked.map((menu: MenuType) =>
             <MenuItem
               menu={menu}
-              id={menu.id}
               key={menu.id}
-              goDownMenuAnimate={goDownMenuAnimate}
+              goDownInMenuAnimate={goDownInMenuAnimate}
             />
           )}
         </div>
@@ -154,9 +153,8 @@ export function Menu() {
           {nextMenu.clicked.map((menu: MenuType) =>
             <MenuItem
               menu={menu}
-              id={menu.id}
               key={menu.id}
-              goDownMenuAnimate={goDownMenuAnimate}
+              goDownInMenuAnimate={goDownInMenuAnimate}
             />
           )}
         </div>
@@ -164,7 +162,7 @@ export function Menu() {
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
           {nextMenu.clicked.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} id={menu.id} key={menu.id} />
+            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
           )}
         </div>
       </MenuStyled>
