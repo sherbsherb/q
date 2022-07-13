@@ -5,7 +5,7 @@ import { Icon } from '../../Icon'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
-import { goDownInMenu, goDownInNextMenu } from '@src/redux/slices/navSlice'
+import { goDownInCurrentMenu, goDownInNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { MenuType } from '@src/components/Nav/navStructure'
 
@@ -28,7 +28,7 @@ export function MenuItem({ menu, id, goDownMenuAnimate }: MenuItemType) {
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
         dispatch(goDownInNextMenu(id))
-        goDownMenuAnimate(() => { dispatch(goDownInMenu(id)) })
+        goDownMenuAnimate(() => { dispatch(goDownInCurrentMenu(id)) })
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}

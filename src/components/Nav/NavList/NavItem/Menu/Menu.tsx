@@ -10,7 +10,7 @@ import { elementHeight } from '@functions/elementHeight'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeMenu, closeNextMenu, goUpInMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
+import { closeBurger, closeCurrentMenu, closeNextMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { store } from '@src/redux/store'
 
 export function Menu() {
@@ -21,16 +21,16 @@ export function Menu() {
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
 
-  const currentMenu = useSelector(state => getMenu(state.nav.currentMenuIdsChain))
-  const nextMenu = useSelector(state => getMenu(state.nav.nextMenuIdsChain))
+  const currentMenu = useSelector(state => getMenu(state.nav.idsToCurrentMenu))
+  const nextMenu = useSelector(state => getMenu(state.nav.idsToNextMenu))
 
-  const isNestedMenu = useSelector(state => state.nav.nextMenuIdsChain.length > 2)
+  const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
 
-  function getMenu(currentMenuIdsChain) {
+  function getMenu(idsToCurrentMenu) {
     let clicked
     let menu = navStructure
     let prev
-    currentMenuIdsChain.forEach((id) => {
+    idsToCurrentMenu.forEach((id) => {
       prev = menu
       if (id === 'burger') clicked = navStructure[0]?.menu || []
       if (id !== 'burger') clicked = menu.find((menu) => menu.id === id)?.menu
@@ -76,15 +76,15 @@ export function Menu() {
   }
 
   function navKeyboardHandler(e: KeyboardEvent) {
-    const isNestedMenu = store.getState().nav.currentMenuIdsChain.length > 2
+    const isNestedMenu = store.getState().nav.idsToCurrentMenu.length > 2
 
     if (isNestedMenu && e.key === 'Backspace') {
-      dispatch(goUpInMenu())
+      dispatch(goUpInCurrentMenu())
       dispatch(goUpInNextMenu())
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
-      dispatch(closeMenu())
+      dispatch(closeCurrentMenu())
       dispatch(closeNextMenu())
       dispatch(closeBurger())
     }
@@ -108,9 +108,9 @@ export function Menu() {
       if (!navItem) return
       const clickedEl = e.target as HTMLElement
       const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
-      if (isClickOnOpenedNavItem) return // close it in openMenu function, otherwise it closes and opens immediately
+      if (isClickOnOpenedNavItem) return // close it in openCurrentMenu function, otherwise it closes and opens immediately
       if (!isClickInsideThisElement(clickedEl, menu)) {
-        dispatch(closeMenu())
+        dispatch(closeCurrentMenu())
         dispatch(closeNextMenu())
         dispatch(closeBurger())
       }

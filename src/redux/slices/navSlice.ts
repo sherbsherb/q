@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
-  currentMenuIdsChain: ['top'],
-  nextMenuIdsChain: ['top'],
+  idsToCurrentMenu: ['top'],
+  idsToNextMenu: ['top'],
   hiddenItemNames: ['Link D'],
   navItemRightPos: 0
 }
@@ -22,15 +22,15 @@ const navSlice = createSlice({
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
 
-    openMenu: (state, action) => { state.currentMenuIdsChain = ['top', action.payload] },
-    goDownInMenu: (state, action) => { state.currentMenuIdsChain = [...state.currentMenuIdsChain, action.payload] },
-    goUpInMenu: (state) => { state.currentMenuIdsChain = state.currentMenuIdsChain.slice(0, -1) },
-    closeMenu: (state) => { state.currentMenuIdsChain = ['top'] },
+    openCurrentMenu: (state, action) => { state.idsToCurrentMenu = ['top', action.payload] },
+    goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
+    goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
+    closeCurrentMenu: (state) => { state.idsToCurrentMenu = ['top'] },
 
-    openNextMenu: (state, action) => { state.nextMenuIdsChain = ['top', action.payload] },
-    goDownInNextMenu: (state, action) => { state.nextMenuIdsChain = [...state.nextMenuIdsChain, action.payload] },
-    goUpInNextMenu: (state) => { state.nextMenuIdsChain = state.nextMenuIdsChain.slice(0, -1) },
-    closeNextMenu: (state) => { state.nextMenuIdsChain = ['top'] }
+    openNextMenu: (state, action) => { state.idsToNextMenu = ['top', action.payload] },
+    goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
+    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) },
+    closeNextMenu: (state) => { state.idsToNextMenu = ['top'] }
 
   }
 })
@@ -46,10 +46,10 @@ export const {
   setScreenWidthWhenDisplayBurger,
   setNavItemRightPos,
 
-  openMenu,
-  goDownInMenu,
-  goUpInMenu,
-  closeMenu,
+  openCurrentMenu,
+  goDownInCurrentMenu,
+  goUpInCurrentMenu,
+  closeCurrentMenu,
 
   openNextMenu,
   goDownInNextMenu,
