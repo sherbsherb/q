@@ -21,22 +21,25 @@ export function Menu() {
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
 
-  const currentMenu = useSelector(state => getMenu(state.nav.idsToCurrentMenu))
-  const nextMenu = useSelector(state => getMenu(state.nav.idsToNextMenu))
+  const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
+  const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
 
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
 
-  function getMenu(idsToCurrentMenu) {
-    let clicked
-    let menu = navStructure
-    let prev
-    idsToCurrentMenu.forEach((id) => {
-      prev = menu
-      if (id === 'burger') clicked = navStructure[0]?.menu || []
-      if (id !== 'burger') clicked = menu.find((menu) => menu.id === id)?.menu
-      menu = clicked
+  function getClickedMenu(idsToCurrentMenu: string[]): MenuType[] | MenuType {
+    let clicked: MenuType[] = navStructure
+    let tempMenu: MenuType[] = navStructure
+    idsToCurrentMenu.forEach((id: string) => {
+      if (id === 'burger') {
+        clicked = navStructure[0].menu!
+        return clicked
+      }
+      if (id !== 'burger') {
+        clicked = tempMenu.find((menu: MenuType) => menu.id === id)?.menu || []
+      }
+      tempMenu = clicked
     })
-    return { clicked, prev }
+    return clicked
   }
 
   // #region ANIMATION
@@ -102,6 +105,7 @@ export function Menu() {
   // #endregion
 
   // #region CLOSE MENU ON CLICK OUTSIDE
+
   function hideMenuOnClickOutside() {
     /**
      * @descriptions
@@ -126,6 +130,7 @@ export function Menu() {
     return () => { document.removeEventListener('mousedown', mouseDownHandler) }
   }
   useEffect(hideMenuOnClickOutside, [])
+
   // #endregion
 
   // #region CHECK IF MENU GOES OUTSIDE WINDOW
@@ -150,7 +155,7 @@ export function Menu() {
         </div>
 
         <div ref={currentMenuRef} className='slidable current'>
-          {currentMenu.clicked.map((menu: MenuType) =>
+          {currentMenu.map((menu: MenuType) =>
             <MenuItem
               menu={menu}
               key={menu.id}
@@ -160,7 +165,7 @@ export function Menu() {
         </div>
 
         <div ref={nextMenuRef} className='slidable next'>
-          {nextMenu.clicked.map((menu: MenuType) =>
+          {nextMenu.map((menu: MenuType) =>
             <MenuItem
               menu={menu}
               key={menu.id}
@@ -171,7 +176,7 @@ export function Menu() {
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
-          {nextMenu.clicked.map(
+          {nextMenu.map(
             (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
           )}
         </div>
