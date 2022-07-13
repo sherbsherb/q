@@ -10,7 +10,7 @@ import { elementHeight } from '@functions/elementHeight'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeCurrentMenu, closeNextMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
+import { closeBurger, closeMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { store } from '@src/redux/store'
 
 export function Menu() {
@@ -84,8 +84,7 @@ export function Menu() {
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
-      dispatch(closeCurrentMenu())
-      dispatch(closeNextMenu())
+      dispatch(closeMenu())
       dispatch(closeBurger())
     }
   }
@@ -110,8 +109,7 @@ export function Menu() {
       const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
       if (isClickOnOpenedNavItem) return // close it in openCurrentMenu function, otherwise it closes and opens immediately
       if (!isClickInsideThisElement(clickedEl, menu)) {
-        dispatch(closeCurrentMenu())
-        dispatch(closeNextMenu())
+        dispatch(closeMenu())
         dispatch(closeBurger())
       }
     }

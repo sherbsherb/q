@@ -21,17 +21,12 @@ const navSlice = createSlice({
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
-
-    openCurrentMenu: (state, action) => { state.idsToCurrentMenu = ['top', action.payload] },
+    openMenu: (state, action) => { state.idsToCurrentMenu = state.idsToNextMenu = ['top', action.payload] },
+    closeMenu: (state) => { state.idsToNextMenu = state.idsToCurrentMenu = ['top'] },
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
-    closeCurrentMenu: (state) => { state.idsToCurrentMenu = ['top'] },
-
-    openNextMenu: (state, action) => { state.idsToNextMenu = ['top', action.payload] },
     goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
-    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) },
-    closeNextMenu: (state) => { state.idsToNextMenu = ['top'] }
-
+    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) }
   }
 })
 
@@ -45,14 +40,11 @@ export const {
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
   setNavItemRightPos,
-
-  openCurrentMenu,
+  openMenu,
+  closeMenu,
+  // such split into current and next menu is needed for slide effect, we actually have two parallel menus
   goDownInCurrentMenu,
   goUpInCurrentMenu,
-  closeCurrentMenu,
-
-  openNextMenu,
   goDownInNextMenu,
-  goUpInNextMenu,
-  closeNextMenu
+  goUpInNextMenu
 } = navSlice.actions

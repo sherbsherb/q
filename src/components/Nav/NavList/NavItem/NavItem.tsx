@@ -1,6 +1,6 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { closeBurger, closeCurrentMenu, setNavItemRightPos, closeNextMenu, openCurrentMenu, openNextMenu } from '@src/redux/slices/navSlice'
+import { closeBurger, setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef } from 'react'
 import { MenuType, navStructure } from '../../navStructure'
@@ -56,15 +56,13 @@ export function NavItem({ children, id }: NavItemType) {
     const isThisMenuAlreadyOpened = store.getState().nav.idsToCurrentMenu.at(-1) === id && store.getState().nav.idsToCurrentMenu.at(-1) !== 'top'
     if (isThisMenuAlreadyOpened) {
       // close it, otherwise it closes and opens immediately
-      dispatch(closeCurrentMenu())
-      dispatch(closeNextMenu())
+      dispatch(closeMenu())
       dispatch(closeBurger())
       return
     }
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
-    dispatch(openCurrentMenu(id))
-    dispatch(openNextMenu(id))
+    dispatch(openMenu(id))
   }
 
   return (
