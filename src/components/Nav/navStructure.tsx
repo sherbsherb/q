@@ -15,10 +15,9 @@ export type MenuType = {
   name?: string
   link?: any
   func?: () => void,
-  menu?: MenuType[] | null | undefined
+  menu?: MenuType[]
   hidden?: boolean
 }
-export type MenuTypeInObject = { menu: MenuType }
 
 export const navStructure: MenuType[] = [
   {

@@ -5,7 +5,11 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { goUpInMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@store/storeHooks'
 
-export function BackMenuItem({ goUpMenuAnimate }) {
+type BackMenuItemType = {
+  goUpMenuAnimate: (arg: () => void) => void
+}
+
+export function BackMenuItem({ goUpMenuAnimate }: BackMenuItemType) {
   const dispatch = useDispatchTyped()
 
   return (
@@ -14,22 +18,9 @@ export function BackMenuItem({ goUpMenuAnimate }) {
       onClick={e => {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
-        // dispatch(goUpInMenu())
-        // dispatch(goUpInNextMenu())
-
-
-
 
         dispatch(goUpInNextMenu())
-        // slide next menu from left to right into view
-        // slide current menu to right out of view
-        
-        goUpMenuAnimate(() => { 
-          dispatch(goUpInMenu())
-          // gsapReset()
-        })
-        // dispatch(goDownInMenu(id)) // update current menu
-        // reverse animation without duration
+        goUpMenuAnimate(() => { dispatch(goUpInMenu()) })
       }}
     >
       <Icon icon={<LeftArrowIcon />} />

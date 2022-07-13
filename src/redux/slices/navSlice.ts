@@ -32,7 +32,6 @@ const navSlice = createSlice({
     goUpInNextMenu: (state) => { state.nextMenuIdsChain = state.nextMenuIdsChain.slice(0, -1) },
     closeNextMenu: (state) => { state.nextMenuIdsChain = ['top'] }
 
-
   }
 })
 
@@ -46,7 +45,7 @@ export const {
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
   setNavItemRightPos,
-  
+
   openMenu,
   goDownInMenu,
   goUpInMenu,

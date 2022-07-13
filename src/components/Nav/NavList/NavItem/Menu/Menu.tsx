@@ -7,7 +7,6 @@ import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { elementHeight } from '@functions/elementHeight'
-import { slideHorizontally } from '@functions/slideHorizontally'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
@@ -25,26 +24,20 @@ export function Menu() {
   const currentMenu = useSelector(state => getMenu(state.nav.currentMenuIdsChain))
   const nextMenu = useSelector(state => getMenu(state.nav.nextMenuIdsChain))
 
-  const isNestedMenu = useSelector(state => state.nav.currentMenuIdsChain.length > 2)
+  const isNestedMenu = useSelector(state => state.nav.nextMenuIdsChain.length > 2)
 
-  function getMenu(currentMenuIdsChain: string[]) {
-    console.log(currentMenuIdsChain)
+  function getMenu(currentMenuIdsChain) {
     let clicked
     let menu = navStructure
     let prev
-    currentMenuIdsChain.forEach((id: string) => {
+    currentMenuIdsChain.forEach((id) => {
       prev = menu
-      if (id === 'burger') clicked = navStructure[0].menu
+      if (id === 'burger') clicked = navStructure[0]?.menu || []
       if (id !== 'burger') clicked = menu.find((menu) => menu.id === id)?.menu
       menu = clicked
     })
     return { clicked, prev }
   }
-
-  // slideHorizontally({ el: nextMenuRef.current!, where: 'from right' })
-  // slideHorizontally({ el: currentMenuRef.current!, where: 'to left' })
-  // slideHorizontally({ el: nextMenuRef.current!, where: 'from left' })
-  // slideHorizontally({ el: currentMenuRef.current!, where: 'to right' })
 
   const duration = 0.35
 
@@ -151,25 +144,24 @@ export function Menu() {
         </div>
 
         <div ref={currentMenuRef} className='slidable current'>
-          {currentMenu.clicked.map(
-            (menu: MenuType) => <MenuItem 
-            menu={menu} 
-            id={menu.id} 
-            key={menu.id} 
-            goDownMenuAnimate={goDownMenuAnimate} 
-            
+          {currentMenu.clicked.map((menu: MenuType) =>
+            <MenuItem
+              menu={menu}
+              id={menu.id}
+              key={menu.id}
+              goDownMenuAnimate={goDownMenuAnimate}
             />
           )}
         </div>
 
         <div ref={nextMenuRef} className='slidable next'>
           {console.log('next')}
-          {nextMenu.clicked.map(
-            (menu: MenuType) => <MenuItem 
-            menu={menu} 
-            id={menu.id} 
-            key={menu.id} 
-            goDownMenuAnimate={goDownMenuAnimate} 
+          {nextMenu.clicked.map((menu: MenuType) =>
+            <MenuItem
+              menu={menu}
+              id={menu.id}
+              key={menu.id}
+              goDownMenuAnimate={goDownMenuAnimate}
             />
           )}
         </div>

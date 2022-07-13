@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { closeBurger, closeMenu, setNavItemRightPos, closeNextMenu, openMenu, openNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { createContext, useRef } from 'react'
-import { MenuType, MenuTypeInObject, navStructure } from '../../navStructure'
+import { MenuType, navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@src/redux/store'
@@ -32,7 +32,7 @@ export const ContextNavItem = createContext<ContextNavItemType | null>(null)
 type NavItemType = {
   children?: React.ReactNode,
   id: string
-} & MenuTypeInObject
+}
 
 export function NavItem({ children, id }: NavItemType) {
   /**
@@ -45,13 +45,12 @@ export function NavItem({ children, id }: NavItemType) {
   const dispatch = useDispatchTyped()
   const currentMenuIdsChain = useSelector(state => state.nav.currentMenuIdsChain)
 
-  const navItem = navStructure[0].menu.find(menu => menu.id === id)
+  const navItem = navStructure[0].menu!.find(menu => menu.id === id)
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    console.log('on click handler')
     if (link) return
     e.preventDefault()
     const isThisMenuAlreadyOpened = store.getState().nav.currentMenuIdsChain.at(-1) === id && store.getState().nav.currentMenuIdsChain.at(-1) !== 'top'

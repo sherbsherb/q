@@ -5,11 +5,17 @@ import { Icon } from '../../Icon'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
-import type { MenuTypeInObject } from '@components/Nav/navStructure'
 import { goDownInMenu, goDownInNextMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
+import { MenuType } from '@src/components/Nav/navStructure'
 
-export function MenuItem({ menu, id, goDownMenuAnimate }: MenuTypeInObject) {
+type MenuItemType = {
+  menu: MenuType
+  id: string
+  goDownMenuAnimate: (arg: () => void) => void
+}
+
+export function MenuItem({ menu, id, goDownMenuAnimate }: MenuItemType) {
   const dispatch = useDispatchTyped()
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
@@ -22,17 +28,7 @@ export function MenuItem({ menu, id, goDownMenuAnimate }: MenuTypeInObject) {
         e.nativeEvent.stopImmediatePropagation()
         if (!isSubMenu) return
         dispatch(goDownInNextMenu(id))
-        // slide next menu from left to right into view
-        // slide current menu to right out of view
-        
-        goDownMenuAnimate(() => { 
-          dispatch(goDownInMenu(id))
-          // gsapReset()
-        })
-        // dispatch(goDownInMenu(id)) // update current menu
-        // reverse animation without duration
-
-
+        goDownMenuAnimate(() => { dispatch(goDownInMenu(id)) })
       }}
     >
       {isIcon && <Icon icon={menu.icon} />}
