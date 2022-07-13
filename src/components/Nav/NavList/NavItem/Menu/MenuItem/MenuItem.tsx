@@ -4,25 +4,21 @@ import { Icon } from '../../Icon'
 import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
-import { goDownInCurrentMenu, goDownInNextMenu } from '@src/redux/slices/navSlice'
-import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { MenuType } from '@src/components/Nav/navStructure'
 
 type MenuItemType = {
   menu: MenuType
-  goDownInMenuAnimate?: (arg: () => void) => void
+  goDownInMenuAnimate: (id: string) => void
 }
 
 export function MenuItem({ menu, goDownInMenuAnimate }: MenuItemType) {
-  const dispatch = useDispatchTyped()
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     if (!isSubMenu) return
-    dispatch(goDownInNextMenu(menu.id))
-    goDownInMenuAnimate!(() => dispatch(goDownInCurrentMenu(menu.id)))
+    goDownInMenuAnimate(menu.id)
   }
 
   return (

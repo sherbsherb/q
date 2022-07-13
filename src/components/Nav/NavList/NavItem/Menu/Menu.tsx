@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { theme } from '@src/theme'
 import { store } from '@src/redux/store'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
+import { closeMenu, goDownInCurrentMenu, goDownInNextMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { useEffect, useRef } from 'react'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import { BackMenuItem } from './MenuItem/BackMenuItem'
@@ -39,19 +39,26 @@ export function Menu() {
     return { clicked, prev }
   }
 
-  const duration = 0.35
+  // #region ANIMATION
 
-  function goDownInMenuAnimate(cb: () => void) {
+  const duration = 0.5
+
+  function goDownInMenuAnimate(id: string) {
+    dispatch(goDownInNextMenu(id))
     gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100 })
+    type Function = () => void
+    const cb: Function = () => dispatch(goDownInCurrentMenu(id))
     gsap.fromTo(nextMenuRef.current, { xPercent: 0 }, { duration, xPercent: -100, onComplete: cb })
   }
 
-  function goUpInMenuAnimate(cb: () => void) {
+  function goUpInMenuAnimate() {
+    dispatch(goUpInNextMenu())
+    type Function = () => void
+    const cb: Function = () => dispatch(goUpInCurrentMenu())
     gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
     gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration, xPercent: -100, onComplete: cb })
   }
 
-  // #region ANIMATE MENU HEIGHT
   /**
   * @function
   * height animation on menu change
@@ -66,10 +73,13 @@ export function Menu() {
       height: elementHeight(fakeMenuRef.current!) + theme.menu.paddingTop + theme.menu.paddingBottom
     })
   }
+
   useEffect(animateMenuHeight, [nextMenu])
+
   // #endregion
 
-  // #region KEYBOARD SHORTCUTS
+  // #region KEYBOARD
+
   function keyShortcutsForMenu() {
     window.addEventListener('keydown', navKeyboardHandler)
     return () => { window.removeEventListener('keydown', navKeyboardHandler) }
@@ -79,8 +89,7 @@ export function Menu() {
     const isNestedMenu = store.getState().nav.idsToCurrentMenu.length > 2
 
     if (isNestedMenu && e.key === 'Backspace') {
-      dispatch(goUpInNextMenu())
-      goUpInMenuAnimate(() => dispatch(goUpInCurrentMenu()))
+      goUpInMenuAnimate()
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
@@ -89,6 +98,7 @@ export function Menu() {
   }
 
   useEffect(keyShortcutsForMenu, [])
+
   // #endregion
 
   // #region CLOSE MENU ON CLICK OUTSIDE
