@@ -57,7 +57,6 @@ export function NavItem({ children, id }: NavItemType) {
     if (isThisMenuAlreadyOpened) {
       // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())
-      dispatch(closeBurger())
       return
     }
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right

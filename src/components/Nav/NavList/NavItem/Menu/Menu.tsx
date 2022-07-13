@@ -1,17 +1,17 @@
+import styled from 'styled-components'
+import { gsap } from 'gsap'
+import { theme } from '@src/theme'
+import { store } from '@src/redux/store'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { closeBurger, closeMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
 import { useEffect, useRef } from 'react'
 import { useIsInitRender } from '@hooks/useIsInitRender'
-import styled from 'styled-components'
-import { theme } from '@src/theme'
-import { gsap } from 'gsap'
 import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { elementHeight } from '@functions/elementHeight'
 import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeBurger, closeMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
-import { store } from '@src/redux/store'
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -85,7 +85,6 @@ export function Menu() {
     }
     if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
       dispatch(closeMenu())
-      dispatch(closeBurger())
     }
   }
 
@@ -110,7 +109,6 @@ export function Menu() {
       if (isClickOnOpenedNavItem) return // close it in openCurrentMenu function, otherwise it closes and opens immediately
       if (!isClickInsideThisElement(clickedEl, menu)) {
         dispatch(closeMenu())
-        dispatch(closeBurger())
       }
     }
 

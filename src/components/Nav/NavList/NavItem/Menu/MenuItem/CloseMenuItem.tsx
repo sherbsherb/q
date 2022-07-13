@@ -18,7 +18,6 @@ export function CloseMenuItem() {
         e.preventDefault()
         e.nativeEvent.stopImmediatePropagation()
         dispatch(closeMenu())
-        dispatch(closeBurger())
       }}
     >
       <Icon icon={closeIcon} />

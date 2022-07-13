@@ -22,7 +22,10 @@ const navSlice = createSlice({
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
     openMenu: (state, action) => { state.idsToCurrentMenu = state.idsToNextMenu = ['top', action.payload] },
-    closeMenu: (state) => { state.idsToNextMenu = state.idsToCurrentMenu = ['top'] },
+    closeMenu: (state) => {
+      state.idsToNextMenu = state.idsToCurrentMenu = ['top']
+      state.burger.isOpen = false
+    },
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
     goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
