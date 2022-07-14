@@ -236,12 +236,11 @@ export const MenuStyled = styled.div<PropsForSC>`
   }
 
   .next {
-    transform: translateX(100%)
+    transform: translateX(100%);
   }
 
   .measurable-div {
-    position: fixed;
-    right: 1000px;
+    transform: translateX(9999px);
   }
 `
 

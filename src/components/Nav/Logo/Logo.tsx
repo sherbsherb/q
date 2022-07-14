@@ -39,7 +39,7 @@ const LogoContainer = styled.div<PropsForSC>`
   flex-shrink: 1;
   padding: 3px;
   padding-left: 10px;
-  overflow: clip;
+  overflow: auto;
 
   a {
     cursor: pointer;
