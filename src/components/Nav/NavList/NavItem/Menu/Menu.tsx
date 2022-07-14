@@ -25,6 +25,7 @@ export function Menu() {
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
   const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
+  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
 
   // #region ANIMATION
 
@@ -155,29 +156,40 @@ export function Menu() {
         </div>
 
         <div ref={currentMenuRef} className='slidable current'>
-          {currentMenu.map((menu: MenuType) =>
+          {currentMenu.map((menu: MenuType) => {
+            const isVisible = !hiddenItemNames.includes(menu.name || '')
+            return isVisible && (
             <MenuItem
               menu={menu}
               key={menu.id}
               goDownInMenuAnimate={goDownInMenuAnimate}
-            />
-          )}
+            />)
+          })}
         </div>
 
         <div ref={nextMenuRef} className='slidable next'>
-          {nextMenu.map((menu: MenuType) =>
+          {nextMenu.map((menu: MenuType) => {
+            const isVisible = !hiddenItemNames.includes(menu.name || '')
+            return isVisible && (
             <MenuItem
               menu={menu}
               key={menu.id}
               goDownInMenuAnimate={goDownInMenuAnimate}
-            />
+            />)
+          }
           )}
         </div>
 
         <div ref={fakeMenuRef} className='measurable-div'>
           <CloseMenuItem />
-          {nextMenu.map(
-            (menu: MenuType) => !menu.hidden && <MenuItem menu={menu} key={menu.id} />
+          {nextMenu.map((menu: MenuType) => {
+            const isVisible = !hiddenItemNames.includes(menu.name || '')
+            return isVisible && (
+            <MenuItem
+              menu={menu}
+              key={menu.id}
+            />)
+          }
           )}
         </div>
       </MenuStyled>

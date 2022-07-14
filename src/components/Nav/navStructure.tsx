@@ -16,7 +16,6 @@ export type MenuType = {
   link?: any
   func?: () => void,
   menu?: MenuType[]
-  hidden?: boolean
 }
 
 export const navStructure: MenuType[] = [
