@@ -6,17 +6,15 @@ type Prop = {
 }
 
 export function Logo({ logoRef }: Prop) {
-  const screenWidthWhenHideLogoExtension = useSelectorTyped(state => state.nav.mediaQueryWidth.logoExtension)
-  const screenWidthWhenHideLogoPart = useSelectorTyped(state => state.nav.mediaQueryWidth.logoPart)
-  const screenWidthWhenShowBurger = useSelectorTyped(state => state.nav.mediaQueryWidth.burger)
+  const mediaQueryWidth = useSelectorTyped(state => state.nav.mediaQueryWidth)
 
   return (
     <LogoContainer
       className='logo-container'
       ref={logoRef}
-      screenWidthWhenHideLogoExtension={screenWidthWhenHideLogoExtension}
-      screenWidthWhenHideLogoPart={screenWidthWhenHideLogoPart}
-      screenWidthWhenShowBurger={screenWidthWhenShowBurger}
+      screenWidthWhenHideLogoExtension={mediaQueryWidth.logoExtension}
+      screenWidthWhenHideLogoPart={mediaQueryWidth.logoPart}
+      screenWidthWhenShowBurger={mediaQueryWidth.burger}
     >
       <a href="https://quotation.app/">
         <span>Q</span>
