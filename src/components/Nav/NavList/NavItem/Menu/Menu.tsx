@@ -149,7 +149,11 @@ export function Menu() {
   // #endregion
 
   return (
-      <MenuStyled className='drop-down-nav-menu' ref={menuContainerRef} isMenuOutsideWindow={isMenuOutsideWindow}>
+      <MenuStyled
+        className='drop-down-nav-menu'
+        ref={menuContainerRef}
+        isMenuOutsideWindow={isMenuOutsideWindow}
+      >
 
         <div className='non-slidable'>
           {isNestedMenu ? <BackMenuItem goUpInMenuAnimate={goUpInMenuAnimate}/> : <CloseMenuItem />}
