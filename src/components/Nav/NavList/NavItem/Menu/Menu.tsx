@@ -10,8 +10,9 @@ import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { elementHeight } from '@functions/elementHeight'
-import { MenuType, navStructure } from '@components/Nav/navStructure'
+import { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
+import { getClickedMenu } from './getClickedMenu'
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -25,22 +26,6 @@ export function Menu() {
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
 
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
-
-  function getClickedMenu(idsToCurrentMenu: string[]): MenuType[] | MenuType {
-    let clicked: MenuType[] = navStructure
-    let tempMenu: MenuType[] = navStructure
-    idsToCurrentMenu.forEach((id: string) => {
-      if (id === 'burger') {
-        clicked = navStructure[0].menu!
-        return clicked
-      }
-      if (id !== 'burger') {
-        clicked = tempMenu.find((menu: MenuType) => menu.id === id)?.menu || []
-      }
-      tempMenu = clicked
-    })
-    return clicked
-  }
 
   // #region ANIMATION
 
@@ -134,6 +119,7 @@ export function Menu() {
   // #endregion
 
   // #region CHECK IF MENU GOES OUTSIDE WINDOW
+
   /**
   * @summary distance from the left side of the window to right side of nav menu item
   * @descriptions
@@ -141,10 +127,10 @@ export function Menu() {
   * - if window is narrow menu can go over the screen's left side
   * - if so, we can fix right side of the menu
   */
-
   const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
   const menuWidth = theme.menu.width
   const isMenuOutsideWindow = menuWidth > navItemRightPos
+
   // #endregion
 
   return (
