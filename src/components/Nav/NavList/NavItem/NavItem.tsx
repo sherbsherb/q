@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { MenuType, navStructure } from '../../navStructure'
+import { navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@src/redux/store'
@@ -41,19 +41,23 @@ export function NavItem({ children, id }: NavItemType) {
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     if (link) return
     e.preventDefault()
+
+    // if we click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
     const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
-      // close it, otherwise it closes and opens immediately
       dispatch(closeMenu())
       return
     }
+
+    // handle separately burger click
     const isBurger = store.getState().nav.idsToCurrentMenu.includes('burger')
     if (isBurger) {
       dispatch(closeMenu())
       return
     }
 
+    // open the menu and determine its position (right: 0 OR left: 0)
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
     dispatch(openMenu(id))
