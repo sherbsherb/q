@@ -2,45 +2,33 @@
 import styled from 'styled-components'
 import { setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { createContext, useRef } from 'react'
+import { useRef } from 'react'
 import { MenuType, navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@src/redux/store'
-
-// #region CONTEXT NAV ITEM
-export type MenuStateType = {
-  menu: MenuType[]
-  openedId: string
-  prevMenus: MenuStateType[]
-}
-export type ContextNavItemType = {
-  menu: MenuType
-  navItemRef: React.MutableRefObject<HTMLLIElement>
-}
-export const ContextNavItem = createContext<ContextNavItemType | null>(null)
-// #endregion
-
-/**
-* @descriptions
-* - menu is placed under navItem (li)
-* - navItems are elements on top of navStructure array
-* - navItem gets its menu object (menu) from navStructure via props
-* - and we can open corresponding menu on click event
-*/
 
 type NavItemType = {
   children?: React.ReactNode,
   id: string
 }
 
+/**
+* @descriptions
+* - navItem gets 'menu' object from 'navStructure' array and passed in props
+* - menu is placed under navItem (li)
+* - and we can open corresponding menu on click event
+*/
+
 export function NavItem({ children, id }: NavItemType) {
   /**
    * @constant
-   * - Reference to menu item <li> to pass it into menu
-   * - to let it know where to put set left:0 or right:0
-   * - to avoid going over the window if window is narrow
+   * - reference to menu item <li> to pass it into menu
+   * - needs to calculate how NavIte' is far from the screen to understand how to place Menu
+   * - Menu can be placed with style left:0 or right:0
+   * - required to avoid Menu to go over the narrow window
    */
+
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const dispatch = useDispatchTyped()
   const idsToCurrentMenu = useSelector(state => state.nav.idsToCurrentMenu)
@@ -73,10 +61,7 @@ export function NavItem({ children, id }: NavItemType) {
 
   return (
     <LiStyled ref={navItemRef}>
-      <a
-        href={link || '/'}
-        onClick={onClickHandler}
-      >
+      <a href={link || '/'} onClick={onClickHandler}>
         {name && <span className='nav-item-name'>{name}</span>}
         {icon && <Icon icon={icon} />}
         {children}
