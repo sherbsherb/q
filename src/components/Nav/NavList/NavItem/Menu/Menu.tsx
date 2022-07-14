@@ -24,6 +24,7 @@ export function Menu() {
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
+  const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
 
   // #region ANIMATION
 
@@ -102,26 +103,27 @@ export function Menu() {
 
   // #region CLOSE MENU ON CLICK OUTSIDE
 
-  function hideMenuOnClickOutside() {
-    /**
+  /**
      * @descriptions
-     * - menu is positioned inside navItem li element
-     * - if we clicked on navItem (menu or li) do not close
-     * - if clicked outside - close
+     * - menu is absolutely positioned inside NavItem li element
+     * - if click outside menu - close
+     * - if click on navItem do not close, but close it in NavItem onClick handler, otherwise it closes and opens immediately
      */
-    function mouseDownHandler(e: MouseEvent) {
-      const menu = menuContainerRef.current
-      if (!menu) return
-      const navItem = menuContainerRef.current.parentElement
-      if (!navItem) return
-      const clickedEl = e.target as HTMLElement
-      const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
-      if (isClickOnOpenedNavItem) return // close it in openCurrentMenu function, otherwise it closes and opens immediately
-      if (!isClickInsideThisElement(clickedEl, menu)) {
-        dispatch(closeMenu())
-      }
-    }
 
+  function mouseDownHandler(e: MouseEvent) {
+    const menu = menuContainerRef.current
+    if (!menu) return
+    const navItem = menuContainerRef.current.parentElement
+    if (!navItem) return
+    const clickedEl = e.target as HTMLElement
+    const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
+    if (isClickOnOpenedNavItem) return
+    if (!isClickInsideThisElement(clickedEl, menu)) {
+      dispatch(closeMenu())
+    }
+  }
+
+  function hideMenuOnClickOutside() {
     document.addEventListener('mousedown', mouseDownHandler)
     return () => { document.removeEventListener('mousedown', mouseDownHandler) }
   }
@@ -132,13 +134,14 @@ export function Menu() {
   // #region CHECK IF MENU GOES OUTSIDE WINDOW
 
   /**
-  * @summary distance from the left side of the window to right side of nav menu item
+  * check if menu width is more than distance to the left side of the window
   * @descriptions
-  * - menu is absolute positioned below <li> and has same right position
-  * - if window is narrow menu can go over the screen's left side
-  * - if so, we can fix right side of the menu
+  * - on NavItem click we store its 'right' position
+  * - menu is absolute positioned below <li> and has same 'right' position
+  * - if window is narrow, then menu can go over the screen's left side
+  * - if so, we can fix 'left' side of the menu, instead of 'right'
   */
-  const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
+
   const menuWidth = theme.menu.width
   const isMenuOutsideWindow = menuWidth > navItemRightPos
 
@@ -182,6 +185,7 @@ export function Menu() {
 }
 
 // #region CSS
+
 type PropsForSC = {
   isMenuOutsideWindow: boolean
 }
@@ -224,4 +228,5 @@ export const MenuStyled = styled.div<PropsForSC>`
     right: 1000px;
   }
 `
+
 // #endregion
