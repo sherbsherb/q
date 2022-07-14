@@ -64,7 +64,7 @@ export function NavItem({ children, id }: NavItemType) {
   }
 
   return (
-    <LiStyled ref={navItemRef}>
+    <LiStyled ref={navItemRef} className='nav-item'>
       <a href={link || '/'} onClick={onClickHandler}>
         {name && <span className='nav-item-name'>{name}</span>}
         {icon && <Icon icon={icon} />}

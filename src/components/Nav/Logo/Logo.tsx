@@ -12,6 +12,7 @@ export function Logo({ logoRef }: Prop) {
 
   return (
     <LogoContainer
+      className='logo-container'
       ref={logoRef}
       screenWidthWhenHideLogoExtension={screenWidthWhenHideLogoExtension}
       screenWidthWhenHideLogoPart={screenWidthWhenHideLogoPart}

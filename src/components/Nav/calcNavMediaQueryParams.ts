@@ -3,49 +3,44 @@ import { isOverflown } from '@src/functions/isOverflown'
 const shrinkElementSlightly = (el: HTMLElement) => { el.style.width = el.offsetWidth - 10 + 'px' }
 
 export function calcNavMediaQueryParams(nav: HTMLElement, logo: HTMLElement) {
-  const gapAfterLogoWhenMediaQueryKicksIn = 50
-  nav.style.width = 1000 + 'px'
+  type ParamsType = {
+    elsToHideClass?: string
+    elsToShowClass?: string
+  }
 
-  // get width when hide '.app' from logo
-  while (!isOverflown(logo)) shrinkElementSlightly(nav)
-  const screenWidthWhenHideLogoExtension = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-  const aptExt = nav.querySelector('.app-ext')! as HTMLElement
-  aptExt.style.display = 'none'
-  nav.style.width = nav.offsetWidth + 100 + 'px'
+  function calcNavWidthWhenLogoIsOverlay({ elsToHideClass, elsToShowClass }: ParamsType = {}) {
+    if (elsToHideClass) {
+      const elsToHideArr = Array.from(nav.querySelectorAll(elsToHideClass))
+      elsToHideArr.forEach(el => { (el as HTMLElement).style.display = 'none' })
+      const elsToShowArr = Array.from(nav.querySelectorAll(elsToShowClass || 'non-existing-class-where-nothing-will-be-found'))
+      elsToShowArr.forEach(el => { (el as HTMLElement).style.display = '' })
+    }
+    let i = 0
+    while (!isOverflown(logo)) {
+      shrinkElementSlightly(nav)
+      i++
+      if (i > 1000) {
+        console.log('Problem! Over 1000 iterations in calcNavWidthWhenLogoIsOverlay() function')
+        break
+      }
+    }
+    const navWidth = nav.offsetWidth
+    return navWidth + 30
+  }
 
-  // get width when hide 'uotation' from logo
-  while (!isOverflown(logo)) shrinkElementSlightly(nav)
-  const screenWidthWhenHideLogoPart = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-  const uotation = nav.querySelector('.uotation')! as HTMLElement
-  uotation.style.display = 'none'
-  nav.style.width = nav.offsetWidth + 100 + 'px'
+  // calc init min nav width to accumulate all elements
+  const navItemsQty = nav.querySelectorAll('.nav-item').length
+  const navItemWidth = (nav.querySelector('.nav-item') as HTMLElement).offsetWidth
+  const logoWidth = (nav.querySelector('.logo-container') as HTMLElement).offsetWidth
+  const minNavWidthToIncludeAllItems = navItemWidth * navItemsQty + logoWidth + 50
+  nav.style.width = minNavWidthToIncludeAllItems + 'px'
 
-  // get width when hide icons
-  while (!isOverflown(logo)) shrinkElementSlightly(nav)
-  const screenWidthWhenHideIcon = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-  const iconWrappers = nav.querySelectorAll('.icon-round-wrapper')
-  const iconWrappersArr = Array.from(iconWrappers)
-  iconWrappersArr.forEach((el) => { (el as HTMLElement).style.display = 'none' })
-  nav.style.width = nav.offsetWidth + 100 + 'px'
-
-  // get width when hide text
-  while (!isOverflown(logo)) shrinkElementSlightly(nav)
-  const screenWidthWhenHideText = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-  const navItems = nav.querySelectorAll('.nav-item-name')
-  const navItemsArr = Array.from(navItems)
-  navItemsArr.forEach((el) => { (el as HTMLElement).style.display = 'none' })
-  iconWrappersArr.forEach((el) => { (el as HTMLElement).style.display = '' })
-  nav.style.width = nav.offsetWidth + 100 + 'px'
-
-  // get width when show burger
-  while (!isOverflown(logo)) shrinkElementSlightly(nav)
-  const screenWidthWhenDisplayBurger = nav.offsetWidth + gapAfterLogoWhenMediaQueryKicksIn
-
-  // show elements back on screen after calculation
-  aptExt.setAttribute('style', '')
-  uotation.setAttribute('style', '')
-  iconWrappersArr.forEach((el) => { (el as HTMLElement).setAttribute('style', '') })
-  navItemsArr.forEach((el) => { (el as HTMLElement).setAttribute('style', '') })
+  const screenWidthWhenHideLogoExtension = calcNavWidthWhenLogoIsOverlay()
+  const screenWidthWhenHideLogoPart = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.app-ext' })
+  const screenWidthWhenHideIcon = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.uotation' })
+  const screenWidthWhenHideText = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.icon-round-wrapper' })
+  const screenWidthWhenDisplayBurger = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.nav-item-name', elsToShowClass: '.icon-round-wrapper' })
+  nav.querySelectorAll('.app-ext, .uotation, .icon-round-wrapper, .nav-item-name').forEach(el => el.setAttribute('style', ''))
   nav.setAttribute('style', '')
 
   return {
