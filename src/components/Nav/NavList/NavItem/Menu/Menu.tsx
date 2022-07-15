@@ -25,12 +25,12 @@ export function Menu() {
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
 
   return (
-      <MenuStyled ref={menuContainerRef} isMenuOutsideWindowState={isMenuOutsideWindowState} className='drop-down-nav-menu'>
-        <TopMenuItemsContainer goUpInMenu={goUpInMenu} />
-        <SlidableMenuItemsContainer reference={currentMenuRef} menu={currentMenu} goDownInMenu={goDownInMenu} className='slidable current' />
-        <SlidableMenuItemsContainer reference={nextMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='slidable next' />
-        <SlidableMenuItemsContainer reference={fakeMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='measurable-div' />
-      </MenuStyled>
+    <MenuStyled ref={menuContainerRef} isMenuOutsideWindowState={isMenuOutsideWindowState} className='drop-down-nav-menu'>
+      <TopMenuItemsContainer goUpInMenu={goUpInMenu} />
+      <SlidableMenuItemsContainer reference={currentMenuRef} menu={currentMenu} goDownInMenu={goDownInMenu} className='slidable current' />
+      <SlidableMenuItemsContainer reference={nextMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='slidable next' />
+      <SlidableMenuItemsContainer reference={fakeMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='measurable-div' />
+    </MenuStyled>
   )
 }
 

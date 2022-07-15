@@ -45,9 +45,11 @@ export const {
   setNavItemRightPos,
   openMenu,
   closeMenu,
-  // such split into current and next menu is needed for menu slide effect, coz we actually have two parallel menus
+  // we track the state of 'current' and 'next' menus for the slide effect, coz we actually have two parallel menus
+  // 1st menu state
   goDownInCurrentMenu,
   goUpInCurrentMenu,
+  // 2nd menu state
   goDownInNextMenu,
   goUpInNextMenu
 } = navSlice.actions
