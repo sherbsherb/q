@@ -4,7 +4,7 @@ import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@src/redux/slices/navSlice'
-import { calcNavMediaQueryParams } from './calcNavMediaQueryParams'
+import { calcNavMediaQueryParams } from './functions/calcNavMediaQueryParams'
 
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>

@@ -12,7 +12,7 @@ import { MenuItem } from './MenuItem'
 import { elementHeight } from '@functions/elementHeight'
 import { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
-import { getClickedMenu } from './getClickedMenu'
+import { getClickedMenu } from './functions/getClickedMenu'
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -49,9 +49,9 @@ export function Menu() {
   }
 
   function goUpInMenuAnimate() {
-    dispatch(goUpInNextMenu())
     type Function = () => void
     const cb: Function = () => dispatch(goUpInCurrentMenu())
+    dispatch(goUpInNextMenu())
     gsap.fromTo(currentMenuRef.current, { xPercent: 0 }, { duration, xPercent: 100 })
     gsap.fromTo(nextMenuRef.current, { xPercent: -200 }, { duration, xPercent: -100, onComplete: cb })
   }
@@ -65,7 +65,7 @@ export function Menu() {
   * - 'fakeMenuRef' is absolutely positioned far way out of the view
   * - on initial render we do not animate height (duration: 0)
   * - if we navigate inside menu then we animate height (duration: 0.5)
-  * - height animation is triggered every time 'nextMenuRef' is updated
+  * - height animation is triggered every time 'nextMenu' state is updated
   */
 
   function animateMenuHeight() {

@@ -24,8 +24,7 @@ export function calcNavMediaQueryParams(nav: HTMLElement, logo: HTMLElement) {
         break
       }
     }
-    const navWidth = nav.offsetWidth
-    return navWidth + 30
+    return nav.offsetWidth + 50
   }
 
   // calc init min nav width to accumulate all elements
