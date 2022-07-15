@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { theme } from '@src/theme'
-import { store } from '@src/redux/store'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { closeMenu } from '@src/redux/slices/navSlice'
 import { useEffect, useRef } from 'react'
@@ -11,6 +10,7 @@ import { MenuType } from '@components/Nav/navStructure'
 import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { getClickedMenu } from './functions/getClickedMenu'
 import { useMenuNavigation } from './useMenuNavigation'
+import { useKeyShortcuts } from './useKeyShortcuts'
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -23,31 +23,8 @@ export function Menu() {
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
   const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
   const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
-
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-
-  // #region KEYBOARD
-
-  function keyShortcutsForMenu() {
-    window.addEventListener('keydown', navKeyboardHandler)
-    return () => { window.removeEventListener('keydown', navKeyboardHandler) }
-  }
-
-  function navKeyboardHandler(e: KeyboardEvent) {
-    const isNestedMenu = store.getState().nav.idsToCurrentMenu.length > 2
-
-    if (isNestedMenu && e.key === 'Backspace') {
-      goUpInMenu()
-      return
-    }
-    if ((!isNestedMenu && e.key === 'Backspace') || e.key === 'Escape') {
-      dispatch(closeMenu())
-    }
-  }
-
-  useEffect(keyShortcutsForMenu, [])
-
-  // #endregion
+  useKeyShortcuts({ goUpInMenu, closeMenu })
 
   // #region CLOSE MENU ON CLICK OUTSIDE
 
