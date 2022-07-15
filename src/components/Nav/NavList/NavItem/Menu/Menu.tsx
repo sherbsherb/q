@@ -1,20 +1,17 @@
 import styled from 'styled-components'
 import { theme } from '@src/theme'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { closeMenu } from '@src/redux/slices/navSlice'
-import { useEffect, useRef } from 'react'
+import { useSelectorTyped as useSelector } from '@store/storeHooks'
+import { useRef } from 'react'
 import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { MenuType } from '@components/Nav/navStructure'
-import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { getClickedMenu } from './functions/getClickedMenu'
 import { useMenuNavigation } from './useMenuNavigation'
 import { useKeyShortcuts } from './useKeyShortcuts'
 import { useCloseMenuOnClickOutside } from './useCloseMenuOnClickOutside'
 
 export function Menu() {
-  const dispatch = useDispatchTyped()
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
