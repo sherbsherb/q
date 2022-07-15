@@ -5,15 +5,15 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { theme } from '@src/theme'
 
 type BackMenuItemType = {
-  goUpInMenuAnimate: () => void
+  goUpInMenu: () => void
 }
 
-export function BackMenuItem({ goUpInMenuAnimate }: BackMenuItemType) {
+export function BackMenuItem({ goUpInMenu }: BackMenuItemType) {
   const color = theme.colors.closeAndBackMenuItems
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
-    goUpInMenuAnimate()
+    goUpInMenu()
   }
 
   return (

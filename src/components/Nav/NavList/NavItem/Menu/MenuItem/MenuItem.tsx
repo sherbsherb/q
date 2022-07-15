@@ -8,17 +8,17 @@ import { MenuType } from '@src/components/Nav/navStructure'
 
 type MenuItemType = {
   menu: MenuType
-  goDownInMenuAnimate?: (id: string) => void
+  goDownInMenu?: (id: string) => void
 }
 
-export function MenuItem({ menu, goDownInMenuAnimate }: MenuItemType) {
+export function MenuItem({ menu, goDownInMenu }: MenuItemType) {
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     if (!isSubMenu) return
-    goDownInMenuAnimate!(menu.id)
+    goDownInMenu!(menu.id)
   }
 
   return (
