@@ -12,6 +12,8 @@ import { useKeyShortcuts } from './functions/useKeyShortcuts'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
 
+// todo: add 'state' postfix after all reactive variables
+
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
