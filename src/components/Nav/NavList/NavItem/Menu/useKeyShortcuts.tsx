@@ -1,14 +1,13 @@
-import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit'
 import { store } from '@src/redux/store'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { useEffect } from 'react'
+import { closeMenu } from '@src/redux/slices/navSlice'
 
 type Props = {
   goUpInMenu: () => void
-  closeMenu: ActionCreatorWithoutPayload<string>
 }
 
-export function useKeyShortcuts({ goUpInMenu, closeMenu }: Props) {
+export function useKeyShortcuts({ goUpInMenu }: Props) {
   const dispatch = useDispatchTyped()
 
   function keyShortcutsForMenu() {

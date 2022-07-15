@@ -11,6 +11,7 @@ import { isClickInsideThisElement } from '@functions/isClickInsideThisElement'
 import { getClickedMenu } from './functions/getClickedMenu'
 import { useMenuNavigation } from './useMenuNavigation'
 import { useKeyShortcuts } from './useKeyShortcuts'
+import { useCloseMenuOnClickOutside } from './useCloseMenuOnClickOutside'
 
 export function Menu() {
   const dispatch = useDispatchTyped()
@@ -24,40 +25,8 @@ export function Menu() {
   const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
   const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-  useKeyShortcuts({ goUpInMenu, closeMenu })
-
-  // #region CLOSE MENU ON CLICK OUTSIDE
-
-  /**
-     * @descriptions
-     * - menu is absolutely positioned inside NavItem li element
-     * - if click outside menu - close
-     * - if click on navItem do not close, but close it in NavItem onClick handler, otherwise it closes and opens immediately
-     */
-
-  function mouseDownHandler(e: MouseEvent) {
-    const menu = menuContainerRef.current
-    if (!menu) return
-    const navItem = menuContainerRef.current.parentElement
-    if (!navItem) return
-    const clickedEl = e.target as HTMLElement
-    const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
-    if (isClickOnOpenedNavItem) return
-    if (!isClickInsideThisElement(clickedEl, menu)) {
-      dispatch(closeMenu())
-    }
-  }
-
-  function hideMenuOnClickOutside() {
-    document.addEventListener('mousedown', mouseDownHandler)
-    return () => { document.removeEventListener('mousedown', mouseDownHandler) }
-  }
-  useEffect(hideMenuOnClickOutside, [])
-
-  // #endregion
-
-  // #region CHECK IF MENU GOES OUTSIDE WINDOW
-
+  useKeyShortcuts({ goUpInMenu })
+  useCloseMenuOnClickOutside({ menuContainerRef })
   /**
   * check if menu width is more than distance to the left side of the window
   * @descriptions
@@ -66,11 +35,7 @@ export function Menu() {
   * - if window is narrow, then menu can go over the screen's left side
   * - if so, we can fix 'left' side of the menu, instead of 'right'
   */
-
-  const menuWidth = theme.menu.width
-  const isMenuOutsideWindow = menuWidth > navItemRightPos
-
-  // #endregion
+  const isMenuOutsideWindow = theme.menu.width > navItemRightPos
 
   return (
       <MenuStyled
