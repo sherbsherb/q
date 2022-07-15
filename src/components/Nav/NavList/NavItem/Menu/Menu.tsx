@@ -7,9 +7,10 @@ import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 import { MenuItem } from './MenuItem'
 import { MenuType } from '@components/Nav/navStructure'
 import { getClickedMenu } from './functions/getClickedMenu'
-import { useMenuNavigation } from './useMenuNavigation'
-import { useKeyShortcuts } from './useKeyShortcuts'
-import { useCloseMenuOnClickOutside } from './useCloseMenuOnClickOutside'
+import { useMenuNavigation } from './functions/useMenuNavigation'
+import { useKeyShortcuts } from './functions/useKeyShortcuts'
+import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
+import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -19,26 +20,17 @@ export function Menu() {
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
   const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
-  const navItemRightPos = useSelector(state => state.nav.navItemRightPos)
   const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
   useKeyShortcuts({ goUpInMenu })
   useCloseMenuOnClickOutside({ menuContainerRef })
-  /**
-  * check if menu width is more than distance to the left side of the window
-  * @descriptions
-  * - on NavItem click we store its 'right' position
-  * - menu is absolute positioned below <li> and has same 'right' position
-  * - if window is narrow, then menu can go over the screen's left side
-  * - if so, we can fix 'left' side of the menu, instead of 'right'
-  */
-  const isMenuOutsideWindow = theme.menu.width > navItemRightPos
+  const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
 
   return (
       <MenuStyled
         className='drop-down-nav-menu'
         ref={menuContainerRef}
-        isMenuOutsideWindow={isMenuOutsideWindow}
+        isMenuOutsideWindowState={isMenuOutsideWindowState}
       >
 
         <div className='non-slidable'>
@@ -87,7 +79,7 @@ export function Menu() {
 }
 
 type PropsForSC = {
-  isMenuOutsideWindow: boolean
+  isMenuOutsideWindowState: boolean
 }
 
 export const MenuStyled = styled.div<PropsForSC>`
@@ -95,7 +87,7 @@ export const MenuStyled = styled.div<PropsForSC>`
   top: calc(100% + 5px);
   right: 0px;
   /* if right corner goes over the screen fix the left instead of right */
-  left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
+  left: ${props => props.isMenuOutsideWindowState ? '0' : 'not set'};
   width: ${theme.menu.width}px;
   padding-top: ${theme.menu.paddingTop}px;
   padding-bottom: ${theme.menu.paddingBottom}px;
