@@ -60,7 +60,7 @@ export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRe
   function animateMenuHeight() {
     gsap.to(menuContainerRef.current, {
       duration: isInitRender ? 0 : duration,
-      height: elementHeight(fakeMenuRef.current) + theme.menu.paddingTop + theme.menu.paddingBottom
+      height: elementHeight(fakeMenuRef.current) + theme.menu.paddingTop + theme.menu.paddingBottom + theme.menu.menuItem.height
     })
   }
 

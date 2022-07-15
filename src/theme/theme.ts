@@ -9,6 +9,9 @@ export const theme: DefaultTheme = {
   menu: {
     width: 300,
     paddingTop: 16,
-    paddingBottom: 16
+    paddingBottom: 16,
+    menuItem: {
+      height: 50
+    }
   }
 }

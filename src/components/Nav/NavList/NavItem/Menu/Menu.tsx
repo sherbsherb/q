@@ -2,15 +2,13 @@ import styled from 'styled-components'
 import { theme } from '@src/theme'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { BackMenuItem } from './MenuItem/BackMenuItem'
-import { CloseMenuItem } from './MenuItem/CloseMenuItem'
-import { MenuItem } from './MenuItem'
-import { MenuType } from '@components/Nav/navStructure'
 import { getClickedMenu } from './functions/getClickedMenu'
 import { useMenuNavigation } from './functions/useMenuNavigation'
 import { useKeyShortcuts } from './functions/useKeyShortcuts'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
+import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
+import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 
 // todo: add 'state' postfix after all reactive variables
 
@@ -21,61 +19,17 @@ export function Menu() {
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
-  const isNestedMenu = useSelector(state => state.nav.idsToNextMenu.length > 2)
-  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
   useKeyShortcuts({ goUpInMenu })
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
 
   return (
-      <MenuStyled
-        className='drop-down-nav-menu'
-        ref={menuContainerRef}
-        isMenuOutsideWindowState={isMenuOutsideWindowState}
-      >
-
-        <div className='non-slidable'>
-          {isNestedMenu ? <BackMenuItem goUpInMenu={goUpInMenu}/> : <CloseMenuItem />}
-        </div>
-
-        <div ref={currentMenuRef} className='slidable current'>
-          {currentMenu.map((menu: MenuType) => {
-            const isVisible = !hiddenItemNames.includes(menu.name || '')
-            return isVisible && (
-            <MenuItem
-              menu={menu}
-              key={menu.id}
-              goDownInMenu={goDownInMenu}
-            />)
-          })}
-        </div>
-
-        <div ref={nextMenuRef} className='slidable next'>
-          {nextMenu.map((menu: MenuType) => {
-            const isVisible = !hiddenItemNames.includes(menu.name || '')
-            return isVisible && (
-            <MenuItem
-              menu={menu}
-              key={menu.id}
-              goDownInMenu={goDownInMenu}
-            />)
-          }
-          )}
-        </div>
-
-        <div ref={fakeMenuRef} className='measurable-div'>
-          <CloseMenuItem />
-          {nextMenu.map((menu: MenuType) => {
-            const isVisible = !hiddenItemNames.includes(menu.name || '')
-            return isVisible && (
-            <MenuItem
-              menu={menu}
-              key={menu.id}
-            />)
-          }
-          )}
-        </div>
+      <MenuStyled ref={menuContainerRef} isMenuOutsideWindowState={isMenuOutsideWindowState} className='drop-down-nav-menu'>
+        <TopMenuItemsContainer goUpInMenu={goUpInMenu} />
+        <SlidableMenuItemsContainer reference={currentMenuRef} menu={currentMenu} goDownInMenu={goDownInMenu} className='slidable current' />
+        <SlidableMenuItemsContainer reference={nextMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='slidable next' />
+        <SlidableMenuItemsContainer reference={fakeMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='measurable-div' />
       </MenuStyled>
   )
 }

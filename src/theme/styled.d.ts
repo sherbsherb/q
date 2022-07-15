@@ -14,6 +14,9 @@ declare module 'styled-components' {
       width: number
       paddingTop: number
       paddingBottom: number
+      menuItem: {
+        height: number
+      }
     }
   }
 }

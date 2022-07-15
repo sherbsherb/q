@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const MenuItemStyled = styled.a`
   position: relative;
-  height: 50px;
+  height: ${props => props.theme.menu.menuItem.height}px;
   display: flex;
   align-items: center;
   border-radius: 8px;
