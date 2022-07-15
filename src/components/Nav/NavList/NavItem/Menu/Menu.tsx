@@ -86,8 +86,6 @@ export function Menu() {
   )
 }
 
-// #region CSS
-
 type PropsForSC = {
   isMenuOutsideWindow: boolean
 }
@@ -129,5 +127,3 @@ export const MenuStyled = styled.div<PropsForSC>`
     transform: translateX(9999px);
   }
 `
-
-// #endregion
