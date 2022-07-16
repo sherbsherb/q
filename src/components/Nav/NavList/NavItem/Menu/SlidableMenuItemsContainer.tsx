@@ -24,7 +24,7 @@ export function SlidableMenuItemsContainer({ reference, menu, goDownInMenu, clas
               menu={menu}
               key={menu.id}
               goDownInMenu={goDownInMenu}
-              index={index + 2}
+              hoveredMenuItemIndex={index + 2}
             />
           )
         })

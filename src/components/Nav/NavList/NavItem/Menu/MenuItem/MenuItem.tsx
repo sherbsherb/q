@@ -11,12 +11,12 @@ import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeH
 type MenuItemType = {
   menu: MenuType
   goDownInMenu?: (id: string) => void
-  index: number
+  hoveredMenuItemIndex: number
 }
 
-export function MenuItem({ menu, goDownInMenu, index }: MenuItemType) {
+export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemType) {
   const dispatch = useDispatchTyped()
-  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === index)
+  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
@@ -30,7 +30,7 @@ export function MenuItem({ menu, goDownInMenu, index }: MenuItemType) {
     <MenuItemStyled
       href="/"
       onClick={onClickHandler}
-      onMouseEnter={() => dispatch(setMenuItemHoverIndex(index))}
+      onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHovered}
     >
       {isIcon && <Icon icon={menu.icon} />}
