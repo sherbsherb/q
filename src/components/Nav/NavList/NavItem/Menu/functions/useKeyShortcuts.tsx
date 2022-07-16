@@ -39,23 +39,21 @@ export function useKeyShortcuts({ goUpInMenu }: Props) {
     if (e.key === 'ArrowRight') {
       return
     }
-    if (e.key === 'ArrowRight') {
-      return
-    }
     if (e.key === 'Enter') {
       return
     }
-    const isNestedMenu = store.getState().nav.idsToCurrentMenu.length > 2
+    const isNestedMenu = store.getState().nav.idsToNextMenu.length > 2
+    console.log('isNestedMenu', isNestedMenu)
     if (isNestedMenu && e.key === 'Backspace') {
-      goUpInMenu()
-      return
-    }
-    if (isNestedMenu && e.key === 'ArrowLeft') {
       goUpInMenu()
       return
     }
     if ((!isNestedMenu && e.key === 'Backspace')) {
       dispatch(closeMenu())
+      return
+    }
+    if (isNestedMenu && e.key === 'ArrowLeft') {
+      goUpInMenu()
       return
     }
     if ((!isNestedMenu && e.key === 'ArrowLeft')) {

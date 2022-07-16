@@ -46,7 +46,6 @@ export function NavItem({ children, id }: NavItemType) {
     const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
-      console.log('why???')
       dispatch(closeMenu())
       return
     }
