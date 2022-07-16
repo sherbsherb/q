@@ -2,37 +2,38 @@ import { store } from '@src/redux/store'
 import { useDispatchTyped } from '@src/redux/store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
-import { MenuType } from '@src/components/Nav/navStructure'
+import { getClickedMenu } from './getClickedMenu'
 
 type Props = {
   goUpInMenu: () => void
-  currentMenu: MenuType[]
 }
 
-export function useKeyShortcuts({ goUpInMenu, currentMenu }: Props) {
+export function useKeyShortcuts({ goUpInMenu }: Props) {
   const dispatch = useDispatchTyped()
 
   function navKeyboardHandler(e: KeyboardEvent) {
-    if (e.key === 'ArrowUp') {
-      e.preventDefault() // do not scroll window while navigating menu
-      const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
-      const menuItemsQty = currentMenu.length + 1
-      if (hoveredMenuItemIndex === 1) {
-        dispatch(setMenuItemHoverIndex(menuItemsQty))
-        return
-      }
-      dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex - 1))
-      return
-    }
+    const currentMenu = getClickedMenu(store.getState().nav.idsToCurrentMenu)
+    const menuItemsQty = currentMenu.length + 1
+    const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
+    const isTopMenuItem = hoveredMenuItemIndex === 1
+    const isLastMenuItem = hoveredMenuItemIndex === menuItemsQty
+
     if (e.key === 'ArrowDown') {
       e.preventDefault() // do not scroll window while navigating menu
-      const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
-      const menuItemsQty = currentMenu.length + 1
-      if (hoveredMenuItemIndex === menuItemsQty) {
+      if (isLastMenuItem) {
         dispatch(setMenuItemHoverIndex(1))
         return
       }
       dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex + 1))
+      return
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault() // do not scroll window while navigating menu
+      if (isTopMenuItem) {
+        dispatch(setMenuItemHoverIndex(menuItemsQty))
+        return
+      }
+      dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex - 1))
       return
     }
     if (e.key === 'ArrowRight') {

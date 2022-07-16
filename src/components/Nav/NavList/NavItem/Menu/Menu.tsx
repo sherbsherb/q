@@ -12,6 +12,7 @@ import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
 
 // todo: add 'state' postfix after all reactive variables
+// todo: do not pass menu, just find it based on store ids chain
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -21,7 +22,7 @@ export function Menu() {
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-  useKeyShortcuts({ goUpInMenu, currentMenu })
+  useKeyShortcuts({ goUpInMenu })
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
   const dispatch = useDispatchTyped()
