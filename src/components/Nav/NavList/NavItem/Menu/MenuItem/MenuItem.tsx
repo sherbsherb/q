@@ -20,7 +20,7 @@ export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemT
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
-  const onClickHandler = (e: React.MouseEvent) => {
+  const onMenuItemClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
     if (!isSubMenu) return
     goDownInMenu!(menu.id)
@@ -29,7 +29,7 @@ export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemT
   return (
     <MenuItemStyled
       href="/"
-      onClick={onClickHandler}
+      onClick={onMenuItemClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHovered}
     >

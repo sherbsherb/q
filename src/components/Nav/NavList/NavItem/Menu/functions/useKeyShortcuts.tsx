@@ -29,7 +29,7 @@ export function useKeyShortcuts({ goUpInMenu }: Props) {
     }
     if (e.key === 'ArrowUp') {
       e.preventDefault() // do not scroll window while navigating menu
-      if (isTopMenuItem) {
+      if (isTopMenuItem || hoveredMenuItemIndex === 0) {
         dispatch(setMenuItemHoverIndex(menuItemsQty))
         return
       }
