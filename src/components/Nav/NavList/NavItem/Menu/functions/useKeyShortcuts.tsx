@@ -17,7 +17,6 @@ export function useKeyShortcuts({ goUpInMenu, goDownInMenu }: Props) {
     const currentMenu = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenu)
     const menuItemsQty = currentMenu.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
-    console.log(hoveredMenuItemIndex)
 
     if (e.key === 'ArrowDown') {
       e.preventDefault()
