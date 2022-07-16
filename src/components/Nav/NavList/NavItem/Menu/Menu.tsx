@@ -13,6 +13,7 @@ import { setMenuItemHoverIndex } from '@slices/navSlice'
 
 // todo: add 'state' postfix after all reactive variables
 // todo: do not pass menu, just find it based on store ids chain
+// todo: on key strike on menu highlight first item in menu
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>

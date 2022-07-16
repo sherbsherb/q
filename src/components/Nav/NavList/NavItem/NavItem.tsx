@@ -39,10 +39,11 @@ export function NavItem({ children, id }: NavItemType) {
   const link = navItem?.link
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    if (link) return
+    (document.activeElement as HTMLElement).blur()
     e.preventDefault()
-    console.log('clicked id: ', id)
-    // if we click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
+
+    if (link) return
+    // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
     const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
@@ -60,6 +61,9 @@ export function NavItem({ children, id }: NavItemType) {
     // open the menu and determine its position (right: 0 OR left: 0)
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
+    console.log(e)
+    console.log('e.target', e.target)
+    console.log('e.currentTarget', e.currentTarget)
     dispatch(openMenu(id))
   }
 
