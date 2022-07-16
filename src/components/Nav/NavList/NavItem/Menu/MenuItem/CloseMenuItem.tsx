@@ -3,7 +3,7 @@ import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { CgClose as CloseIcon } from 'react-icons/cg'
 import { MenuItemStyled } from './MenuItemStyled'
-import { closeMenu, menuItemHoverIndexChange } from '@src/redux/slices/navSlice'
+import { closeMenu, setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 
@@ -12,7 +12,7 @@ const closeIcon = createElement(CloseIcon, {})
 export function CloseMenuItem() {
   const color = theme.colors.closeAndBackMenuItems
   const dispatch = useDispatchTyped()
-  const menuItemHoverIndex = useSelector(state => state.nav.menuItemHoverIndex)
+  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === 1)
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -23,9 +23,9 @@ export function CloseMenuItem() {
     <MenuItemStyled
       href="/"
       onClick={onClickHandler}
-      onMouseEnter={() => dispatch(menuItemHoverIndexChange(1))}
-      onMouseLeave={() => dispatch(menuItemHoverIndexChange(0))}
-      hovered={menuItemHoverIndex === 1}
+      onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
+      onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
+      isHovered={isHovered}
     >
       <Icon icon={closeIcon} />
       <TextInMenu name={<span style={{ color }}>Close</span>} />

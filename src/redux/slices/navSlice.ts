@@ -26,12 +26,13 @@ const navSlice = createSlice({
     closeMenu: (state) => {
       state.idsToNextMenu = state.idsToCurrentMenu = ['top']
       state.burger.isOpen = false
+      state.menuItemHoverIndex = 0
     },
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
     goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
     goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) },
-    menuItemHoverIndexChange: (state, action) => { state.menuItemHoverIndex = action.payload }
+    setMenuItemHoverIndex: (state, action) => { state.menuItemHoverIndex = action.payload }
   }
 })
 
@@ -54,5 +55,5 @@ export const {
   // 2nd menu state
   goDownInNextMenu,
   goUpInNextMenu,
-  menuItemHoverIndexChange
+  setMenuItemHoverIndex
 } = navSlice.actions

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { theme } from '@src/theme'
-import { useSelectorTyped as useSelector } from '@store/storeHooks'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
 import { getClickedMenu } from './functions/getClickedMenu'
 import { useMenuNavigation } from './functions/useMenuNavigation'
@@ -9,6 +9,7 @@ import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutsi
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
 import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
 import { TopMenuItemsContainer } from './TopMenuItemsContainer'
+import { setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
 
 // todo: add 'state' postfix after all reactive variables
 
@@ -20,16 +21,38 @@ export function Menu() {
   const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-  useKeyShortcuts({ goUpInMenu })
+  useKeyShortcuts({ goUpInMenu, currentMenu })
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
+  const dispatch = useDispatchTyped()
 
   return (
-    <MenuStyled ref={menuContainerRef} isMenuOutsideWindowState={isMenuOutsideWindowState} className='drop-down-nav-menu'>
+    <MenuStyled
+      ref={menuContainerRef}
+      isMenuOutsideWindowState={isMenuOutsideWindowState}
+      onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
+      className='drop-down-nav-menu'
+    >
       <TopMenuItemsContainer goUpInMenu={goUpInMenu} />
-      <SlidableMenuItemsContainer reference={currentMenuRef} menu={currentMenu} goDownInMenu={goDownInMenu} className='slidable current' />
-      <SlidableMenuItemsContainer reference={nextMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='slidable next' />
-      <SlidableMenuItemsContainer reference={fakeMenuRef} menu={nextMenu} goDownInMenu={goDownInMenu} className='measurable-div' />
+      <SlidableMenuItemsContainer
+        reference={currentMenuRef}
+        menu={currentMenu}
+        goDownInMenu={goDownInMenu}
+        className='slidable current'
+      />
+      <SlidableMenuItemsContainer
+        reference={nextMenuRef}
+        menu={nextMenu}
+        goDownInMenu={goDownInMenu}
+        className='slidable
+        next'
+      />
+      <SlidableMenuItemsContainer
+        reference={fakeMenuRef}
+        menu={nextMenu}
+        goDownInMenu={goDownInMenu}
+        className='measurable-div'
+      />
     </MenuStyled>
   )
 }

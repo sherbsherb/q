@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 type PropsForSC = {
-  hovered: boolean
+  isHovered: boolean
 }
 
 export const MenuItemStyled = styled.a<PropsForSC>`
@@ -15,6 +15,6 @@ export const MenuItemStyled = styled.a<PropsForSC>`
   color: #dadce1;
   white-space: nowrap;
   text-decoration: none;
-  background-color: ${props => props.hovered ? '#525357' : 'initial'};
-  transition: background-color 0.5s;
+  background-color: ${props => props.isHovered ? '#525357' : 'initial'};
+  filter: ${props => props.isHovered ? 'brightness(1.2)' : 'none'};
 `

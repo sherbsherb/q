@@ -46,6 +46,7 @@ export function NavItem({ children, id }: NavItemType) {
     const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
+      console.log('why???')
       dispatch(closeMenu())
       return
     }
@@ -84,7 +85,7 @@ const LiStyled = styled.li`
   margin-left: 10px;
   user-select: none;
 
-  a {
+  & > a {
     display: flex;
     align-items: center;
     text-decoration: none;

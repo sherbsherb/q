@@ -57,7 +57,6 @@ const LogoContainer = styled.div<PropsForSC>`
 
       &:hover {
         color: white !important;
-        -webkit-transition: 0.3s ease;
         transition: 0.3s ease;
       }
 

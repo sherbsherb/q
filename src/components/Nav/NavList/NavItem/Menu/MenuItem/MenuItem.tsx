@@ -5,7 +5,7 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import { MenuType } from '@src/components/Nav/navStructure'
-import { menuItemHoverIndexChange } from '@src/redux/slices/navSlice'
+import { setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 
 type MenuItemType = {
@@ -16,7 +16,7 @@ type MenuItemType = {
 
 export function MenuItem({ menu, goDownInMenu, index }: MenuItemType) {
   const dispatch = useDispatchTyped()
-  const menuItemHoverIndex = useSelector(state => state.nav.menuItemHoverIndex)
+  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === index)
   const isSubMenu = !!menu.menu
   const isIcon = !!menu.icon
 
@@ -30,9 +30,8 @@ export function MenuItem({ menu, goDownInMenu, index }: MenuItemType) {
     <MenuItemStyled
       href="/"
       onClick={onClickHandler}
-      onMouseEnter={() => dispatch(menuItemHoverIndexChange(index))}
-      onMouseLeave={() => dispatch(menuItemHoverIndexChange(0))}
-      hovered={menuItemHoverIndex === index}
+      onMouseEnter={() => dispatch(setMenuItemHoverIndex(index))}
+      isHovered={isHovered}
     >
       {isIcon && <Icon icon={menu.icon} />}
       <TextInMenu reserveSpaceForIcon={isSubMenu} name={menu.name} />
