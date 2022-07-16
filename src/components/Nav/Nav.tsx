@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@src/redux/slices/navSlice'
+import { setScreenWidthWhenDisplayBurger, setScreenWidthWhenHideIcon, setScreenWidthWhenHideLogoExtension, setScreenWidthWhenHideLogoPart, setScreenWidthWhenHideText } from '@slices/navSlice'
 import { calcNavMediaQueryParams } from './functions/calcNavMediaQueryParams'
 
 export function Nav() {

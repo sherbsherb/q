@@ -1,7 +1,7 @@
-import { store } from '@src/redux/store'
-import { useDispatchTyped } from '@src/redux/store/storeHooks'
+import { store } from '@redux/store'
+import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
-import { closeMenu, setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
+import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getClickedMenu } from './getClickedMenu'
 
 type Props = {

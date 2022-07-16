@@ -1,11 +1,11 @@
 import { elementHeight } from '@src/functions/elementHeight'
-import { goDownInCurrentMenu, goDownInNextMenu, goUpInCurrentMenu, goUpInNextMenu } from '@src/redux/slices/navSlice'
-import { useDispatchTyped } from '@src/redux/store/storeHooks'
+import { goDownInCurrentMenu, goDownInNextMenu, goUpInCurrentMenu, goUpInNextMenu } from '@slices/navSlice'
+import { useDispatchTyped } from '@store/storeHooks'
 import { theme } from '@src/theme'
 import { gsap } from 'gsap'
 import { useIsInitRender } from '@hooks/useIsInitRender'
 import { useEffect } from 'react'
-import { MenuType } from '@src/components/Nav/navStructure'
+import { MenuType } from '@components/Nav/navStructure'
 
 type PropsType = {
   currentMenuRef: React.MutableRefObject<HTMLDivElement>

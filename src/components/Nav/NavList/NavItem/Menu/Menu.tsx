@@ -9,7 +9,7 @@ import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutsi
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
 import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
 import { TopMenuItemsContainer } from './TopMenuItemsContainer'
-import { setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
+import { setMenuItemHoverIndex } from '@slices/navSlice'
 
 // todo: add 'state' postfix after all reactive variables
 // todo: do not pass menu, just find it based on store ids chain

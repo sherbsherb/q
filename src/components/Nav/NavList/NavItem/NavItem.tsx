@@ -1,12 +1,12 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { setNavItemRightPos, openMenu, closeMenu } from '@src/redux/slices/navSlice'
+import { setNavItemRightPos, openMenu, closeMenu } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
 import { navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
-import { store } from '@src/redux/store'
+import { store } from '@redux/store'
 
 type NavItemType = {
   children?: React.ReactNode,

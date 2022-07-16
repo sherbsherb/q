@@ -1,4 +1,4 @@
-import { useSelectorTyped } from '@src/redux/store/storeHooks'
+import { useSelectorTyped } from '@store/storeHooks'
 import styled from 'styled-components'
 
 type Prop = {

@@ -3,7 +3,7 @@ import { TextInMenu } from './TextInMenu'
 import { Icon } from '../../Icon'
 import { CgClose as CloseIcon } from 'react-icons/cg'
 import { MenuItemStyled } from './MenuItemStyled'
-import { closeMenu, setMenuItemHoverIndex } from '@src/redux/slices/navSlice'
+import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 

@@ -1,4 +1,4 @@
-import { MenuType } from '@src/components/Nav/navStructure'
+import { MenuType } from '@components/Nav/navStructure'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
 import { MenuItem } from './MenuItem'
 
@@ -14,11 +14,11 @@ export function SlidableMenuItemsContainer({ reference, menu, goDownInMenu, clas
   return (
     <div ref={reference} className={className}>
       {menu
-        .filter((menu: MenuType) => {
+        .filter(menu => {
           const isVisible = !hiddenItemNames.includes(menu.name || '')
           return isVisible
         })
-        .map((menu: MenuType, index) => {
+        .map((menu, index) => {
           return (
             <MenuItem
               menu={menu}

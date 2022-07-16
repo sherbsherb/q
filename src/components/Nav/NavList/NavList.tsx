@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { MenuType, navStructure } from '../navStructure'
 import { NavItem } from './NavItem'
 import { Burger } from './NavItem/Burger'
-import { useSelectorTyped as useSelector } from '@src/redux/store/storeHooks'
+import { useSelectorTyped as useSelector } from '@store/storeHooks'
 
 export function NavList() {
   const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)

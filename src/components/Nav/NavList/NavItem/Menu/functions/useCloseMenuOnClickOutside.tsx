@@ -1,7 +1,7 @@
 import { isClickInsideThisElement } from '@src/functions/isClickInsideThisElement'
-import { useDispatchTyped } from '@src/redux/store/storeHooks'
+import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
-import { closeMenu } from '@src/redux/slices/navSlice'
+import { closeMenu } from '@slices/navSlice'
 
 type Props = {
   menuContainerRef: React.MutableRefObject<HTMLDivElement>
