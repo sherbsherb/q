@@ -16,4 +16,5 @@ export const MenuItemStyled = styled.a<PropsForSC>`
   white-space: nowrap;
   text-decoration: none;
   background-color: ${props => props.hovered ? '#525357' : 'initial'};
+  transition: background-color 0.5s;
 `
