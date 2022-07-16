@@ -6,7 +6,8 @@ const initialState = {
   idsToCurrentMenu: ['top'],
   idsToNextMenu: ['top'],
   hiddenItemNames: ['Link D'],
-  navItemRightPos: 0
+  navItemRightPos: 0,
+  menuItemHoverIndex: 0
 }
 
 const navSlice = createSlice({
@@ -29,7 +30,8 @@ const navSlice = createSlice({
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
     goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
-    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) }
+    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) },
+    menuItemHoverIndexChange: (state, action) => { state.menuItemHoverIndex = action.payload }
   }
 })
 
@@ -51,5 +53,6 @@ export const {
   goUpInCurrentMenu,
   // 2nd menu state
   goDownInNextMenu,
-  goUpInNextMenu
+  goUpInNextMenu,
+  menuItemHoverIndexChange
 } = navSlice.actions

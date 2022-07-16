@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-export const MenuItemStyled = styled.a`
+type PropsForSC = {
+  hovered: boolean
+}
+
+export const MenuItemStyled = styled.a<PropsForSC>`
   position: relative;
   height: ${props => props.theme.menu.menuItem.height}px;
   display: flex;
@@ -11,8 +15,5 @@ export const MenuItemStyled = styled.a`
   color: #dadce1;
   white-space: nowrap;
   text-decoration: none;
-
-  &:hover {
-    background-color: #525357;
-  }
+  background-color: ${props => props.hovered ? '#525357' : 'initial'};
 `
