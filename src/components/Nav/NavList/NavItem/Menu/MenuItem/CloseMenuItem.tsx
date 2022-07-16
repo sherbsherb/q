@@ -24,7 +24,6 @@ export function CloseMenuItem() {
       href="/"
       onClick={onClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
-      onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
       isHovered={isHovered}
     >
       <Icon icon={closeIcon} />

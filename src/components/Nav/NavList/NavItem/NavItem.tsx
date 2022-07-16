@@ -41,7 +41,7 @@ export function NavItem({ children, id }: NavItemType) {
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     if (link) return
     e.preventDefault()
-
+    console.log('clicked id: ', id)
     // if we click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
     const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
@@ -64,8 +64,14 @@ export function NavItem({ children, id }: NavItemType) {
   }
 
   return (
-    <LiStyled ref={navItemRef} className='nav-item'>
-      <a href={link || '/'} onClick={onClickHandler}>
+    <LiStyled
+      ref={navItemRef}
+      className='nav-item'
+    >
+      <a
+        href={link || '/'}
+        onClick={onClickHandler}
+      >
         {name && <span className='nav-item-name'>{name}</span>}
         {icon && <Icon icon={icon} />}
         {children}

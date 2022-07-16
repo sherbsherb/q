@@ -10,7 +10,7 @@ import { MenuType, navStructure } from '@components/Nav/navStructure'
  * @param idsToCurrentMenu array of menu ids from the top to the clicked one
  */
 
-export function getClickedMenu(idsToCurrentMenu: string[]) {
+export function getMenuItemByIdsChain(idsToCurrentMenu: string[]) {
   let clicked: MenuType[] = navStructure
   let tempMenu: MenuType[] = navStructure
   idsToCurrentMenu.forEach((id: string) => {

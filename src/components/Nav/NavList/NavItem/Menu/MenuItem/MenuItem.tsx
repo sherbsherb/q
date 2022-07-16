@@ -7,6 +7,7 @@ import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import { MenuType } from '@components/Nav/navStructure'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { clickOnMenuItem } from './functions/clickOnMenuItem'
 
 type MenuItemType = {
   menu: MenuType
@@ -19,17 +20,12 @@ export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemT
   const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menu.menu
   const isIcon = !!menu.icon
-
-  const onMenuItemClickHandler = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (!isNextMenuAvailable) return
-    goDownInMenu!(menu.id)
-  }
+  const menuId = menu.id
 
   return (
     <MenuItemStyled
       href="/"
-      onClick={onMenuItemClickHandler}
+      onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId, goDownInMenu }) }
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHovered}
     >

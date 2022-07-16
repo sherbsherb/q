@@ -25,7 +25,6 @@ export function BackMenuItem({ goUpInMenu }: BackMenuItemType) {
       href="/"
       onClick={onClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
-      onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
       isHovered={isHovered}
     >
       <Icon icon={<LeftArrowIcon />} />

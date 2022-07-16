@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { getClickedMenu } from './functions/getClickedMenu'
+import { getMenuItemByIdsChain } from './functions/getMenuItemByIdsChain'
 import { useMenuNavigation } from './functions/useMenuNavigation'
 import { useKeyShortcuts } from './functions/useKeyShortcuts'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
@@ -19,10 +19,10 @@ export function Menu() {
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const nextMenu = useSelector(state => getClickedMenu(state.nav.idsToNextMenu))
-  const currentMenu = useSelector(state => getClickedMenu(state.nav.idsToCurrentMenu))
+  const nextMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToNextMenu))
+  const currentMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToCurrentMenu))
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-  useKeyShortcuts({ goUpInMenu })
+  useKeyShortcuts({ goDownInMenu, goUpInMenu })
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
   const dispatch = useDispatchTyped()

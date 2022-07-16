@@ -2,24 +2,26 @@ import { store } from '@redux/store'
 import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
-import { getClickedMenu } from './getClickedMenu'
+import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
+import { clickOnMenuItem } from '../MenuItem/functions/clickOnMenuItem'
 
 type Props = {
   goUpInMenu: () => void
+  goDownInMenu?: (id: string) => void
 }
 
-export function useKeyShortcuts({ goUpInMenu }: Props) {
+export function useKeyShortcuts({ goUpInMenu, goDownInMenu }: Props) {
   const dispatch = useDispatchTyped()
 
   function navKeyboardHandler(e: KeyboardEvent) {
-    const currentMenu = getClickedMenu(store.getState().nav.idsToCurrentMenu)
+    const currentMenu = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenu)
     const menuItemsQty = currentMenu.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
-    const isTopMenuItem = hoveredMenuItemIndex === 1
-    const isLastMenuItem = hoveredMenuItemIndex === menuItemsQty
+    console.log(hoveredMenuItemIndex)
 
     if (e.key === 'ArrowDown') {
-      e.preventDefault() // do not scroll window while navigating menu
+      e.preventDefault()
+      const isLastMenuItem = hoveredMenuItemIndex === menuItemsQty
       if (isLastMenuItem) {
         dispatch(setMenuItemHoverIndex(1))
         return
@@ -27,41 +29,44 @@ export function useKeyShortcuts({ goUpInMenu }: Props) {
       dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex + 1))
       return
     }
+
     if (e.key === 'ArrowUp') {
-      e.preventDefault() // do not scroll window while navigating menu
-      if (isTopMenuItem || hoveredMenuItemIndex === 0) {
+      e.preventDefault()
+      const isTopMenuItem = hoveredMenuItemIndex < 2
+      if (isTopMenuItem) {
         dispatch(setMenuItemHoverIndex(menuItemsQty))
         return
       }
       dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex - 1))
       return
     }
-    if (e.key === 'ArrowRight') {
-      return
-    }
-    if (e.key === 'Enter') {
-      return
-    }
+
     const isNestedMenu = store.getState().nav.idsToNextMenu.length > 2
-    console.log('isNestedMenu', isNestedMenu)
     if (isNestedMenu && e.key === 'Backspace') {
       goUpInMenu()
       return
     }
+
     if ((!isNestedMenu && e.key === 'Backspace')) {
       dispatch(closeMenu())
       return
     }
-    if (isNestedMenu && e.key === 'ArrowLeft') {
-      goUpInMenu()
-      return
-    }
-    if ((!isNestedMenu && e.key === 'ArrowLeft')) {
-      dispatch(closeMenu())
-      return
-    }
+
     if (e.key === 'Escape') {
       dispatch(closeMenu())
+      return
+    }
+
+    if (e.key === 'Enter') {
+      const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenu)
+      const nextMenuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
+      clickOnMenuItem({ e, menuId: nextMenuId, goDownInMenu })
+      if (hoveredMenuItemIndex === 1 && isNestedMenu) {
+        goUpInMenu()
+      }
+      if (hoveredMenuItemIndex === 1 && !isNestedMenu) {
+        dispatch(closeMenu())
+      }
     }
   }
 
