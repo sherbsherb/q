@@ -11,8 +11,8 @@ import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { globalObject } from '@src/globalObject'
 
-// todo: problem with mediaQuery when we do not have an icon for nav
-// todo: add icon with Letter as navItem name if icon is not presented
+// todo: add shortcuts component and functionality, for whole page, not Nav component only
+// todo: onClick functions for navItem and menuItem to open href, link, trigger function 
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>

@@ -7,6 +7,7 @@ import { navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@redux/store'
+import { useWindowSize } from 'react-use'
 
 type NavItemType = {
   children?: React.ReactNode,
@@ -15,24 +16,42 @@ type NavItemType = {
 
 /**
 * @descriptions
-* - navItem gets 'menu' object from 'navStructure' array and passed in props
+* - navItem gets 'menu id' from 'navStructure'
 * - menu is placed under navItem (li)
 * - and we can open corresponding menu on click event
+* - reference to menu item <li> to pass it into menu
+* - needs to calculate how NavItem' is far from the screen to understand how to place Menu
+* - Menu can be placed with style left:0 or right:0
+* - required to avoid Menu to go over the narrow window
 */
 
 export function NavItem({ children, id }: NavItemType) {
   const dispatch = useDispatchTyped()
-  /**
-   * @constant
-   * - reference to menu item <li> to pass it into menu
-   * - needs to calculate how NavIte' is far from the screen to understand how to place Menu
-   * - Menu can be placed with style left:0 or right:0
-   * - required to avoid Menu to go over the narrow window
-   */
 
+  /**
+  * required to avoid Menu to go over the narrow window
+  */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
+
+  /**
+  * @descriptions
+  * - with media query at some width we hide names and show icons
+  * - if icon is not provided in navStructure we may generate it dynamically
+  * - do it only for such width when only icons are show
+  * - for that reason we track window's width with 'useWindowSize' hook
+  */
+  const windowWidthState = useWindowSize().width
+  const widthWhenIconsAreShown = store.getState().nav.mediaQueryWidth.icon
+  const shouldDisplayIcon = windowWidthState < widthWhenIconsAreShown
+
+  /**
+  * needs to open only menu under clicked navItem, otherwise multiple menus are opened under all navItems
+  */
   const shouldOpenThisMenuState = useSelector(state => state.nav.idsToCurrentMenuItems.at(1) === id)
 
+  /**
+  * get navItem details
+  */
   const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
   const icon = navItem?.icon
   const name = navItem?.name
@@ -74,7 +93,7 @@ export function NavItem({ children, id }: NavItemType) {
         onClick={onClickHandler}
       >
         {icon && <Icon icon={icon} />}
-        {!icon && <Icon icon={name && name[0]} />}
+        {!icon && shouldDisplayIcon && <Icon icon={name && name[0]} />}
         {name && <span className='nav-item-name'>{name}</span>}
         {children}
       </a>
