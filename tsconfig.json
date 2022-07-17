@@ -18,17 +18,17 @@
     "baseUrl": ".",
     "paths": {
       // https://github.com/aleclarson/vite-tsconfig-paths
-      "@/*": ["/*"],
-      "@src/*": ["src/*"],
+      "@globals/*": ["src/globals/*"],
       "@components/*": ["src/components/*"],
       "@components common/*": ["src/components common/*"],
       "@functions/*": ["src/functions/*"],
-      "@hooks/*": ["src/hooks/*"],
       "@redux/*": ["src/redux/*"],
       "@slices/*": ["src/redux/slices/*"],
       "@store/*": ["src/redux/store/*"],
       "@routes/*": ["src/routes/*"],
       "@utils/*": ["src/utils/*"],
+      "@src/*": ["src/*"],
+      "@/*": ["/*"],
     },
     "types": ["vite/client", "vitest/globals"]
   },

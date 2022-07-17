@@ -1,6 +1,6 @@
 // import Link from 'next/link'
 import styled from 'styled-components'
-import { setNavItemRightPos, openMenu, closeMenu } from '@slices/navSlice'
+import { setNavItemRightPos, openMenuWithId, closeMenu } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
 import { navStructure } from '../../navStructure'
@@ -39,7 +39,7 @@ export function NavItem({ children, id }: NavItemType) {
   const link = navItem?.link
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    (document.activeElement as HTMLElement).blur()
+    (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
     e.preventDefault()
 
     if (link) return
@@ -61,10 +61,7 @@ export function NavItem({ children, id }: NavItemType) {
     // open the menu and determine its position (right: 0 OR left: 0)
     const navItemRightPos = navItemRef.current.getBoundingClientRect().right
     dispatch(setNavItemRightPos(navItemRightPos))
-    console.log(e)
-    console.log('e.target', e.target)
-    console.log('e.currentTarget', e.currentTarget)
-    dispatch(openMenu(id))
+    dispatch(openMenuWithId(id))
   }
 
   return (

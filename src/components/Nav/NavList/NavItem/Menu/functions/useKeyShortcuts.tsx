@@ -4,13 +4,9 @@ import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
 import { clickOnMenuItem } from '../MenuItem/functions/clickOnMenuItem'
+import { g } from '@src/g'
 
-type Props = {
-  goUpInMenu: () => void
-  goDownInMenu?: (id: string) => void
-}
-
-export function useKeyShortcuts({ goUpInMenu, goDownInMenu }: Props) {
+export function useKeyShortcuts() {
   const dispatch = useDispatchTyped()
 
   function navKeyboardHandler(e: KeyboardEvent) {
@@ -42,7 +38,7 @@ export function useKeyShortcuts({ goUpInMenu, goDownInMenu }: Props) {
 
     const isNestedMenu = store.getState().nav.idsToNextMenu.length > 2
     if (isNestedMenu && e.key === 'Backspace') {
-      goUpInMenu()
+      g.goUpInMenu && g.goUpInMenu()
       return
     }
 
@@ -59,9 +55,9 @@ export function useKeyShortcuts({ goUpInMenu, goDownInMenu }: Props) {
     if (e.key === 'Enter') {
       const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenu)
       const nextMenuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
-      clickOnMenuItem({ e, menuId: nextMenuId, goDownInMenu })
+      clickOnMenuItem({ e, menuId: nextMenuId })
       if (hoveredMenuItemIndex === 1 && isNestedMenu) {
-        goUpInMenu()
+        g.goUpInMenu && g.goUpInMenu()
       }
       if (hoveredMenuItemIndex === 1 && !isNestedMenu) {
         dispatch(closeMenu())

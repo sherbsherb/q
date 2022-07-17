@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { g } from '@src/g'
 
 const initialState = {
   burger: { isOpen: false },
@@ -22,11 +23,12 @@ const navSlice = createSlice({
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
-    openMenu: (state, action) => { state.idsToCurrentMenu = state.idsToNextMenu = ['top', action.payload] },
+    openMenuWithId: (state, action) => { state.idsToCurrentMenu = state.idsToNextMenu = ['top', action.payload] },
     closeMenu: (state) => {
       state.idsToNextMenu = state.idsToCurrentMenu = ['top']
       state.burger.isOpen = false
       state.menuItemHoverIndex = 0
+      g.goDownInMenu = g.goUpInMenu = null
     },
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
@@ -46,7 +48,7 @@ export const {
   setScreenWidthWhenHideText,
   setScreenWidthWhenDisplayBurger,
   setNavItemRightPos,
-  openMenu,
+  openMenuWithId,
   closeMenu,
   // we track the state of 'current' and 'next' menus for the slide effect, coz we actually have two parallel menus
   // 1st menu state

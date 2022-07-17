@@ -10,6 +10,7 @@ import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowS
 import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
 import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
+import { g } from '@src/g'
 
 // todo: add 'state' postfix after all reactive variables
 // todo: do not pass menu, just find it based on store ids chain
@@ -23,7 +24,9 @@ export function Menu() {
   const nextMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToNextMenu))
   const currentMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToCurrentMenu))
   const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
-  useKeyShortcuts({ goDownInMenu, goUpInMenu })
+  g.goDownInMenu = goDownInMenu
+  g.goUpInMenu = goUpInMenu
+  useKeyShortcuts()
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
   const dispatch = useDispatchTyped()
@@ -35,24 +38,21 @@ export function Menu() {
       onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
       className='drop-down-nav-menu'
     >
-      <TopMenuItemsContainer goUpInMenu={goUpInMenu} />
+      <TopMenuItemsContainer />
       <SlidableMenuItemsContainer
         reference={currentMenuRef}
         menu={currentMenu}
-        goDownInMenu={goDownInMenu}
         className='slidable current'
       />
       <SlidableMenuItemsContainer
         reference={nextMenuRef}
         menu={nextMenu}
-        goDownInMenu={goDownInMenu}
         className='slidable
         next'
       />
       <SlidableMenuItemsContainer
         reference={fakeMenuRef}
         menu={nextMenu}
-        goDownInMenu={goDownInMenu}
         className='measurable-div'
       />
     </MenuStyled>

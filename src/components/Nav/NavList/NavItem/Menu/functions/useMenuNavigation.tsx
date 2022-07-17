@@ -3,7 +3,7 @@ import { goDownInCurrentMenu, goDownInNextMenu, goUpInCurrentMenu, goUpInNextMen
 import { useDispatchTyped } from '@store/storeHooks'
 import { theme } from '@src/theme'
 import { gsap } from 'gsap'
-import { useIsInitRender } from '@hooks/useIsInitRender'
+import { useIsInitRender } from '@src/functions/useIsInitRender'
 import { useEffect } from 'react'
 import { MenuType } from '@components/Nav/navStructure'
 

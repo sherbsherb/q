@@ -11,11 +11,10 @@ import { clickOnMenuItem } from './functions/clickOnMenuItem'
 
 type MenuItemType = {
   menu: MenuType
-  goDownInMenu?: (id: string) => void
   hoveredMenuItemIndex: number
 }
 
-export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemType) {
+export function MenuItem({ menu, hoveredMenuItemIndex }: MenuItemType) {
   const dispatch = useDispatchTyped()
   const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menu.menu
@@ -25,7 +24,7 @@ export function MenuItem({ menu, goDownInMenu, hoveredMenuItemIndex }: MenuItemT
   return (
     <MenuItemStyled
       href="/"
-      onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId, goDownInMenu }) }
+      onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId }) }
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHovered}
     >

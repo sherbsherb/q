@@ -5,19 +5,16 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { theme } from '@src/theme'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { g } from '@src/g'
 
-type BackMenuItemType = {
-  goUpInMenu: () => void
-}
-
-export function BackMenuItem({ goUpInMenu }: BackMenuItemType) {
+export function BackMenuItem() {
   const dispatch = useDispatchTyped()
   const isHovered = useSelector(state => state.nav.menuItemHoverIndex === 1)
   const color = theme.colors.closeAndBackMenuItems
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
-    goUpInMenu()
+    g.goUpInMenu && g.goUpInMenu()
   }
 
   return (
