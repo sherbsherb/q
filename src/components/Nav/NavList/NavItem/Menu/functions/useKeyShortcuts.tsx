@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
 import { clickOnMenuItem } from '../MenuItem/functions/clickOnMenuItem'
-import { g } from '@src/g'
+import { globalObject } from '@src/globalObject'
 
 export function useKeyShortcuts() {
   const dispatch = useDispatchTyped()
@@ -38,7 +38,7 @@ export function useKeyShortcuts() {
 
     const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2
     if (isNestedMenu && e.key === 'Backspace') {
-      g.goUpInMenu && g.goUpInMenu()
+      globalObject.goUpInMenu && globalObject.goUpInMenu()
       return
     }
 
@@ -57,7 +57,7 @@ export function useKeyShortcuts() {
       const nextMenuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
       clickOnMenuItem({ e, menuId: nextMenuId })
       if (hoveredMenuItemIndex === 1 && isNestedMenu) {
-        g.goUpInMenu && g.goUpInMenu()
+        globalObject.goUpInMenu && globalObject.goUpInMenu()
         return
       }
       if (hoveredMenuItemIndex === 1 && !isNestedMenu) {

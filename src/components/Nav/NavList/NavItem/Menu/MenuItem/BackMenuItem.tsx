@@ -5,7 +5,7 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { theme } from '@src/theme'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { g } from '@src/g'
+import { globalObject } from '@src/globalObject'
 
 export function BackMenuItem() {
   const dispatch = useDispatchTyped()
@@ -14,7 +14,7 @@ export function BackMenuItem() {
 
   const onClickHandler = (e: React.MouseEvent) => {
     e.preventDefault()
-    g.goUpInMenu && g.goUpInMenu()
+    globalObject.goUpInMenu && globalObject.goUpInMenu()
   }
 
   return (

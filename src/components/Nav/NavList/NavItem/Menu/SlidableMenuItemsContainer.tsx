@@ -11,7 +11,6 @@ type Props = {
 export function SlidableMenuItemsContainer({ reference, idsToMenu, className }: Props) {
   const hiddenItemNamesState = useSelector(state => state.nav.hiddenItemNames)
   const menuItems = getMenuItemByIdsChain(idsToMenu)
-  console.log('menuItems', menuItems)
   return (
     <div ref={reference} className={className}>
       {menuItems

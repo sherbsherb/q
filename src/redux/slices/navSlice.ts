@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { g } from '@src/g'
+import { globalObject } from '@src/globalObject'
 
 const initialState = {
   burger: { isOpen: false },
@@ -30,7 +30,7 @@ const navSlice = createSlice({
       state.idsToNextMenuItems = state.idsToCurrentMenuItems = ['top']
       state.burger.isOpen = false
       state.menuItemHoverIndex = 0
-      g.goDownInMenu = g.goUpInMenu = null
+      globalObject.goDownInMenu = globalObject.goUpInMenu = null
     },
     goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenuItems = [...state.idsToCurrentMenuItems, action.payload] },
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenuItems = state.idsToCurrentMenuItems.slice(0, -1) },

@@ -12,7 +12,7 @@ const plusIcon = React.createElement(AiOutlinePlus, {})
 export type MenuType = {
   id: string
   icon?: React.ReactNode | string
-  name?: string
+  name: string
   link?: any
   func?: () => void,
   menuItems?: MenuType[]
@@ -21,6 +21,7 @@ export type MenuType = {
 export const navStructure: MenuType[] = [
   {
     id: 'top',
+    name: 'top',
     menuItems: [
       {
         id: id(5),

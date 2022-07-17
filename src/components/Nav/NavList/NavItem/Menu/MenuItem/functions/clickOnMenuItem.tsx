@@ -1,4 +1,4 @@
-import { g } from '@src/g'
+import { globalObject } from '@src/globalObject'
 import { store } from '@src/redux/store'
 import { getMenuItemByIdsChain } from '../../functions/getMenuItemByIdsChain'
 
@@ -13,5 +13,5 @@ export const clickOnMenuItem = ({ e, menuId }: Args) => {
   const nextMenu = getMenuItemByIdsChain(chainToClickedItem)
   const isNestedMenuAvailable = !!nextMenu.length
   if (!isNestedMenuAvailable) return
-  g.goDownInMenu && g.goDownInMenu(menuId)
+  globalObject.goDownInMenu && globalObject.goDownInMenu(menuId)
 }
