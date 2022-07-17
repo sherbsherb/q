@@ -4,8 +4,8 @@ import { g } from '@src/g'
 const initialState = {
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
-  idsToCurrentMenu: ['top'],
-  idsToNextMenu: ['top'],
+  idsToCurrentMenuItems: ['top'],
+  idsToNextMenuItems: ['top'],
   hiddenItemNames: ['Link D'],
   navItemRightPos: 0,
   menuItemHoverIndex: 0
@@ -23,17 +23,17 @@ const navSlice = createSlice({
     setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
     setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
-    openMenuWithId: (state, action) => { state.idsToCurrentMenu = state.idsToNextMenu = ['top', action.payload] },
+    openMenuWithId: (state, action) => { state.idsToCurrentMenuItems = state.idsToNextMenuItems = ['top', action.payload] },
     closeMenu: (state) => {
-      state.idsToNextMenu = state.idsToCurrentMenu = ['top']
+      state.idsToNextMenuItems = state.idsToCurrentMenuItems = ['top']
       state.burger.isOpen = false
       state.menuItemHoverIndex = 0
       g.goDownInMenu = g.goUpInMenu = null
     },
-    goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenu = [...state.idsToCurrentMenu, action.payload] },
-    goUpInCurrentMenu: (state) => { state.idsToCurrentMenu = state.idsToCurrentMenu.slice(0, -1) },
-    goDownInNextMenu: (state, action) => { state.idsToNextMenu = [...state.idsToNextMenu, action.payload] },
-    goUpInNextMenu: (state) => { state.idsToNextMenu = state.idsToNextMenu.slice(0, -1) },
+    goDownInCurrentMenu: (state, action) => { state.idsToCurrentMenuItems = [...state.idsToCurrentMenuItems, action.payload] },
+    goUpInCurrentMenu: (state) => { state.idsToCurrentMenuItems = state.idsToCurrentMenuItems.slice(0, -1) },
+    goDownInNextMenu: (state, action) => { state.idsToNextMenuItems = [...state.idsToNextMenuItems, action.payload] },
+    goUpInNextMenu: (state) => { state.idsToNextMenuItems = state.idsToNextMenuItems.slice(0, -1) },
     setMenuItemHoverIndex: (state, action) => { state.menuItemHoverIndex = action.payload }
   }
 })

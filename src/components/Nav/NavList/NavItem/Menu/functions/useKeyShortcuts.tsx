@@ -10,8 +10,8 @@ export function useKeyShortcuts() {
   const dispatch = useDispatchTyped()
 
   function navKeyboardHandler(e: KeyboardEvent) {
-    const currentMenu = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenu)
-    const menuItemsQty = currentMenu.length + 1
+    const currentMenuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
+    const menuItemsQty = currentMenuItems.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
 
     if (e.key === 'ArrowDown') {
@@ -36,7 +36,7 @@ export function useKeyShortcuts() {
       return
     }
 
-    const isNestedMenu = store.getState().nav.idsToNextMenu.length > 2
+    const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2
     if (isNestedMenu && e.key === 'Backspace') {
       g.goUpInMenu && g.goUpInMenu()
       return
@@ -53,7 +53,7 @@ export function useKeyShortcuts() {
     }
 
     if (e.key === 'Enter') {
-      const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenu)
+      const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenuItems)
       const nextMenuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
       clickOnMenuItem({ e, menuId: nextMenuId })
       if (hoveredMenuItemIndex === 1 && isNestedMenu) {

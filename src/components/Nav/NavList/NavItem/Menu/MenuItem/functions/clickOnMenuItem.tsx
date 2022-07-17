@@ -9,7 +9,7 @@ type Args = {
 
 export const clickOnMenuItem = ({ e, menuId }: Args) => {
   e.preventDefault()
-  const chainToClickedItem = [...store.getState().nav.idsToCurrentMenu, menuId]
+  const chainToClickedItem = [...store.getState().nav.idsToCurrentMenuItems, menuId]
   const nextMenu = getMenuItemByIdsChain(chainToClickedItem)
   const isNestedMenuAvailable = !!nextMenu.length
   if (!isNestedMenuAvailable) return

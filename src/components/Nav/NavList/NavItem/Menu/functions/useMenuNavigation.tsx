@@ -12,14 +12,14 @@ type PropsType = {
   nextMenuRef: React.MutableRefObject<HTMLDivElement>
   menuContainerRef: React.MutableRefObject<HTMLDivElement>
   fakeMenuRef: React.MutableRefObject<HTMLDivElement>
-  idsToNextMenu: string[]
+  idsToNextMenuItems: string[]
 }
 
-export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenu }: PropsType) {
+export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems }: PropsType) {
   const dispatch = useDispatchTyped()
   const isInitRender = useIsInitRender()
   const duration = 0.5
-  const nextMenu = getMenuItemByIdsChain(idsToNextMenu)
+  const nextMenu = getMenuItemByIdsChain(idsToNextMenuItems)
 
   /**
   * @descriptions
@@ -27,7 +27,7 @@ export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRe
   * - when we click on menu we update content in 'nextMenuRef' with 'nextMenu' state update
   * - then we make animation moving 'nextMenuRef' into the view
   * - at the same time 'currentMenuRef' is moved away from the view
-  * - when animation is finished we change moved away 'currentMenuRef' content with 'currentMenu' state update
+  * - when animation is finished we change moved away 'currentMenuRef' content with 'currentMenuItems' state update
   */
 
   function goDownInMenu(id: string) {

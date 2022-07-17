@@ -10,16 +10,16 @@ import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeH
 import { clickOnMenuItem } from './functions/clickOnMenuItem'
 
 type MenuItemType = {
-  menu: MenuType
+  menuItem: MenuType
   hoveredMenuItemIndex: number
 }
 
-export function MenuItem({ menu, hoveredMenuItemIndex }: MenuItemType) {
+export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const dispatch = useDispatchTyped()
   const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
-  const isNextMenuAvailable = !!menu.menu
-  const isIcon = !!menu.icon
-  const menuId = menu.id
+  const isNextMenuAvailable = !!menuItem.menuItems
+  const isIcon = !!menuItem.icon
+  const menuId = menuItem.id
 
   return (
     <MenuItemStyled
@@ -28,8 +28,8 @@ export function MenuItem({ menu, hoveredMenuItemIndex }: MenuItemType) {
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHovered}
     >
-      {isIcon && <Icon icon={menu.icon} />}
-      <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menu.name} />
+      {isIcon && <Icon icon={menuItem.icon} />}
+      <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menuItem.name} />
       {isNextMenuAvailable && <MenuIconRight><ForwardIcon /></MenuIconRight>}
     </MenuItemStyled>
   )

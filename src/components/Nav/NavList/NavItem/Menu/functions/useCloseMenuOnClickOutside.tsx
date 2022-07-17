@@ -18,14 +18,14 @@ export function useCloseMenuOnClickOutside({ menuContainerRef }: Props) {
    */
 
   function mouseDownHandler(e: MouseEvent) {
-    const menu = menuContainerRef.current
-    if (!menu) return
+    const menuContainer = menuContainerRef.current
+    if (!menuContainer) return
     const navItem = menuContainerRef.current.parentElement
     if (!navItem) return
     const clickedEl = e.target as HTMLElement
-    const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menu)
+    const isClickOnOpenedNavItem = isClickInsideThisElement(clickedEl, navItem) && !isClickInsideThisElement(clickedEl, menuContainer)
     if (isClickOnOpenedNavItem) return
-    if (!isClickInsideThisElement(clickedEl, menu)) {
+    if (!isClickInsideThisElement(clickedEl, menuContainer)) {
       dispatch(closeMenu())
     }
   }

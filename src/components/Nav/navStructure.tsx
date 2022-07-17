@@ -15,13 +15,13 @@ export type MenuType = {
   name?: string
   link?: any
   func?: () => void,
-  menu?: MenuType[]
+  menuItems?: MenuType[]
 }
 
 export const navStructure: MenuType[] = [
   {
     id: 'top',
-    menu: [
+    menuItems: [
       {
         id: id(5),
         icon: <BookIcon />,
@@ -36,17 +36,17 @@ export const navStructure: MenuType[] = [
         id: id(5),
         icon: plusIcon,
         name: 'menu 1',
-        menu: [
+        menuItems: [
           {
             id: id(5),
             name: 'item in menu 1',
             icon: '😇',
-            menu: [
+            menuItems: [
               {
                 id: id(5),
                 name: 'item in menu 1',
                 icon: '😎',
-                menu: [
+                menuItems: [
                   {
                     id: id(5),
                     name: 'long long long long long long long long name',
@@ -134,17 +134,17 @@ export const navStructure: MenuType[] = [
         id: id(5),
         icon: plusIcon,
         name: 'menu 1',
-        menu: [
+        menuItems: [
           {
             id: id(5),
             name: 'item in menu 1',
             icon: '😇',
-            menu: [
+            menuItems: [
               {
                 id: id(5),
                 name: 'item in menu 1',
                 icon: '😎',
-                menu: [
+                menuItems: [
                   {
                     id: id(5),
                     name: 'long long long long long long long long name',
@@ -220,17 +220,17 @@ export const navStructure: MenuType[] = [
         id: id(5),
         icon: plusIcon,
         name: 'menu 2',
-        menu: [
+        menuItems: [
           {
             id: id(5),
             name: 'item in menu 2',
             icon: '😇',
-            menu: [
+            menuItems: [
               {
                 id: id(5),
                 name: 'item in menu 2',
                 icon: '😎',
-                menu: [
+                menuItems: [
                   {
                     id: id(5),
                     name: 'long long long long long long long long name',

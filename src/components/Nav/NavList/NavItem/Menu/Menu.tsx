@@ -21,9 +21,9 @@ export function Menu() {
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const idsToNextMenu = useSelector(state => state.nav.idsToNextMenu)
-  const idsToCurrentMenu = useSelector(state => state.nav.idsToCurrentMenu)
-  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenu })
+  const idsToNextMenuItems = useSelector(state => state.nav.idsToNextMenuItems)
+  const idsToCurrentMenuItems = useSelector(state => state.nav.idsToCurrentMenuItems)
+  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems })
   g.goDownInMenu = goDownInMenu
   g.goUpInMenu = goUpInMenu
   useKeyShortcuts()
@@ -41,18 +41,18 @@ export function Menu() {
       <TopMenuItemsContainer />
       <SlidableMenuItemsContainer
         reference={currentMenuRef}
-        idsToMenu={idsToCurrentMenu}
+        idsToMenu={idsToCurrentMenuItems}
         className='slidable current'
       />
       <SlidableMenuItemsContainer
         reference={nextMenuRef}
-        idsToMenu={idsToNextMenu}
+        idsToMenu={idsToNextMenuItems}
         className='slidable
         next'
       />
       <SlidableMenuItemsContainer
         reference={fakeMenuRef}
-        idsToMenu={idsToNextMenu}
+        idsToMenu={idsToNextMenuItems}
         className='measurable-div'
       />
     </MenuStyled>

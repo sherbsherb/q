@@ -31,9 +31,9 @@ export function NavItem({ children, id }: NavItemType) {
 
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const dispatch = useDispatchTyped()
-  const idsToCurrentMenu = useSelector(state => state.nav.idsToCurrentMenu)
+  const idsToCurrentMenuItems = useSelector(state => state.nav.idsToCurrentMenuItems)
 
-  const navItem = navStructure[0].menu!.find(menu => menu.id === id)
+  const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
@@ -44,7 +44,7 @@ export function NavItem({ children, id }: NavItemType) {
 
     if (link) return
     // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
-    const currentMenuId = store.getState().nav.idsToCurrentMenu.at(-1)
+    const currentMenuId = store.getState().nav.idsToCurrentMenuItems.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
       dispatch(closeMenu())
@@ -52,7 +52,7 @@ export function NavItem({ children, id }: NavItemType) {
     }
 
     // handle separately burger click
-    const isBurger = store.getState().nav.idsToCurrentMenu.includes('burger')
+    const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
     if (isBurger) {
       dispatch(closeMenu())
       return
@@ -77,7 +77,7 @@ export function NavItem({ children, id }: NavItemType) {
         {icon && <Icon icon={icon} />}
         {children}
       </a>
-      {idsToCurrentMenu.at(1) === id && <Menu />}
+      {idsToCurrentMenuItems.at(1) === id && <Menu />}
     </LiStyled>
   )
 }
