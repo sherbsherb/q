@@ -58,9 +58,43 @@ export function useKeyShortcuts() {
       clickOnMenuItem({ e, menuId: nextMenuId })
       if (hoveredMenuItemIndex === 1 && isNestedMenu) {
         g.goUpInMenu && g.goUpInMenu()
+        return
       }
       if (hoveredMenuItemIndex === 1 && !isNestedMenu) {
         dispatch(closeMenu())
+        return
+      }
+    }
+
+    const anyLetter = /\w/
+    if (e.key.match(anyLetter)) {
+      if (!isNestedMenu && e.key === 'c') {
+        dispatch(setMenuItemHoverIndex(1))
+        return
+      }
+      if (isNestedMenu && e.key === 'b') {
+        dispatch(setMenuItemHoverIndex(1))
+        return
+      }
+      // search in items below hovered item
+      const index = currentMenuItems.findIndex((menuItem, index) => {
+        const isiKeySameAsFirstItemLetter = menuItem.name && menuItem.name.toLowerCase().startsWith(e.key)
+        if (!isiKeySameAsFirstItemLetter) return false
+        if (index + 2 > hoveredMenuItemIndex) return true
+        return false
+      })
+      if (index > -1) {
+        dispatch(setMenuItemHoverIndex(index + 2))
+      }
+      // if no found below hovered item, do it again from the top
+      if (index === -1) {
+        const newIndex = currentMenuItems.findIndex((menuItem, index) => {
+          const isiKeySameAsFirstItemLetter = menuItem.name && menuItem.name.toLowerCase().startsWith(e.key)
+          return isiKeySameAsFirstItemLetter
+        })
+        if (newIndex > -1) {
+          dispatch(setMenuItemHoverIndex(newIndex + 2))
+        }
       }
     }
   }

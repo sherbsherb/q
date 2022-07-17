@@ -12,8 +12,6 @@ import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { g } from '@src/g'
 
 // todo: add 'state' postfix after all reactive variables
-// todo: do not pass menu, just find it based on store ids chain
-// todo: on key strike on menu highlight first item in menu
 // todo: problem with mediaQuery when we do not have an icon for nav
 
 export function Menu() {
