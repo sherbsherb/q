@@ -17,11 +17,13 @@ const navSlice = createSlice({
   reducers: {
     closeBurger: (state) => { state.burger.isOpen = false },
     toggleBurger: (state) => { state.burger.isOpen = !state.burger.isOpen },
-    setScreenWidthWhenHideLogoExtension: (state, action) => { state.mediaQueryWidth.logoExtension = action.payload },
-    setScreenWidthWhenHideLogoPart: (state, action) => { state.mediaQueryWidth.logoPart = action.payload },
-    setScreenWidthWhenHideIcon: (state, action) => { state.mediaQueryWidth.icon = action.payload },
-    setScreenWidthWhenHideText: (state, action) => { state.mediaQueryWidth.name = action.payload },
-    setScreenWidthWhenDisplayBurger: (state, action) => { state.mediaQueryWidth.burger = action.payload },
+    setNavMediaQueryWidths: (state, action) => {
+      state.mediaQueryWidth.logoExtension = action.payload.logoExtension
+      state.mediaQueryWidth.logoPart = action.payload.logoPart
+      state.mediaQueryWidth.icon = action.payload.icon
+      state.mediaQueryWidth.name = action.payload.name
+      state.mediaQueryWidth.burger = action.payload.burger
+    },
     setNavItemRightPos: (state, action) => { state.navItemRightPos = action.payload },
     openMenuWithId: (state, action) => { state.idsToCurrentMenuItems = state.idsToNextMenuItems = ['top', action.payload] },
     closeMenu: (state) => {
@@ -42,11 +44,7 @@ export default navSlice.reducer
 export const {
   closeBurger,
   toggleBurger,
-  setScreenWidthWhenHideLogoExtension,
-  setScreenWidthWhenHideLogoPart,
-  setScreenWidthWhenHideIcon,
-  setScreenWidthWhenHideText,
-  setScreenWidthWhenDisplayBurger,
+  setNavMediaQueryWidths,
   setNavItemRightPos,
   openMenuWithId,
   closeMenu,

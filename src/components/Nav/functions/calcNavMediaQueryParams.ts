@@ -34,19 +34,13 @@ export function calcNavMediaQueryParams(nav: HTMLElement, logo: HTMLElement) {
   const minNavWidthToIncludeAllItems = navItemWidth * navItemsQty + logoWidth + 50
   nav.style.width = minNavWidthToIncludeAllItems + 'px'
 
-  const screenWidthWhenHideLogoExtension = calcNavWidthWhenLogoIsOverlay()
-  const screenWidthWhenHideLogoPart = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.app-ext' })
-  const screenWidthWhenHideIcon = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.uotation' })
-  const screenWidthWhenHideText = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.icon-round-wrapper' })
-  const screenWidthWhenDisplayBurger = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.nav-item-name', elsToShowClass: '.icon-round-wrapper' })
+  const logoExtension = calcNavWidthWhenLogoIsOverlay()
+  const logoPart = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.app-ext' })
+  const icon = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.uotation' })
+  const name = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.icon-round-wrapper' })
+  const burger = calcNavWidthWhenLogoIsOverlay({ elsToHideClass: '.nav-item-name', elsToShowClass: '.icon-round-wrapper' })
   nav.querySelectorAll('.app-ext, .uotation, .icon-round-wrapper, .nav-item-name').forEach(el => el.setAttribute('style', ''))
   nav.setAttribute('style', '')
 
-  return {
-    screenWidthWhenHideLogoExtension,
-    screenWidthWhenHideLogoPart,
-    screenWidthWhenHideIcon,
-    screenWidthWhenHideText,
-    screenWidthWhenDisplayBurger
-  }
+  return { logoExtension, logoPart, icon, name, burger }
 }

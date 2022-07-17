@@ -5,14 +5,14 @@ import { toggleBurger } from '@slices/navSlice'
 // https://hamburger-react.netlify.app/
 
 export function Burger() {
-  const isOpen = useSelector(state => state.nav.burger.isOpen)
   const dispatch = useDispatchTyped()
-  const screenWidthWhenShowBurger = useSelector(state => state.nav.mediaQueryWidth.burger)
+  const isOpenState = useSelector(state => state.nav.burger.isOpen)
+  const screenWidthWhenShowBurgerState = useSelector(state => state.nav.mediaQueryWidth.burger)
 
   return (
-    <BurgerContainer screenWidthWhenShowBurger={screenWidthWhenShowBurger}>
+    <BurgerContainer screenWidthWhenShowBurgerState={screenWidthWhenShowBurgerState}>
       <BurgerIcon
-        toggled={isOpen}
+        toggled={isOpenState}
         toggle={() => dispatch(toggleBurger())}
         size={20}
         color='#bcbcbc'
@@ -27,13 +27,13 @@ export function Burger() {
   )
 }
 type PropsForSC = {
-  screenWidthWhenShowBurger: number
+  screenWidthWhenShowBurgerState: number
 }
 
 const BurgerContainer = styled.div<PropsForSC>`
   display: none;
 
-  @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
+  @media (max-width: ${props => props.screenWidthWhenShowBurgerState}px) {
     display: block;
   }
 `

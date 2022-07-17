@@ -5,13 +5,13 @@ import { Burger } from './NavItem/Burger'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
 
 export function NavList() {
-  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
+  const hiddenItemNamesState = useSelector(state => state.nav.hiddenItemNames)
 
   return (
     <Ul>
       {navStructure[0].menuItems!.map(
         (menuItem: MenuType) => {
-          const isVisible = !hiddenItemNames.includes(menuItem.name || '')
+          const isVisible = !hiddenItemNamesState.includes(menuItem.name || '')
           return isVisible && <NavItem id={menuItem.id} key={menuItem.id} />
         }
       )}

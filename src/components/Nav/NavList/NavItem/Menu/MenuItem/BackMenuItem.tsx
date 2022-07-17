@@ -9,7 +9,7 @@ import { g } from '@src/g'
 
 export function BackMenuItem() {
   const dispatch = useDispatchTyped()
-  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === 1)
+  const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === 1)
   const color = theme.colors.closeAndBackMenuItems
 
   const onClickHandler = (e: React.MouseEvent) => {
@@ -22,7 +22,7 @@ export function BackMenuItem() {
       href="/"
       onClick={onClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
-      isHovered={isHovered}
+      isHovered={isHoveredState}
     >
       <Icon icon={<LeftArrowIcon />} />
       <TextInMenu name={<span style={{ color }}>Back</span>} />

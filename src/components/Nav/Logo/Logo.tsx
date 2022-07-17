@@ -1,4 +1,4 @@
-import { useSelectorTyped } from '@store/storeHooks'
+import { useSelectorTyped as useSelector } from '@store/storeHooks'
 import styled from 'styled-components'
 
 type Prop = {
@@ -6,15 +6,15 @@ type Prop = {
 }
 
 export function Logo({ logoRef }: Prop) {
-  const mediaQueryWidth = useSelectorTyped(state => state.nav.mediaQueryWidth)
+  const mediaQueryWidthState = useSelector(state => state.nav.mediaQueryWidth)
 
   return (
     <LogoContainer
       className='logo-container'
       ref={logoRef}
-      screenWidthWhenHideLogoExtension={mediaQueryWidth.logoExtension}
-      screenWidthWhenHideLogoPart={mediaQueryWidth.logoPart}
-      screenWidthWhenShowBurger={mediaQueryWidth.burger}
+      screenWidthWhenHideLogoExtension={mediaQueryWidthState.logoExtension}
+      screenWidthWhenHideLogoPart={mediaQueryWidthState.logoPart}
+      screenWidthWhenShowBurgerState={mediaQueryWidthState.burger}
     >
       <a href="https://quotation.app/">
         <span>Q</span>
@@ -28,7 +28,7 @@ export function Logo({ logoRef }: Prop) {
 type PropsForSC = {
   screenWidthWhenHideLogoPart: number
   screenWidthWhenHideLogoExtension: number
-  screenWidthWhenShowBurger: number
+  screenWidthWhenShowBurgerState: number
 }
 
 const LogoContainer = styled.div<PropsForSC>`
@@ -44,7 +44,7 @@ const LogoContainer = styled.div<PropsForSC>`
     cursor: pointer;
     font-size: 16px;
 
-    @media (max-width: ${props => props.screenWidthWhenHideLogoPart}px) and (min-width: ${props => props.screenWidthWhenShowBurger}px)  {
+    @media (max-width: ${props => props.screenWidthWhenHideLogoPart}px) and (min-width: ${props => props.screenWidthWhenShowBurgerState}px)  {
       font-size: 30px;
     }
 
@@ -60,7 +60,7 @@ const LogoContainer = styled.div<PropsForSC>`
         transition: 0.3s ease;
       }
 
-      @media (max-width: ${props => props.screenWidthWhenHideLogoPart}px) and (min-width: ${props => props.screenWidthWhenShowBurger}px) {
+      @media (max-width: ${props => props.screenWidthWhenHideLogoPart}px) and (min-width: ${props => props.screenWidthWhenShowBurgerState}px) {
         display: none;
       }
     }
@@ -68,7 +68,7 @@ const LogoContainer = styled.div<PropsForSC>`
     span:last-child {
       color: #e7e7e7bf; 
 
-      @media (max-width: ${props => props.screenWidthWhenHideLogoExtension}px) and (min-width: ${props => props.screenWidthWhenShowBurger}px) {
+      @media (max-width: ${props => props.screenWidthWhenHideLogoExtension}px) and (min-width: ${props => props.screenWidthWhenShowBurgerState}px) {
         display: none;
       }
     }

@@ -11,7 +11,6 @@ import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { g } from '@src/g'
 
-// todo: add 'state' postfix after all reactive variables
 // todo: problem with mediaQuery when we do not have an icon for nav
 
 export function Menu() {
@@ -19,9 +18,9 @@ export function Menu() {
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const idsToNextMenuItems = useSelector(state => state.nav.idsToNextMenuItems)
-  const idsToCurrentMenuItems = useSelector(state => state.nav.idsToCurrentMenuItems)
-  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems })
+  const idsToNextMenuItemsState = useSelector(state => state.nav.idsToNextMenuItems)
+  const idsToCurrentMenuItemsState = useSelector(state => state.nav.idsToCurrentMenuItems)
+  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItemsState })
   g.goDownInMenu = goDownInMenu
   g.goUpInMenu = goUpInMenu
   useKeyShortcuts()
@@ -39,18 +38,18 @@ export function Menu() {
       <TopMenuItemsContainer />
       <SlidableMenuItemsContainer
         reference={currentMenuRef}
-        idsToMenu={idsToCurrentMenuItems}
+        idsToMenu={idsToCurrentMenuItemsState}
         className='slidable current'
       />
       <SlidableMenuItemsContainer
         reference={nextMenuRef}
-        idsToMenu={idsToNextMenuItems}
+        idsToMenu={idsToNextMenuItemsState}
         className='slidable
         next'
       />
       <SlidableMenuItemsContainer
         reference={fakeMenuRef}
-        idsToMenu={idsToNextMenuItems}
+        idsToMenu={idsToNextMenuItemsState}
         className='measurable-div'
       />
     </MenuStyled>

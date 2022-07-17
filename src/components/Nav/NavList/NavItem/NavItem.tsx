@@ -31,7 +31,7 @@ export function NavItem({ children, id }: NavItemType) {
 
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
   const dispatch = useDispatchTyped()
-  const idsToCurrentMenuItems = useSelector(state => state.nav.idsToCurrentMenuItems)
+  const idsToCurrentMenuItemsState = useSelector(state => state.nav.idsToCurrentMenuItems)
 
   const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
   const icon = navItem?.icon
@@ -77,7 +77,7 @@ export function NavItem({ children, id }: NavItemType) {
         {icon && <Icon icon={icon} />}
         {children}
       </a>
-      {idsToCurrentMenuItems.at(1) === id && <Menu />}
+      {idsToCurrentMenuItemsState.at(1) === id && <Menu />}
     </LiStyled>
   )
 }

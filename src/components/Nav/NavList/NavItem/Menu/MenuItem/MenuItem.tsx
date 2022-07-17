@@ -16,7 +16,7 @@ type MenuItemType = {
 
 export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const dispatch = useDispatchTyped()
-  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
+  const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menuItem.menuItems
   const isIcon = !!menuItem.icon
   const menuId = menuItem.id
@@ -26,7 +26,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
       href="/"
       onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId }) }
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
-      isHovered={isHovered}
+      isHovered={isHoveredState}
     >
       {isIcon && <Icon icon={menuItem.icon} />}
       <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menuItem.name} />

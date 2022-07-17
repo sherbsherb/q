@@ -9,14 +9,14 @@ type Props = {
 }
 
 export function SlidableMenuItemsContainer({ reference, idsToMenu, className }: Props) {
-  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
+  const hiddenItemNamesState = useSelector(state => state.nav.hiddenItemNames)
   const menuItems = getMenuItemByIdsChain(idsToMenu)
   console.log('menuItems', menuItems)
   return (
     <div ref={reference} className={className}>
       {menuItems
         .filter(menuItem => {
-          const isVisible = !hiddenItemNames.includes(menuItem.name || '')
+          const isVisible = !hiddenItemNamesState.includes(menuItem.name || '')
           return isVisible
         })
         .map((menuItem, index) => {
