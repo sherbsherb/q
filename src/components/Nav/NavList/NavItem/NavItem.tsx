@@ -21,6 +21,7 @@ type NavItemType = {
 */
 
 export function NavItem({ children, id }: NavItemType) {
+  const dispatch = useDispatchTyped()
   /**
    * @constant
    * - reference to menu item <li> to pass it into menu
@@ -30,8 +31,7 @@ export function NavItem({ children, id }: NavItemType) {
    */
 
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
-  const dispatch = useDispatchTyped()
-  const idsToCurrentMenuItemsState = useSelector(state => state.nav.idsToCurrentMenuItems)
+  const shouldOpenThisMenuState = useSelector(state => state.nav.idsToCurrentMenuItems.at(1) === id)
 
   const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
   const icon = navItem?.icon
@@ -73,11 +73,12 @@ export function NavItem({ children, id }: NavItemType) {
         href={link || '/'}
         onClick={onClickHandler}
       >
-        {name && <span className='nav-item-name'>{name}</span>}
         {icon && <Icon icon={icon} />}
+        {!icon && <Icon icon={name && name[0]} />}
+        {name && <span className='nav-item-name'>{name}</span>}
         {children}
       </a>
-      {idsToCurrentMenuItemsState.at(1) === id && <Menu />}
+      {shouldOpenThisMenuState && <Menu />}
     </LiStyled>
   )
 }
