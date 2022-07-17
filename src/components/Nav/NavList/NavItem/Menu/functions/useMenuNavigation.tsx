@@ -5,20 +5,21 @@ import { theme } from '@src/theme'
 import { gsap } from 'gsap'
 import { useIsInitRender } from '@src/functions/useIsInitRender'
 import { useEffect } from 'react'
-import { MenuType } from '@components/Nav/navStructure'
+import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
 
 type PropsType = {
   currentMenuRef: React.MutableRefObject<HTMLDivElement>
   nextMenuRef: React.MutableRefObject<HTMLDivElement>
   menuContainerRef: React.MutableRefObject<HTMLDivElement>
   fakeMenuRef: React.MutableRefObject<HTMLDivElement>
-  nextMenu: MenuType[]
+  idsToNextMenu: string[]
 }
 
-export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu }: PropsType) {
+export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenu }: PropsType) {
   const dispatch = useDispatchTyped()
   const isInitRender = useIsInitRender()
   const duration = 0.5
+  const nextMenu = getMenuItemByIdsChain(idsToNextMenu)
 
   /**
   * @descriptions

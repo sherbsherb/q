@@ -1,15 +1,17 @@
-import { MenuType } from '@components/Nav/navStructure'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
+import { getMenuItemByIdsChain } from './functions/getMenuItemByIdsChain'
 import { MenuItem } from './MenuItem'
 
 type Props = {
   reference: React.MutableRefObject<HTMLDivElement>
-  menu: MenuType[]
+  idsToMenu: string[]
   className: string
 }
 
-export function SlidableMenuItemsContainer({ reference, menu, className }: Props) {
+export function SlidableMenuItemsContainer({ reference, idsToMenu, className }: Props) {
   const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
+  const menu = getMenuItemByIdsChain(idsToMenu)
+  console.log(menu)
   return (
     <div ref={reference} className={className}>
       {menu

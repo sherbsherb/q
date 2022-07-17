@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { getMenuItemByIdsChain } from './functions/getMenuItemByIdsChain'
 import { useMenuNavigation } from './functions/useMenuNavigation'
 import { useKeyShortcuts } from './functions/useKeyShortcuts'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
@@ -15,15 +14,16 @@ import { g } from '@src/g'
 // todo: add 'state' postfix after all reactive variables
 // todo: do not pass menu, just find it based on store ids chain
 // todo: on key strike on menu highlight first item in menu
+// todo: problem with mediaQuery when we do not have an icon for nav
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const nextMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToNextMenu))
-  const currentMenu = useSelector(state => getMenuItemByIdsChain(state.nav.idsToCurrentMenu))
-  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, nextMenu })
+  const idsToNextMenu = useSelector(state => state.nav.idsToNextMenu)
+  const idsToCurrentMenu = useSelector(state => state.nav.idsToCurrentMenu)
+  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenu })
   g.goDownInMenu = goDownInMenu
   g.goUpInMenu = goUpInMenu
   useKeyShortcuts()
@@ -41,18 +41,18 @@ export function Menu() {
       <TopMenuItemsContainer />
       <SlidableMenuItemsContainer
         reference={currentMenuRef}
-        menu={currentMenu}
+        idsToMenu={idsToCurrentMenu}
         className='slidable current'
       />
       <SlidableMenuItemsContainer
         reference={nextMenuRef}
-        menu={nextMenu}
+        idsToMenu={idsToNextMenu}
         className='slidable
         next'
       />
       <SlidableMenuItemsContainer
         reference={fakeMenuRef}
-        menu={nextMenu}
+        idsToMenu={idsToNextMenu}
         className='measurable-div'
       />
     </MenuStyled>
