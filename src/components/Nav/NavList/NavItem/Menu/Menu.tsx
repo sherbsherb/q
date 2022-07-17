@@ -12,6 +12,7 @@ import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { g } from '@src/g'
 
 // todo: problem with mediaQuery when we do not have an icon for nav
+// todo: add icon with Letter as navItem name if icon is not presented
 
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
