@@ -58,7 +58,6 @@ export function NavItem({ children, id }: NavItemType) {
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
-    console.log(666)
 
     if (link) {
       // just follow the link natively

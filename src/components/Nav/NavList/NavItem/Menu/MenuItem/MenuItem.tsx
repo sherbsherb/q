@@ -21,7 +21,6 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const isIcon = !!menuItem.icon
   const menuId = menuItem.id
   const link = menuItem.link
-  console.log('/hi')
 
   return (
     <MenuItemStyled
