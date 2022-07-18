@@ -8,6 +8,7 @@ import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@redux/store'
 import { useWindowSize } from 'react-use'
+import { Link } from 'react-router-dom'
 
 type NavItemType = {
   children?: React.ReactNode,
@@ -53,13 +54,20 @@ export function NavItem({ children, id }: NavItemType) {
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
+  const menuItems = navItem?.menuItems
   const func = navItem?.func
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
+
+    if (link) {
+      // just follow the link natively
+      return
+    }
+
+    // all navItems are links and we do not to follow them
     e.preventDefault()
 
-    if (link) return
     // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
     const currentMenuId = store.getState().nav.idsToCurrentMenuItems.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
@@ -80,10 +88,12 @@ export function NavItem({ children, id }: NavItemType) {
       return
     }
 
-    // open the menu and determine its position (right: 0 OR left: 0)
-    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
-    dispatch(setNavItemRightPos(navItemRightPos))
-    dispatch(openMenuWithId(id))
+    if (menuItems) {
+      // open the menu and determine its position (right: 0 OR left: 0)
+      const navItemRightPos = navItemRef.current.getBoundingClientRect().right
+      dispatch(setNavItemRightPos(navItemRightPos))
+      dispatch(openMenuWithId(id))
+    }
   }
 
   return (
@@ -91,15 +101,15 @@ export function NavItem({ children, id }: NavItemType) {
       ref={navItemRef}
       className='nav-item'
     >
-      <a
-        href={link || '/'}
+      <Link
+        to={link || '/'}
         onClick={onClickHandler}
       >
         {icon && <Icon icon={icon} />}
         {!icon && shouldDisplayIcon && <Icon icon={name && name[0]} />}
         {name && <span className='nav-item-name'>{name}</span>}
         {children}
-      </a>
+      </Link>
       {shouldOpenThisMenuState && <Menu />}
     </LiStyled>
   )

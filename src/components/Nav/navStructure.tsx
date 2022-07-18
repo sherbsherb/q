@@ -3,7 +3,6 @@ import { AiOutlinePlus } from 'react-icons/ai'
 import { MdOutlineMenuBook as BookIcon } from 'react-icons/md'
 import React from 'react'
 import { nanoid as id } from 'nanoid'
-// import { Link } from 'react-router-dom'
 import logo from '@components/Main/DefaultViteComponent/logo.svg'
 
 const reactIcon = React.createElement(FaReact, {})
@@ -129,7 +128,7 @@ export const navStructure: MenuType[] = [
       {
         id: id(5),
         icon: <BookIcon />,
-        name: 'Back',
+        name: 'Main',
         link: '/'
       },
       {
