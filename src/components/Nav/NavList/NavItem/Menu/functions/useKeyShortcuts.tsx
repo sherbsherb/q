@@ -3,11 +3,12 @@ import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
-import { clickOnMenuItem } from '../MenuItem/functions/clickOnMenuItem'
 import { globalObject } from '@src/globalObject'
+import { useNavigate } from 'react-router-dom'
 
 export function useKeyShortcuts() {
   const dispatch = useDispatchTyped()
+  const navigate = useNavigate()
 
   function navKeyboardHandler(e: KeyboardEvent) {
     const currentMenuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
@@ -54,14 +55,35 @@ export function useKeyShortcuts() {
 
     if (e.key === 'Enter') {
       const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenuItems)
-      const nextMenuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
-      clickOnMenuItem({ e, menuId: nextMenuId })
+      const menuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
+      const menuItem = currentMenuItems!.find(menuItem => menuItem.id === menuId)
+      const link = menuItem?.link
+      const func = menuItem?.func
+
       if (hoveredMenuItemIndex === 1 && isNestedMenu) {
         globalObject.goUpInMenu && globalObject.goUpInMenu()
         return
       }
       if (hoveredMenuItemIndex === 1 && !isNestedMenu) {
         dispatch(closeMenu())
+        return
+      }
+
+      if (link) {
+        navigate(link)
+        store.dispatch(closeMenu())
+        return
+      }
+
+      if (func) {
+        func()
+        store.dispatch(closeMenu())
+        return
+      }
+
+      const isNestedMenuAvailable = !!menuItem?.menuItems
+      if (isNestedMenuAvailable) {
+        globalObject.goDownInMenu && globalObject.goDownInMenu(menuId)
         return
       }
     }
