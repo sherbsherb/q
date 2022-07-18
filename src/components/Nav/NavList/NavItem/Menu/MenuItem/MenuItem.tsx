@@ -27,7 +27,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
       to={link || '/'}
       onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId }) }
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
-      isHovered={isHoveredState}
+      $isHovered={isHoveredState}
     >
       {isIcon && <Icon icon={menuItem.icon} />}
       <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menuItem.name} />

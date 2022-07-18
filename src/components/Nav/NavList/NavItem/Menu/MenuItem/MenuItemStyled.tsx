@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 type PropsForSC = {
-  isHovered: boolean
+  $isHovered: boolean
   to: string
 }
 
@@ -18,6 +18,6 @@ export const MenuItemStyled = styled(Link)<PropsForSC>`
   color: #dadce1;
   white-space: nowrap;
   text-decoration: none;
-  background-color: ${props => props.isHovered ? '#525357' : 'initial'};
-  filter: ${props => props.isHovered ? 'brightness(1.2)' : 'none'};
+  background-color: ${props => props.$isHovered ? '#525357' : 'initial'};
+  filter: ${props => props.$isHovered ? 'brightness(1.2)' : 'none'};
 `

@@ -22,7 +22,7 @@ export function BackMenuItem() {
       to={'/'}
       onClick={onClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
-      isHovered={isHoveredState}
+      $isHovered={isHoveredState}
     >
       <Icon icon={<LeftArrowIcon />} />
       <TextInMenu name={<span style={{ color }}>Back</span>} />
