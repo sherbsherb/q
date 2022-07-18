@@ -104,7 +104,8 @@ export const navStructure: MenuType[] = [
           },
           {
             id: id(5),
-            name: 'item in menu 1',
+            name: 'link',
+            link: '/',
             icon: '😇'
           },
           {
@@ -114,8 +115,8 @@ export const navStructure: MenuType[] = [
           },
           {
             id: id(5),
-            name: 'item in menu 1',
-            icon: '😇'
+            name: 'func',
+            func: () => alert('i am the function')
           }
         ]
       },

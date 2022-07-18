@@ -54,7 +54,6 @@ export function NavItem({ children, id }: NavItemType) {
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
-  const menuItems = navItem?.menuItems
   const func = navItem?.func
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -69,7 +68,7 @@ export function NavItem({ children, id }: NavItemType) {
     // all navItems are links and we do not to follow them if they are not really links
     e.preventDefault()
 
-    // handle separately burger click
+    // handle burger close separately
     const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
     if (isBurger) {
       dispatch(closeMenu())
@@ -89,12 +88,10 @@ export function NavItem({ children, id }: NavItemType) {
       return
     }
 
-    if (menuItems) {
-      // open the menu and determine its position (right: 0 OR left: 0)
-      const navItemRightPos = navItemRef.current.getBoundingClientRect().right
-      dispatch(setNavItemRightPos(navItemRightPos))
-      dispatch(openMenuWithId(id))
-    }
+    // open menu and determine its position (right: 0 OR left: 0)
+    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
+    dispatch(setNavItemRightPos(navItemRightPos))
+    dispatch(openMenuWithId(id))
   }
 
   return (

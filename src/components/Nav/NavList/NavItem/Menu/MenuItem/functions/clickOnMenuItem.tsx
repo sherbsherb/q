@@ -8,20 +8,28 @@ type Args = {
 }
 
 export const clickOnMenuItem = ({ e, menuId }: Args) => {
-  e.preventDefault()
   const chainToClickedItem = [...store.getState().nav.idsToCurrentMenuItems, menuId]
   const nextMenu = getMenuItemByIdsChain(chainToClickedItem)
   const isNestedMenuAvailable = !!nextMenu.length
 
-  if (isNestedMenuAvailable) {
-    globalObject.goDownInMenu && globalObject.goDownInMenu(menuId)
+  const menuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
+  const menuItem = menuItems!.find(menuItem => menuItem.id === menuId)
+  const link = menuItem?.link
+  const func = menuItem?.func
+
+  if (link) {
+    // just follow the link natively
     return
   }
 
-  const menuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
-  const menuItem = menuItems!.find(menuItem => menuItem.id === menuId)
-  const icon = menuItem?.icon
-  const name = menuItem?.name
-  const link = menuItem?.link
-  const func = menuItem?.func
+  e.preventDefault()
+
+  if (func) {
+    func()
+    return
+  }
+
+  if (isNestedMenuAvailable) {
+    globalObject.goDownInMenu && globalObject.goDownInMenu(menuId)
+  }
 }
