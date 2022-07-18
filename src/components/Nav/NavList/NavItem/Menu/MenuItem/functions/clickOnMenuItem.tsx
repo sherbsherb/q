@@ -1,3 +1,4 @@
+import { closeMenu } from '@redux/slices/navSlice'
 import { globalObject } from '@src/globalObject'
 import { store } from '@src/redux/store'
 import { getMenuItemByIdsChain } from '../../functions/getMenuItemByIdsChain'
@@ -11,7 +12,6 @@ export const clickOnMenuItem = ({ e, menuId }: Args) => {
   const chainToClickedItem = [...store.getState().nav.idsToCurrentMenuItems, menuId]
   const nextMenu = getMenuItemByIdsChain(chainToClickedItem)
   const isNestedMenuAvailable = !!nextMenu.length
-
   const menuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
   const menuItem = menuItems!.find(menuItem => menuItem.id === menuId)
   const link = menuItem?.link
@@ -19,6 +19,7 @@ export const clickOnMenuItem = ({ e, menuId }: Args) => {
 
   if (link) {
     // just follow the link natively
+    store.dispatch(closeMenu())
     return
   }
 
@@ -26,6 +27,7 @@ export const clickOnMenuItem = ({ e, menuId }: Args) => {
 
   if (func) {
     func()
+    store.dispatch(closeMenu())
     return
   }
 

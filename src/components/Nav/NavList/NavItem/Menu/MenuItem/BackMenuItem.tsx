@@ -19,7 +19,7 @@ export function BackMenuItem() {
 
   return (
     <MenuItemStyled
-      href="/"
+      to={'/'}
       onClick={onClickHandler}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(1))}
       isHovered={isHoveredState}

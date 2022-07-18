@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 type PropsForSC = {
   isHovered: boolean
+  to: string
 }
 
-export const MenuItemStyled = styled.a<PropsForSC>`
+export const MenuItemStyled = styled(Link)<PropsForSC>`
   position: relative;
   height: ${props => props.theme.menu.menuItem.height}px;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   border-radius: 8px;
   padding: 0.5rem;

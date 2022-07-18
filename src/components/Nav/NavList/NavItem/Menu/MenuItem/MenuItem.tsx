@@ -20,10 +20,12 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const isNextMenuAvailable = !!menuItem.menuItems
   const isIcon = !!menuItem.icon
   const menuId = menuItem.id
+  const link = menuItem.link
+  console.log('/hi')
 
   return (
     <MenuItemStyled
-      href="/"
+      to={link || '/'}
       onClick={(e: React.MouseEvent) => clickOnMenuItem({ e, menuId }) }
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       isHovered={isHoveredState}
