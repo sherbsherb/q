@@ -1,20 +1,30 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { setNavMediaQueryWidths } from '@slices/navSlice'
 import { calcNavMediaQueryParams } from './functions/calcNavMediaQueryParams'
+import { useIsInitRender } from '@src/functions/useIsInitRender'
 
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const mediaQueryWidthState = useSelector(state => state.nav.mediaQueryWidth)
   const dispatch = useDispatchTyped()
+  const isInitRender = useIsInitRender()
+  console.log('isInitRender', isInitRender)
 
   useLayoutEffect(() => {
     const { logoExtension, logoPart, icon, name, burger } = calcNavMediaQueryParams(navRef.current, logoRef.current)
     dispatch(setNavMediaQueryWidths({ logoExtension, logoPart, icon, name, burger }))
+  }, [])
+
+  useEffect(() => {
+    if (!isInitRender) return
+    window.addEventListener('keydown', () => {
+      console.log('add keyboard shortcuts')
+    })
   }, [])
 
   return (
