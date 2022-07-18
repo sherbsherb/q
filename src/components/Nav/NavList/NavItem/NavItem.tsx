@@ -59,26 +59,27 @@ export function NavItem({ children, id }: NavItemType) {
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
+    console.log(666)
 
     if (link) {
       // just follow the link natively
       return
     }
 
-    // all navItems are links and we do not to follow them
+    // all navItems are links and we do not to follow them if they are not really links
     e.preventDefault()
+
+    // handle separately burger click
+    const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
+    if (isBurger) {
+      dispatch(closeMenu())
+      return
+    }
 
     // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
     const currentMenuId = store.getState().nav.idsToCurrentMenuItems.at(-1)
     const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
     if (isMenuOpenedUnderThisNavItem) {
-      dispatch(closeMenu())
-      return
-    }
-
-    // handle separately burger click
-    const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
-    if (isBurger) {
       dispatch(closeMenu())
       return
     }
