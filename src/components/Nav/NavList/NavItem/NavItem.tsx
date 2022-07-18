@@ -32,7 +32,6 @@ export function NavItem({ children, id }: NavItemType) {
   * required to avoid Menu to go over the narrow window
   */
   const navItemRef = useRef() as React.MutableRefObject<HTMLLIElement>
-
   /**
   * @descriptions
   * - with media query at some width we hide names and show icons
@@ -43,12 +42,10 @@ export function NavItem({ children, id }: NavItemType) {
   const windowWidthState = useWindowSize().width
   const widthWhenIconsAreShown = store.getState().nav.mediaQueryWidth.icon
   const shouldDisplayIcon = windowWidthState < widthWhenIconsAreShown
-
   /**
   * needs to open only menu under clicked navItem, otherwise multiple menus are opened under all navItems
   */
   const shouldOpenThisMenuState = useSelector(state => state.nav.idsToCurrentMenuItems.at(1) === id)
-
   /**
   * get navItem details
   */
@@ -56,6 +53,7 @@ export function NavItem({ children, id }: NavItemType) {
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
+  const func = navItem?.func
 
   function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
     (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
@@ -74,6 +72,11 @@ export function NavItem({ children, id }: NavItemType) {
     const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
     if (isBurger) {
       dispatch(closeMenu())
+      return
+    }
+
+    if (func) {
+      func()
       return
     }
 

@@ -13,6 +13,7 @@ export function useKeyShortcuts() {
     const currentMenuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
     const menuItemsQty = currentMenuItems.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
+    const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2
 
     if (e.key === 'ArrowDown') {
       e.preventDefault()
@@ -36,7 +37,6 @@ export function useKeyShortcuts() {
       return
     }
 
-    const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2
     if (isNestedMenu && e.key === 'Backspace') {
       globalObject.goUpInMenu && globalObject.goUpInMenu()
       return
