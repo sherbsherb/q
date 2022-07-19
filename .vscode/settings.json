@@ -4,6 +4,8 @@
   "javascript.validate.enable": true,
   "javascript.suggest.completeJSDocs": true,
   "cSpell.words": [
+    "PAGEDOWN",
+    "PAGEUP",
     "uotation"
   ],
 }
