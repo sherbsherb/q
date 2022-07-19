@@ -57,24 +57,27 @@ export function useKeyShortcuts() {
       const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenuItems)
       const menuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
       const menuItem = currentMenuItems!.find(menuItem => menuItem.id === menuId)
-      const link = menuItem?.link
-      const func = menuItem?.func
 
-      if (hoveredMenuItemIndex === 1 && isNestedMenu) {
+      const isBackMenuItem = hoveredMenuItemIndex === 1 && isNestedMenu
+      if (isBackMenuItem) {
         globalObject.goUpInMenu && globalObject.goUpInMenu()
         return
       }
-      if (hoveredMenuItemIndex === 1 && !isNestedMenu) {
+
+      const isCloseMenuItem = hoveredMenuItemIndex === 1 && !isNestedMenu
+      if (isCloseMenuItem) {
         dispatch(closeMenu())
         return
       }
 
+      const link = menuItem?.link
       if (link) {
         navigate(link)
         store.dispatch(closeMenu())
         return
       }
 
+      const func = menuItem?.func
       if (func) {
         func()
         store.dispatch(closeMenu())
@@ -110,7 +113,7 @@ export function useKeyShortcuts() {
       }
       // if no found below hovered item, do it again from the top
       if (index === -1) {
-        const newIndex = currentMenuItems.findIndex((menuItem, index) => {
+        const newIndex = currentMenuItems.findIndex((menuItem) => {
           const isiKeySameAsFirstItemLetter = menuItem.name && menuItem.name.toLowerCase().startsWith(e.key)
           return isiKeySameAsFirstItemLetter
         })

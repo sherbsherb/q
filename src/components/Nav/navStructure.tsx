@@ -14,6 +14,7 @@ export type MenuType = {
   name: string
   link?: any
   func?: () => void,
+  shortcut?: string[],
   menuItems?: MenuType[]
 }
 
@@ -106,7 +107,8 @@ export const navStructure: MenuType[] = [
             id: id(5),
             name: 'link',
             link: '/',
-            icon: '😇'
+            icon: '😇',
+            shortcut: ['control', 'shift', '1']
           },
           {
             id: id(5),
@@ -116,7 +118,8 @@ export const navStructure: MenuType[] = [
           {
             id: id(5),
             name: 'func',
-            func: () => alert('i am the function')
+            func: () => alert('i am the function'),
+            shortcut: ['control', 'shift', '2']
           }
         ]
       },
