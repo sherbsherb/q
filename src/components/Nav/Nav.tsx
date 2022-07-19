@@ -35,7 +35,11 @@ export function Nav() {
     function searchForShortcuts() {
       arr.forEach((menuItem) => {
         if (menuItem.shortcut) {
-          shortcuts.push({ shortcut: menuItem.shortcut, function: menuItem.func || null, link: menuItem.link || null })
+          shortcuts.push({
+            shortcut: menuItem.shortcut,
+            function: menuItem.func || null,
+            link: menuItem.link || null
+          })
         }
       })
       arr.forEach((menuItem) => {

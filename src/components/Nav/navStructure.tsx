@@ -27,7 +27,8 @@ export const navStructure: MenuType[] = [
         id: id(5),
         icon: <BookIcon />,
         name: 'Link A',
-        link: '/linkA'
+        link: '/linkA',
+        shortcut: ['control', 'shift', '3']
       },
       {
         id: id(5),
