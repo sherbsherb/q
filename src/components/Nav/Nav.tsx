@@ -1,80 +1,22 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Logo } from './Logo'
 import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { setNavMediaQueryWidths } from '@slices/navSlice'
 import { calcNavMediaQueryParams } from './functions/calcNavMediaQueryParams'
-import { useIsInitRender } from '@src/functions/useIsInitRender'
-import { navStructure } from './navStructure'
-import { useNavigate } from 'react-router-dom'
+import { useMenuShortcutsListener } from './functions/useMenuShortcutsListener'
 
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const mediaQueryWidthState = useSelector(state => state.nav.mediaQueryWidth)
   const dispatch = useDispatchTyped()
-  const isInitRender = useIsInitRender()
-  const navigate = useNavigate()
+  useMenuShortcutsListener()
 
   useLayoutEffect(() => {
     const { logoExtension, logoPart, icon, name, burger } = calcNavMediaQueryParams(navRef.current, logoRef.current)
     dispatch(setNavMediaQueryWidths({ logoExtension, logoPart, icon, name, burger }))
-  }, [])
-
-  useEffect(() => {
-    if (!isInitRender) return
-
-    type ShortcutsArr = {
-      shortcut: string[]
-      function: (() => void) | null
-      link: string | null
-    }
-    const shortcuts: ShortcutsArr[] = []
-    let arr = navStructure
-    function searchForShortcuts() {
-      arr.forEach((menuItem) => {
-        if (menuItem.shortcut) {
-          shortcuts.push({
-            shortcut: menuItem.shortcut,
-            function: menuItem.func || null,
-            link: menuItem.link || null
-          })
-        }
-      })
-      arr.forEach((menuItem) => {
-        if (menuItem.menuItems) {
-          arr = menuItem.menuItems
-          searchForShortcuts()
-        }
-      })
-    }
-    searchForShortcuts()
-
-    let keysPressed: string[] = []
-
-    window.addEventListener('keydown', (e) => {
-      keysPressed.push(e.key.toLowerCase())
-    })
-    window.addEventListener('keyup', (e) => {
-      keysPressed.push(e.key.toLowerCase())
-      keysPressed = [...new Set(keysPressed)]
-      const shortcutItem = shortcuts.find(o => {
-        const shortcutSorted = [...o.shortcut].sort() // do not sort original array
-        const shortcutStr = shortcutSorted.join('')
-        const pressedKeysStr = keysPressed.sort().join('')
-        return shortcutStr === pressedKeysStr
-      })
-
-      keysPressed = keysPressed.filter(key => key !== e.key.toLocaleLowerCase())
-      if (shortcutItem === undefined) return
-      if (shortcutItem.function) {
-        shortcutItem.function()
-      }
-      if (shortcutItem.link) {
-        navigate(shortcutItem.link)
-      }
-    })
   }, [])
 
   return (
