@@ -10,6 +10,7 @@ import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeH
 import { globalObject } from '@src/globalObject'
 import { store } from '@redux/store'
 import { getMenuItemByIdsChain } from '../functions/getMenuItemByIdsChain'
+import { Shortcut } from './Shortcut'
 
 type MenuItemType = {
   menuItem: MenuType
@@ -23,6 +24,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const isIcon = !!menuItem.icon
   const menuId = menuItem.id
   const link = menuItem.link
+  const shortcut = menuItem?.shortcut
 
   type EventType = KeyboardEvent | MouseEvent | React.MouseEvent | React.KeyboardEvent
 
@@ -68,6 +70,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
       {isIcon && <Icon icon={menuItem.icon} />}
       <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menuItem.name} />
       {isNextMenuAvailable && <MenuIconRight><ForwardIcon /></MenuIconRight>}
+      {shortcut && <Shortcut shortcut={shortcut} $isHovered={isHoveredState} />}
     </MenuItemStyled>
   )
 }

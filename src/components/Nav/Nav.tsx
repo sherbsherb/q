@@ -51,14 +51,13 @@ export function Nav() {
 
     window.addEventListener('keydown', (e) => {
       keysPressed.push(e.key.toLowerCase())
-      // keysPressed = [...new Set(keysPressed)]
-      console.log(keysPressed)
     })
     window.addEventListener('keyup', (e) => {
       keysPressed.push(e.key.toLowerCase())
       keysPressed = [...new Set(keysPressed)]
       const shortcutItem = shortcuts.find(o => {
-        const shortcutStr = o.shortcut.sort().join('')
+        const shortcutSorted = [...o.shortcut].sort() // do not sort original array
+        const shortcutStr = shortcutSorted.join('')
         const pressedKeysStr = keysPressed.sort().join('')
         return shortcutStr === pressedKeysStr
       })
