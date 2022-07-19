@@ -73,14 +73,14 @@ export function useNavigationWithKeys() {
       const link = menuItem?.link
       if (link) {
         navigate(link)
-        store.dispatch(closeMenu())
+        dispatch(closeMenu())
         return
       }
 
       const func = menuItem?.func
       if (func) {
         func()
-        store.dispatch(closeMenu())
+        dispatch(closeMenu())
         return
       }
 

@@ -6,7 +6,7 @@ import { TextInMenu } from './TextInMenu'
 import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import { MenuType } from '@components/Nav/navStructure'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
-import { useSelectorTyped as useSelector } from '@store/storeHooks'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { store } from '@redux/store'
 import { Shortcut } from './Shortcut'
 import { clickOnMenuItem } from './function/clickOnMenuItem'
@@ -17,6 +17,7 @@ type MenuItemType = {
 }
 
 export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
+  const dispatch = useDispatchTyped()
   const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menuItem.menuItems
   const isIcon = !!menuItem.icon
@@ -28,7 +29,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
     <MenuItemStyled
       to={link || '/'}
       onClick={(e) => clickOnMenuItem(e, menuId)}
-      onMouseEnter={() => store.dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
+      onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
       $isHovered={isHoveredState}
     >
       {isIcon && <Icon icon={menuItem.icon} />}
