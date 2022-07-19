@@ -18,7 +18,6 @@ type MenuItemType = {
 }
 
 export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
-  const dispatch = useDispatchTyped()
   const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menuItem.menuItems
   const isIcon = !!menuItem.icon
@@ -57,7 +56,7 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   }
 
   const hoverOverMenuItem = () => {
-    dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))
+    store.dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))
   }
 
   return (

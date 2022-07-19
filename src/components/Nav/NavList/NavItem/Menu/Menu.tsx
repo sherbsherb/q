@@ -11,8 +11,6 @@ import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { globalObject } from '@src/globalObject'
 
-// todo: add shortcuts component and functionality, for whole page, not Nav component only
-
 export function Menu() {
   const menuContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
