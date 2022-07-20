@@ -1,13 +1,12 @@
 // https://fkhadra.github.io/react-toastify/introduction/
 
-import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 
 // const CustomCloseBtn = () => (
 //   <i>Close</i>
 // )
 
-export function Toaster() {
+export function Notifier() {
   return (
     <ToastContainer
       position="bottom-center"

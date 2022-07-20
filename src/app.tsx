@@ -11,9 +11,10 @@ import { LinkC } from './routes/LinkC'
 import { theme } from './theme'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
-import { Toaster } from '@components/Main/Toaster/Toaster'
+import { Notifier } from '@components/Main/Toaster/Notifier'
 import './reset.css'
 import './app.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
@@ -30,7 +31,7 @@ root.render(
             <Route path="linkC" element={<LinkC />} />
           </Routes>
           <Footer />
-          <Toaster />
+          <Notifier />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
