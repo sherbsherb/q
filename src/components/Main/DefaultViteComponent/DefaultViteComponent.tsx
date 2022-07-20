@@ -7,8 +7,7 @@ import { decrement, increment } from '@slices/counterSlice'
 import { login } from '@slices/loginSlice'
 import { fetchUsers } from '@slices/usersSlice'
 import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
-import { toast } from 'react-toastify'
-import { notify } from '../Toaster/notify'
+import { notify } from '../../Notifier/notify'
 
 /**
  * Component with counter

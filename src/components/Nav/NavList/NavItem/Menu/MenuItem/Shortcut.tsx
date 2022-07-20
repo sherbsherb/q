@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { capitalizeKey } from './function/capitalizeKey'
 
 type ShortcutType = {
@@ -8,7 +7,7 @@ type ShortcutType = {
 }
 
 export function Shortcut({ shortcut, $isHovered }: ShortcutType) {
-  const keys = shortcut.join('+').toUpperCase()
+  const keys = shortcut.join('+')
 
   return (
     <Span className='shortcut' $isHovered={$isHovered}>

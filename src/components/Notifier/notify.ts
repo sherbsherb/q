@@ -1,10 +1,10 @@
 // https://fkhadra.github.io/react-toastify/positioning-toast
 import { toast, Slide } from 'react-toastify'
 
-export function notify(msg: string) {
+export function notify(msg: string | React.ReactNode) {
   toast.success(msg, {
     position: 'bottom-center',
-    autoClose: 1000,
+    autoClose: 3000,
     delay: 0,
     hideProgressBar: false,
     closeOnClick: true,

@@ -5,14 +5,14 @@ import { NavList } from './NavList'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { setNavMediaQueryWidths } from '@slices/navSlice'
 import { calcNavMediaQueryParams } from './functions/calcNavMediaQueryParams'
-import { useMenuShortcutsListener } from './functions/useMenuShortcutsListener'
+import { useMenuItemActionShortcuts } from './functions/useMenuItemActionShortcuts'
 
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const mediaQueryWidthState = useSelector(state => state.nav.mediaQueryWidth)
   const dispatch = useDispatchTyped()
-  useMenuShortcutsListener()
+  useMenuItemActionShortcuts()
 
   useLayoutEffect(() => {
     const { logoExtension, logoPart, icon, name, burger } = calcNavMediaQueryParams(navRef.current, logoRef.current)

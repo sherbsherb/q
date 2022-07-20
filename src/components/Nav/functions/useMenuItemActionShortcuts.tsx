@@ -1,9 +1,11 @@
+import { notify } from '@components/Notifier/notify'
 import { useIsInitRender } from '@functions/useIsInitRender'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { navStructure } from '../navStructure'
 
 type ShortcutsType = {
+  name: string
   shortcut: string[]
   function: (() => void) | null
   link: string | null
@@ -16,6 +18,7 @@ function searchForShortcutsInNavStructure() {
   arr.forEach((menuItem) => {
     if (menuItem.shortcut) {
       shortcuts.push({
+        name: menuItem.name,
         shortcut: menuItem.shortcut,
         function: menuItem.func || null,
         link: menuItem.link || null
@@ -30,7 +33,7 @@ function searchForShortcutsInNavStructure() {
   })
 }
 
-export function useMenuShortcutsListener() {
+export function useMenuItemActionShortcuts() {
   const isInitRender = useIsInitRender()
   const navigate = useNavigate()
 
@@ -62,6 +65,7 @@ export function useMenuShortcutsListener() {
       if (shortcutItem.link) {
         navigate(shortcutItem.link)
       }
+      notify(<><span style={{ color: 'orange' }}>{shortcutItem.name}</span> triggered with keyboard</>)
     })
   }, [])
 }
