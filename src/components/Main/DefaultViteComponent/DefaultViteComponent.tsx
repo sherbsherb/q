@@ -7,6 +7,8 @@ import { decrement, increment } from '@slices/counterSlice'
 import { login } from '@slices/loginSlice'
 import { fetchUsers } from '@slices/usersSlice'
 import { useDispatchTyped, useSelectorTyped } from '@store/storeHooks'
+import { toast } from 'react-toastify'
+import { notify } from '../Toaster/notify'
 
 /**
  * Component with counter
@@ -58,6 +60,9 @@ export function DefaultViteComponent(): JSX.Element {
           {!usersState.loading && !!usersState.users.length && usersState.users.map(user => <div key={user.id}>{user.name}</div>)}
         </div>
       </div>
+
+      <h3>Toast</h3>
+      <button onClick={() => notify('hi')}>say hi in bottom popup</button>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
 import { globalObject } from '@src/globalObject'
 import { useNavigate } from 'react-router-dom'
 
-export function useKeyShortcuts() {
+export function useKeyShortcutsForMenuNavigation() {
   const dispatch = useDispatchTyped()
   const navigate = useNavigate()
 

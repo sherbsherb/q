@@ -11,6 +11,7 @@ import { LinkC } from './routes/LinkC'
 import { theme } from './theme'
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
+import { Toaster } from '@components/Main/Toaster/Toaster'
 import './reset.css'
 import './app.css'
 
@@ -29,6 +30,7 @@ root.render(
             <Route path="linkC" element={<LinkC />} />
           </Routes>
           <Footer />
+          <Toaster />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
