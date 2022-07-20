@@ -212,12 +212,12 @@ export const navStructure: MenuType[] = [
           },
           {
             id: id(5),
-            name: 'item in menu 1',
+            name: 'hidden menu',
             icon: ''
           },
           {
             id: id(5),
-            name: 'item in menu 1',
+            name: 'not hidden menu',
             icon: '😇'
           }
         ]
@@ -249,12 +249,12 @@ export const navStructure: MenuType[] = [
                   },
                   {
                     id: id(5),
-                    name: 'item in menu 2',
+                    name: 'hidden menu',
                     icon: reactIcon
                   },
                   {
                     id: id(5),
-                    name: 'item in menu 2',
+                    name: 'not hidden menu',
                     icon: reactIcon
                   },
                   {
