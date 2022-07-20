@@ -1,5 +1,5 @@
 import { store } from '@redux/store'
-import { useDispatchTyped } from '@store/storeHooks'
+import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
@@ -9,10 +9,12 @@ import { useNavigate } from 'react-router-dom'
 export function useKeyShortcutsForMenuNavigation() {
   const dispatch = useDispatchTyped()
   const navigate = useNavigate()
+  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
 
   function navKeyboardHandler(e: KeyboardEvent) {
     const currentMenuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
-    const menuItemsQty = currentMenuItems.length + 1
+    const currentMenuItemsNotHidden = currentMenuItems.filter(menuItem => !hiddenItemNames.includes(menuItem.name))
+    const menuItemsQty = currentMenuItemsNotHidden.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
     const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2
 
