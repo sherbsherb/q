@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { useMenuNavigation } from './functions/useMenuNavigation'
+import { useMenuAnimation } from './functions/useMenuAnimation'
 import { useKeyShortcutsForMenuNavigation } from './functions/useKeyShortcutsForMenuNavigation'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
@@ -18,7 +18,7 @@ export function Menu() {
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const idsToNextMenuItemsState = useSelector(state => state.nav.idsToNextMenuItems)
   const idsToCurrentMenuItemsState = useSelector(state => state.nav.idsToCurrentMenuItems)
-  const { goDownInMenu, goUpInMenu } = useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItemsState })
+  const { goDownInMenu, goUpInMenu } = useMenuAnimation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItemsState })
   globalObject.goDownInMenu = goDownInMenu
   globalObject.goUpInMenu = goUpInMenu
   useKeyShortcutsForMenuNavigation()

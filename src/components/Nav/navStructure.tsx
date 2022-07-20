@@ -28,7 +28,7 @@ export const navStructure: MenuType[] = [
         icon: <BookIcon />,
         name: 'Link A',
         link: '/linkA',
-        shortcut: ['control', 'shift', '3']
+        shortcut: ['control', 'alt', 'z']
       },
       {
         id: id(5),
@@ -109,7 +109,7 @@ export const navStructure: MenuType[] = [
             name: 'link',
             link: '/',
             icon: '😇',
-            shortcut: ['control', 'shift', '1']
+            shortcut: ['control', 'alt', 'x']
           },
           {
             id: id(5),
@@ -120,7 +120,7 @@ export const navStructure: MenuType[] = [
             id: id(5),
             name: 'func',
             func: () => alert('i am the function'),
-            shortcut: ['control', 'shift', '2']
+            shortcut: ['control', 'alt', 'c']
           }
         ]
       },

@@ -56,9 +56,9 @@ export function useMenuItemActionShortcuts() {
         const pressedKeysStr = keysPressed.sort().join('')
         return shortcutStr === pressedKeysStr
       })
-
       keysPressed = keysPressed.filter(key => key !== e.key.toLocaleLowerCase())
       if (shortcutItem === undefined) return
+      e.preventDefault()
       if (shortcutItem.function) {
         shortcutItem.function()
       }

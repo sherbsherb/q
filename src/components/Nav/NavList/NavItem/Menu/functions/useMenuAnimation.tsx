@@ -15,7 +15,7 @@ type PropsType = {
   idsToNextMenuItems: string[]
 }
 
-export function useMenuNavigation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems }: PropsType) {
+export function useMenuAnimation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems }: PropsType) {
   const dispatch = useDispatchTyped()
   const isInitRender = useIsInitRender()
   const duration = 0.5
