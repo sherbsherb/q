@@ -1,7 +1,5 @@
-// import Link from 'next/link'
 import styled from 'styled-components'
-import { setNavItemRightPos, openMenuWithId, closeMenu } from '@slices/navSlice'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
 import { navStructure } from '../../navStructure'
 import { Icon } from './Icon'
@@ -9,6 +7,7 @@ import { Menu } from './Menu'
 import { store } from '@redux/store'
 import { useWindowSize } from 'react-use'
 import { Link } from 'react-router-dom'
+import { clickOnNavItem } from './functions/clickOnNavItem'
 
 type NavItemType = {
   children?: React.ReactNode,
@@ -27,8 +26,6 @@ type NavItemType = {
 */
 
 export function NavItem({ children, id }: NavItemType) {
-  const dispatch = useDispatchTyped()
-
   /**
   * required to avoid Menu to go over the narrow window
   */
@@ -54,44 +51,6 @@ export function NavItem({ children, id }: NavItemType) {
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
-  const func = navItem?.func
-
-  function onClickHandler(e: React.MouseEvent<HTMLAnchorElement>) {
-    (document.activeElement as HTMLElement).blur() // to prevent open an active navItem link on Enter key
-
-    if (link) {
-      // just follow the link natively
-      return
-    }
-
-    // all navItems are links and we do not to follow them if they are not really links
-    e.preventDefault()
-
-    // handle burger close separately
-    const isBurger = store.getState().nav.idsToCurrentMenuItems.includes('burger')
-    if (isBurger) {
-      dispatch(closeMenu())
-      return
-    }
-
-    // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
-    const currentMenuId = store.getState().nav.idsToCurrentMenuItems.at(-1)
-    const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
-    if (isMenuOpenedUnderThisNavItem) {
-      dispatch(closeMenu())
-      return
-    }
-
-    if (func) {
-      func()
-      return
-    }
-
-    // open menu and determine its position (right: 0 OR left: 0)
-    const navItemRightPos = navItemRef.current.getBoundingClientRect().right
-    dispatch(setNavItemRightPos(navItemRightPos))
-    dispatch(openMenuWithId(id))
-  }
 
   return (
     <LiStyled
@@ -100,7 +59,7 @@ export function NavItem({ children, id }: NavItemType) {
     >
       <Link
         to={link || '/'}
-        onClick={onClickHandler}
+        onClick={(e) => clickOnNavItem({ e, navItem, id, navItemRef })}
       >
         {icon && <Icon icon={icon} />}
         {!icon && shouldDisplayIcon && <Icon icon={name && name[0]} />}

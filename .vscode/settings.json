@@ -5,6 +5,8 @@
   "javascript.suggest.completeJSDocs": true,
   "cSpell.words": [
     "toastify",
+    "PAGEDOWN",
+    "PAGEUP",
     "uotation"
   ],
 }
