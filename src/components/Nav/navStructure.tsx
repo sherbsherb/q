@@ -1,12 +1,11 @@
-import { FaReact } from 'react-icons/fa'
-import { AiOutlinePlus } from 'react-icons/ai'
-import { MdOutlineMenuBook as BookIcon } from 'react-icons/md'
 import React from 'react'
 import { nanoid as id } from 'nanoid'
+import { BiUser } from 'react-icons/bi'
+import { FiSettings } from 'react-icons/fi'
+import { IoDocumentOutline, IoDocumentsOutline, IoSaveOutline, IoShareOutline } from 'react-icons/io5'
 import logo from '@components/Main/DefaultViteComponent/logo.svg'
 
-const reactIcon = React.createElement(FaReact, {})
-const plusIcon = React.createElement(AiOutlinePlus, {})
+const reactIcon = React.createElement(IoShareOutline, {})
 
 export type MenuType = {
   id: string
@@ -25,20 +24,15 @@ export const navStructure: MenuType[] = [
     menuItems: [
       {
         id: id(5),
-        icon: <BookIcon />,
-        name: 'Link A',
+        icon: <IoSaveOutline />,
+        name: 'Save',
         link: '/linkA',
         shortcut: ['control', 'z']
       },
       {
         id: id(5),
-        name: 'func',
-        func: () => alert('i am the function')
-      },
-      {
-        id: id(5),
-        icon: plusIcon,
-        name: 'menu 1',
+        icon: <IoShareOutline />,
+        name: 'Share',
         menuItems: [
           {
             id: id(5),
@@ -126,20 +120,8 @@ export const navStructure: MenuType[] = [
       },
       {
         id: id(5),
-        icon: <BookIcon />,
-        name: 'Link B',
-        link: '/linkB'
-      },
-      {
-        id: id(5),
-        icon: <BookIcon />,
-        name: 'Main',
-        link: '/'
-      },
-      {
-        id: id(5),
-        icon: plusIcon,
-        name: 'menu 1',
+        icon: <IoDocumentOutline />,
+        name: 'Offer',
         menuItems: [
           {
             id: id(5),
@@ -224,8 +206,20 @@ export const navStructure: MenuType[] = [
       },
       {
         id: id(5),
-        icon: plusIcon,
-        name: 'menu 2',
+        icon: <IoDocumentsOutline />,
+        name: 'Offers',
+        link: '/linkB'
+      },
+      {
+        id: id(5),
+        icon: <FiSettings />,
+        name: 'Settings',
+        link: '/'
+      },
+      {
+        id: id(5),
+        icon: <BiUser />,
+        name: 'Profile',
         menuItems: [
           {
             id: id(5),

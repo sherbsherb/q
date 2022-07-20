@@ -14,6 +14,8 @@ export const RoundSpanForIconStyled = styled.span`
   flex-shrink: 0; // to avoid logo shrink when menu item text is long
 
   svg {
-    fill: #dadce1;
+    /* fill: #dadce1; */
+    /* width: 100%;
+    height: 100%; */
   }
 `
