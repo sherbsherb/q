@@ -1,12 +1,13 @@
+import { navStructure } from '@components/Nav/navStructure'
 import { createSlice } from '@reduxjs/toolkit'
 import { globalObject } from '@src/globalObject'
 
 const initialState = {
+  navStructure,
   burger: { isOpen: false },
   mediaQueryWidth: { logoExtension: 0, logoPart: 0, icon: 0, name: 0, burger: 0 },
   idsToCurrentMenuItems: ['top'],
   idsToNextMenuItems: ['top'],
-  hiddenItemNames: ['Link D', 'hidden menu'],
   navItemRightPos: 0,
   menuItemHoverIndex: 0
 }

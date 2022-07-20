@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
-import { navStructure } from '../../navStructure'
 import { Icon } from './Icon'
 import { Menu } from './Menu'
 import { store } from '@redux/store'
@@ -39,7 +38,7 @@ export function NavItem({ children, id }: NavItemType) {
   */
   const windowWidthState = useWindowSize().width
   const widthWhenIconsAreShown = store.getState().nav.mediaQueryWidth.icon
-  const shouldDisplayIcon = windowWidthState < widthWhenIconsAreShown
+  const shouldDisplayIconState = windowWidthState < widthWhenIconsAreShown
   /**
   * needs to open only menu under clicked navItem, otherwise multiple menus are opened under all navItems
   */
@@ -47,6 +46,7 @@ export function NavItem({ children, id }: NavItemType) {
   /**
   * get navItem details
   */
+  const navStructure = useSelector(state => state.nav.navStructure)
   const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
   const icon = navItem?.icon
   const name = navItem?.name
@@ -62,7 +62,7 @@ export function NavItem({ children, id }: NavItemType) {
         onClick={(e) => clickOnNavItem({ e, navItem, id, navItemRef })}
       >
         {icon && <Icon icon={icon} />}
-        {!icon && shouldDisplayIcon && <Icon icon={name && name[0]} />}
+        {!icon && shouldDisplayIconState && <Icon icon={name && name[0]} />}
         {name && <span className='nav-item-name'>{name}</span>}
         {children}
       </Link>

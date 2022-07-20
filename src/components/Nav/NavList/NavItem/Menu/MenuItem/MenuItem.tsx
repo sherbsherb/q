@@ -7,7 +7,6 @@ import { RoundSpanForIconStyled } from '../../RoundSpanForIconStyled'
 import { MenuType } from '@components/Nav/navStructure'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
-import { store } from '@redux/store'
 import { Shortcut } from './Shortcut'
 import { clickOnMenuItem } from './function/clickOnMenuItem'
 

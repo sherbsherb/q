@@ -9,11 +9,10 @@ import { useNavigate } from 'react-router-dom'
 export function useKeyShortcutsForMenuNavigation() {
   const dispatch = useDispatchTyped()
   const navigate = useNavigate()
-  const hiddenItemNames = useSelector(state => state.nav.hiddenItemNames)
 
   function navKeyboardHandler(e: KeyboardEvent) {
     const currentMenuItems = getMenuItemByIdsChain(store.getState().nav.idsToCurrentMenuItems)
-    const currentMenuItemsNotHidden = currentMenuItems.filter(menuItem => !hiddenItemNames.includes(menuItem.name))
+    const currentMenuItemsNotHidden = currentMenuItems.filter(menuItem => !menuItem.isHidden)
     const menuItemsQty = currentMenuItemsNotHidden.length + 1
     const hoveredMenuItemIndex = store.getState().nav.menuItemHoverIndex
     const isNestedMenu = store.getState().nav.idsToNextMenuItems.length > 2

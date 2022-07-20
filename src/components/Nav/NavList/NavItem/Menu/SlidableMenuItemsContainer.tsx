@@ -9,24 +9,19 @@ type Props = {
 }
 
 export function SlidableMenuItemsContainer({ reference, idsToMenu, className }: Props) {
-  const hiddenItemNamesState = useSelector(state => state.nav.hiddenItemNames)
   const menuItems = getMenuItemByIdsChain(idsToMenu)
   return (
     <div ref={reference} className={className}>
-      {menuItems
-        .filter(menuItem => {
-          const isVisible = !hiddenItemNamesState.includes(menuItem.name || '')
-          return isVisible
-        })
-        .map((menuItem, index) => {
-          return (
-            <MenuItem
-              menuItem={menuItem}
-              key={menuItem.id}
-              hoveredMenuItemIndex={index + 2}
-            />
-          )
-        })
+      {
+        menuItems
+          .filter(menuItem => !menuItem.isHidden)
+          .map((menuItem, index) => (
+              <MenuItem
+                menuItem={menuItem}
+                key={menuItem.id}
+                hoveredMenuItemIndex={index + 2}
+              />
+          ))
       }
     </div>
   )

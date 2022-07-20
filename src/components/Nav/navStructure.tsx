@@ -16,7 +16,8 @@ export type MenuType = {
   link?: any
   func?: () => void,
   shortcut?: string[],
-  menuItems?: MenuType[]
+  menuItems?: MenuType[],
+  isHidden?: boolean
 }
 
 export const navStructure: MenuType[] = [
@@ -101,7 +102,8 @@ export const navStructure: MenuType[] = [
           {
             id: id(5),
             name: 'hidden menu',
-            icon: ''
+            icon: '',
+            isHidden: true
           },
           {
             id: id(5),
@@ -246,7 +248,8 @@ export const navStructure: MenuType[] = [
                   {
                     id: id(5),
                     name: 'hidden menu',
-                    icon: reactIcon
+                    icon: reactIcon,
+                    isHidden: true
                   },
                   {
                     id: id(5),
@@ -285,7 +288,8 @@ export const navStructure: MenuType[] = [
           {
             id: id(5),
             name: 'hidden menu',
-            icon: '😇'
+            icon: '😇',
+            isHidden: true
           },
           {
             id: id(5),

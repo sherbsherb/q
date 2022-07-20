@@ -1,20 +1,19 @@
 import styled from 'styled-components'
-import { MenuType, navStructure } from '../navStructure'
+import { MenuType } from '../navStructure'
 import { NavItem } from './NavItem'
 import { Burger } from './NavItem/Burger'
 import { useSelectorTyped as useSelector } from '@store/storeHooks'
 
 export function NavList() {
-  const hiddenItemNamesState = useSelector(state => state.nav.hiddenItemNames)
+  const navStructure = useSelector(state => state.nav.navStructure)
 
   return (
     <Ul>
-      {navStructure[0].menuItems!.map(
-        (menuItem: MenuType) => {
-          const isVisible = !hiddenItemNamesState.includes(menuItem.name || '')
-          return isVisible && <NavItem id={menuItem.id} key={menuItem.id} />
-        }
-      )}
+      {
+        navStructure[0].menuItems!
+          .filter((navItem) => !navItem.isHidden)
+          .map((navItem: MenuType) => <NavItem id={navItem.id} key={navItem.id} />)
+      }
       <NavItem id={'burger'} key={'burger'}><Burger /></NavItem>
     </Ul>
   )

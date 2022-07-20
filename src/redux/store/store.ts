@@ -16,7 +16,9 @@ export const store = configureStore({
     users,
     nav
   },
-  middleware: (defaultMiddleware) => defaultMiddleware(),
+  middleware: (defaultMiddleware) => defaultMiddleware({
+    serializableCheck: false
+  }),
   // middleware: (defaultMiddleware) => defaultMiddleware().concat(logger),
   devTools: true
 })
