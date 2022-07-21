@@ -61,7 +61,7 @@ type PropsForSC = {
 export const MenuStyled = styled.div<PropsForSC>`
   position: absolute;
   top: calc(100% + 5px);
-  right: -10px;
+  right: 0px;
   /* if right corner goes over the screen fix the left instead of right */
   left: ${props => props.isMenuOutsideWindowState ? '0' : 'not set'};
   width: ${theme.menu.width}px;

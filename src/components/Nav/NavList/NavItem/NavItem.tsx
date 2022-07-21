@@ -74,7 +74,6 @@ export function NavItem({ children, id }: NavItemType) {
 }
 
 const LiStyled = styled.li`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,8 +84,8 @@ const LiStyled = styled.li`
 
   & > a {
     display: flex;
-    position: relative;
     align-items: center;
+    position: relative;
     text-decoration: none;
     -webkit-user-drag: none;
 
@@ -106,8 +105,9 @@ const LiStyled = styled.li`
     .arrow-for-nested-menu {
       display: none;
       position: absolute;
-      right: -7px;
-      bottom: 10px;
+      top: calc(50% + 2px);
+      transform: translateY(-50%);
+      right: -8px;
       color: grey;
       font-size: 8px;
     }
