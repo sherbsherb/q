@@ -48,6 +48,7 @@ export function NavItem({ children, id }: NavItemType) {
   */
   const navStructure = useSelector(state => state.nav.navStructure)
   const navItem = navStructure[0].menuItems!.find(menuItem => menuItem.id === id)
+  const isNestedMenu = !!navItem?.menuItems
   const icon = navItem?.icon
   const name = navItem?.name
   const link = navItem?.link
@@ -64,6 +65,7 @@ export function NavItem({ children, id }: NavItemType) {
         {icon && <Icon icon={icon} />}
         {!icon && shouldDisplayIconState && <Icon icon={name && name[0]} />}
         {name && <span className='nav-item-name'>{name}</span>}
+        {isNestedMenu && <span className='arrow-for-nested-menu'>▼</span>}
         {children}
       </Link>
       {shouldOpenThisMenuState && <Menu />}
@@ -78,15 +80,19 @@ const LiStyled = styled.li`
   justify-content: center;
   padding: 0px 5px;
   margin-left: 10px;
+  margin-right: 10px;
   user-select: none;
 
   & > a {
     display: flex;
+    position: relative;
     align-items: center;
     text-decoration: none;
     -webkit-user-drag: none;
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:active {
       filter: brightness(1.2);
     }
 
@@ -96,7 +102,21 @@ const LiStyled = styled.li`
       color: #bcbcbc;
       white-space: nowrap;
     }
+    
+    .arrow-for-nested-menu {
+      display: none;
+      position: absolute;
+      right: -7px;
+      bottom: 10px;
+      color: grey;
+      font-size: 8px;
+    }
+  
+    &:hover > .arrow-for-nested-menu {
+      display: block;
+    }
   }
+
 
   @media screen and (max-width: 480px) {
     position: static;

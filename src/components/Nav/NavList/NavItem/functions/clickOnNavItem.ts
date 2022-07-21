@@ -32,7 +32,6 @@ export function clickOnNavItem({ e, navItem, id, navItemRef }: PropsType) {
 
   // if click on NavItem for which Menu is opened, then close it, otherwise it closes and opens immediately
   const currentMenuId = store.getState().nav.idsToCurrentMenuItems.at(-1)
-  console.log(666)
   const isMenuOpenedUnderThisNavItem = currentMenuId === id && currentMenuId !== 'top'
 
   if (isMenuOpenedUnderThisNavItem) {
