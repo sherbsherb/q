@@ -1,12 +1,12 @@
 import { store } from '@redux/store'
-import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { getMenuItemByIdsChain } from './getMenuItemByIdsChain'
 import { globalObject } from '@src/globalObject'
 import { useNavigate } from 'react-router-dom'
 
-export function useKeyShortcutsForMenuNavigation() {
+export function useKeysForMenuNavigation() {
   const dispatch = useDispatchTyped()
   const navigate = useNavigate()
 
@@ -57,7 +57,7 @@ export function useKeyShortcutsForMenuNavigation() {
     if (e.key === 'Enter') {
       const nextMenu = getMenuItemByIdsChain(store.getState().nav.idsToNextMenuItems)
       const menuId = nextMenu[hoveredMenuItemIndex - 2]?.id || ''
-      const menuItem = currentMenuItems!.find(menuItem => menuItem.id === menuId)
+      const menuItem = currentMenuItemsNotHidden!.find(menuItem => menuItem.id === menuId)
 
       const isBackMenuItem = hoveredMenuItemIndex === 1 && isNestedMenu
       if (isBackMenuItem) {
@@ -103,7 +103,7 @@ export function useKeyShortcutsForMenuNavigation() {
         return
       }
       // search in items below hovered item
-      const index = currentMenuItems.findIndex((menuItem, index) => {
+      const index = currentMenuItemsNotHidden.findIndex((menuItem, index) => {
         const isiKeySameAsFirstItemLetter = menuItem.name && menuItem.name.toLowerCase().startsWith(e.key)
         if (!isiKeySameAsFirstItemLetter) return false
         if (index + 2 > hoveredMenuItemIndex) return true
@@ -114,7 +114,7 @@ export function useKeyShortcutsForMenuNavigation() {
       }
       // if no found below hovered item, do it again from the top
       if (index === -1) {
-        const newIndex = currentMenuItems.findIndex((menuItem) => {
+        const newIndex = currentMenuItemsNotHidden.findIndex((menuItem) => {
           const isiKeySameAsFirstItemLetter = menuItem.name && menuItem.name.toLowerCase().startsWith(e.key)
           return isiKeySameAsFirstItemLetter
         })

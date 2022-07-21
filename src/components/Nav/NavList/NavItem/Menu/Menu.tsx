@@ -3,7 +3,7 @@ import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
 import { useRef } from 'react'
 import { useMenuAnimation } from './functions/useMenuAnimation'
-import { useKeyShortcutsForMenuNavigation } from './functions/useKeyShortcutsForMenuNavigation'
+import { useKeysForMenuNavigation } from './functions/useKeysForMenuNavigation'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
 import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
 import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
@@ -21,7 +21,7 @@ export function Menu() {
   const { goDownInMenu, goUpInMenu } = useMenuAnimation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItemsState })
   globalObject.goDownInMenu = goDownInMenu
   globalObject.goUpInMenu = goUpInMenu
-  useKeyShortcutsForMenuNavigation()
+  useKeysForMenuNavigation()
   useCloseMenuOnClickOutside({ menuContainerRef })
   const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
   const dispatch = useDispatchTyped()
