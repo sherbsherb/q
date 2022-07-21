@@ -1,4 +1,4 @@
-import { navStructure } from '@components/Nav/navStructure'
+import { MenuType, navStructure } from '@components/Nav/navStructure'
 import { createSlice } from '@reduxjs/toolkit'
 import { globalObject } from '@src/globalObject'
 
@@ -37,7 +37,39 @@ const navSlice = createSlice({
     goUpInCurrentMenu: (state) => { state.idsToCurrentMenuItems = state.idsToCurrentMenuItems.slice(0, -1) },
     goDownInNextMenu: (state, action) => { state.idsToNextMenuItems = [...state.idsToNextMenuItems, action.payload] },
     goUpInNextMenu: (state) => { state.idsToNextMenuItems = state.idsToNextMenuItems.slice(0, -1) },
-    setMenuItemHoverIndex: (state, action) => { state.menuItemHoverIndex = action.payload }
+    setMenuItemHoverIndex: (state, action) => { state.menuItemHoverIndex = action.payload },
+    /**
+     * - usage:
+     * - {
+          type: 'navSlice/setPropValueByIdInNavStructure',
+          payload: {
+          id: 'Offer',
+          prop: 'isHidden',
+          value: true
+          }
+        }
+     */
+    setPropValueByIdInNavStructure: (state, action) => {
+      const { id, prop, value } = action.payload
+
+      type Props = {
+        navStructure: MenuType[],
+        id: string,
+        prop: 'isHidden' | 'icon' | 'name' | 'link' | 'func',
+        value: any
+      }
+
+      function searchItemByIdAndSetValueToProp ({ navStructure, id, prop, value }: Props) {
+        navStructure.forEach((el: MenuType) => {
+          if (el.id === id) {
+            el[prop] = value
+            return
+          }
+          if (el.menuItems) searchItemByIdAndSetValueToProp({ navStructure: el.menuItems, id, prop, value })
+        })
+      }
+      searchItemByIdAndSetValueToProp({ navStructure: state.navStructure, id, prop, value })
+    }
   }
 })
 
@@ -56,5 +88,6 @@ export const {
   // 2nd menu state
   goDownInNextMenu,
   goUpInNextMenu,
-  setMenuItemHoverIndex
+  setMenuItemHoverIndex,
+  setPropValueByIdInNavStructure
 } = navSlice.actions

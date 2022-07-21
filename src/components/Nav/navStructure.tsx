@@ -26,22 +26,22 @@ export const navStructure: MenuType[] = [
     name: 'top',
     menuItems: [
       {
-        id: id(5),
+        id: 'Offer',
         icon: <IoDocumentOutline />,
         name: 'Offer',
         menuItems: [
           {
-            id: id(5),
+            id: 'Previous offer',
             name: 'Previous offer',
             icon: <IoIosSwap />
           },
           {
-            id: id(5),
+            id: 'Nested menu',
             name: 'Nested menu',
             icon: <IoIosSwap />,
             menuItems: [
               {
-                id: id(5),
+                id: 'item in menu 1',
                 name: 'item in menu 1',
                 icon: '😎',
                 menuItems: [
@@ -113,14 +113,14 @@ export const navStructure: MenuType[] = [
         ]
       },
       {
-        id: id(5),
+        id: 'Save',
         icon: <IoSaveOutline />,
         name: 'Save',
         link: '/linkA',
         shortcut: ['control', 'z']
       },
       {
-        id: id(5),
+        id: 'Share',
         icon: <IoShareOutline />,
         name: 'Share',
         menuItems: [
@@ -209,19 +209,19 @@ export const navStructure: MenuType[] = [
         ]
       },
       {
-        id: id(5),
+        id: 'Offers',
         icon: <IoDocumentsOutline />,
         name: 'Offers',
         link: '/linkB'
       },
       {
-        id: id(5),
+        id: 'Settings',
         icon: <FiSettings />,
         name: 'Settings',
         link: '/'
       },
       {
-        id: id(5),
+        id: 'Profile',
         icon: <BiUser />,
         name: 'Profile',
         menuItems: [
