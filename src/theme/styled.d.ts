@@ -16,6 +16,10 @@ declare module 'styled-components' {
       paddingBottom: number
       menuItem: {
         height: number
+      },
+      navItem: {
+        marginLeft: number
+        marginRight: number
       }
     }
   }

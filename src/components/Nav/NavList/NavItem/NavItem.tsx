@@ -75,11 +75,12 @@ export function NavItem({ children, id }: NavItemType) {
 
 const LiStyled = styled.li`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   padding: 0px 5px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: ${props => props.theme.menu.navItem.marginLeft}px;
+  margin-right: ${props => props.theme.menu.navItem.marginRight}px;
   user-select: none;
 
   & > a {
