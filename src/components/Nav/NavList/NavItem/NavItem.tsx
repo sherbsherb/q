@@ -113,7 +113,8 @@ const LiStyled = styled.li`
       font-size: 8px;
     }
   
-    &:hover > .arrow-for-nested-menu {
+    &:hover > .arrow-for-nested-menu,
+    &:focus > .arrow-for-nested-menu {
       display: block;
     }
   }
