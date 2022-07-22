@@ -2,7 +2,6 @@ import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import styled, { useTheme } from 'styled-components'
-import { theme } from '@src/theme'
 import { decrement, increment } from '@slices/counterSlice'
 import { login } from '@slices/loginSlice'
 import { fetchUsers } from '@slices/usersSlice'
@@ -68,7 +67,7 @@ export function DefaultViteComponent(): JSX.Element {
 
 const Button = styled.button`
   border-color:  ${props => props.theme.colors.red};
-  background-color: ${theme.colors.grey};
+  background-color: ${props => props.theme.colors.grey};
   color: white;
   cursor: pointer;
 `
