@@ -17,7 +17,7 @@ type MenuItemType = {
 
 export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
   const dispatch = useDispatchTyped()
-  const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
+  const isHovered = useSelector(state => state.nav.menuItemHoverIndex === hoveredMenuItemIndex)
   const isNextMenuAvailable = !!menuItem.menuItems
   const isIcon = !!menuItem.icon
   const menuId = menuItem.id
@@ -29,12 +29,12 @@ export function MenuItem({ menuItem, hoveredMenuItemIndex }: MenuItemType) {
       to={link || '/'}
       onClick={(e) => clickOnMenuItem(e, menuId)}
       onMouseEnter={() => dispatch(setMenuItemHoverIndex(hoveredMenuItemIndex))}
-      $isHovered={isHoveredState}
+      $isHovered={isHovered}
     >
       {isIcon && <Icon icon={menuItem.icon} />}
       <TextInMenu reserveSpaceForIcon={isNextMenuAvailable} name={menuItem.name} />
       {isNextMenuAvailable && <MenuIconRight><ForwardIcon /></MenuIconRight>}
-      {shortcut && <Shortcut shortcut={shortcut} $isHovered={isHoveredState} />}
+      {shortcut && <Shortcut shortcut={shortcut} $isHovered={isHovered} />}
     </MenuItemStyled>
   )
 }

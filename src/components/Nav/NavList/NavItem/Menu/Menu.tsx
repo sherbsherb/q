@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { useMenuAnimation } from './functions/useMenuAnimation'
 import { useKeysForMenuNavigation } from './functions/useKeysForMenuNavigation'
 import { useCloseMenuOnClickOutside } from './functions/useCloseMenuOnClickOutside'
-import { useIsMenuOutsideWindowState } from './functions/useIsMenuOutsideWindowState'
+import { useIsMenuOutsideWindow } from './functions/useIsMenuOutsideWindow'
 import { SlidableMenuItemsContainer } from './SlidableMenuItemsContainer'
 import { TopMenuItemsContainer } from './TopMenuItemsContainer'
 import { setMenuItemHoverIndex } from '@slices/navSlice'
@@ -15,38 +15,38 @@ export function Menu() {
   const currentMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const nextMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const fakeMenuRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const idsToNextMenuItemsState = useSelector(state => state.nav.idsToNextMenuItems)
-  const idsToCurrentMenuItemsState = useSelector(state => state.nav.idsToCurrentMenuItems)
-  const { goDownInMenu, goUpInMenu } = useMenuAnimation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItemsState })
+  const idsToNextMenuItems = useSelector(state => state.nav.idsToNextMenuItems)
+  const idsToCurrentMenuItems = useSelector(state => state.nav.idsToCurrentMenuItems)
+  const { goDownInMenu, goUpInMenu } = useMenuAnimation({ currentMenuRef, nextMenuRef, menuContainerRef, fakeMenuRef, idsToNextMenuItems: idsToNextMenuItems })
   globalObject.goDownInMenu = goDownInMenu
   globalObject.goUpInMenu = goUpInMenu
   useKeysForMenuNavigation()
   useCloseMenuOnClickOutside({ menuContainerRef })
-  const isMenuOutsideWindowState = useIsMenuOutsideWindowState()
+  const isMenuOutsideWindow = useIsMenuOutsideWindow()
   const dispatch = useDispatchTyped()
 
   return (
     <MenuStyled
       ref={menuContainerRef}
-      isMenuOutsideWindowState={isMenuOutsideWindowState}
+      isMenuOutsideWindow={isMenuOutsideWindow}
       onMouseLeave={() => dispatch(setMenuItemHoverIndex(0))}
       className='drop-down-nav-menu'
     >
       <TopMenuItemsContainer />
       <SlidableMenuItemsContainer
         reference={currentMenuRef}
-        idsToMenu={idsToCurrentMenuItemsState}
+        idsToMenu={idsToCurrentMenuItems}
         className='slidable current'
       />
       <SlidableMenuItemsContainer
         reference={nextMenuRef}
-        idsToMenu={idsToNextMenuItemsState}
+        idsToMenu={idsToNextMenuItems}
         className='slidable
         next'
       />
       <SlidableMenuItemsContainer
         reference={fakeMenuRef}
-        idsToMenu={idsToNextMenuItemsState}
+        idsToMenu={idsToNextMenuItems}
         className='measurable-div'
       />
     </MenuStyled>
@@ -54,7 +54,7 @@ export function Menu() {
 }
 
 type PropsForSC = {
-  isMenuOutsideWindowState: boolean
+  isMenuOutsideWindow: boolean
 }
 
 export const MenuStyled = styled.div<PropsForSC>`
@@ -62,7 +62,7 @@ export const MenuStyled = styled.div<PropsForSC>`
   top: calc(100% + 5px);
   right: -${props => props.theme.menu.navItem.marginRight}px;
   /* if right corner goes over the screen fix the left instead of right */
-  left: ${props => props.isMenuOutsideWindowState ? '0' : 'not set'};
+  left: ${props => props.isMenuOutsideWindow ? '0' : 'not set'};
   width: ${props => props.theme.menu.width}px;
   padding-top: ${props => props.theme.menu.paddingTop}px;
   padding-bottom: ${props => props.theme.menu.paddingBottom}px;

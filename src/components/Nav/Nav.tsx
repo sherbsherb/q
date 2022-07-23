@@ -10,7 +10,7 @@ import { useMenuItemActionShortcuts } from './functions/useMenuItemActionShortcu
 export function Nav() {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>
   const logoRef = useRef() as React.MutableRefObject<HTMLDivElement>
-  const mediaQueryWidthState = useSelector(state => state.nav.mediaQueryWidth)
+  const mediaQueryWidth = useSelector(state => state.nav.mediaQueryWidth)
   const dispatch = useDispatchTyped()
   useMenuItemActionShortcuts()
 
@@ -22,7 +22,7 @@ export function Nav() {
   return (
     <NavStyled
       ref={navRef}
-      mediaQueryWidthState={mediaQueryWidthState}
+      mediaQueryWidth={mediaQueryWidth}
     >
       <Logo logoRef={logoRef}/>
       <NavList />
@@ -31,7 +31,7 @@ export function Nav() {
 }
 
 type PropsForSC = {
-  mediaQueryWidthState: {
+  mediaQueryWidth: {
     icon: number
     name: number
     burger: number
@@ -53,22 +53,22 @@ const NavStyled = styled.nav<PropsForSC>`
   contain: layout inline-size;
 
   & > ul > li > a > .icon-round-wrapper {
-    @media (max-width: ${props => props.mediaQueryWidthState.icon}px) and (min-width: ${props => props.mediaQueryWidthState.name}px) {
+    @media (max-width: ${props => props.mediaQueryWidth.icon}px) and (min-width: ${props => props.mediaQueryWidth.name}px) {
       display: none;
     }
-    @media (max-width: ${props => props.mediaQueryWidthState.burger}px) {
+    @media (max-width: ${props => props.mediaQueryWidth.burger}px) {
       display: none;
     }
   }
 
   .nav-item-name {
-    @media (max-width: ${props => props.mediaQueryWidthState.name}px) {
+    @media (max-width: ${props => props.mediaQueryWidth.name}px) {
       display: none;
     }
   }
 
   li:not(:last-child) {
-    @media (max-width: ${props => props.mediaQueryWidthState.burger}px) {
+    @media (max-width: ${props => props.mediaQueryWidth.burger}px) {
       display: none;
     }
   }
@@ -76,7 +76,7 @@ const NavStyled = styled.nav<PropsForSC>`
   li:last-child {
     display: none;
 
-    @media (max-width: ${props => props.mediaQueryWidthState.burger}px) {
+    @media (max-width: ${props => props.mediaQueryWidth.burger}px) {
       display: flex;
     }
 

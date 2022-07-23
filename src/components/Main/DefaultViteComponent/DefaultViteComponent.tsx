@@ -17,9 +17,9 @@ export function DefaultViteComponent(): JSX.Element {
   const [count, setCount] = useState(0)
   const theme = useTheme()
 
-  const counterState = useSelectorTyped(state => state.counter.counter)
-  const isLoggedState = useSelectorTyped(state => state.login.isLogged)
-  const usersState = useSelectorTyped(state => state.users)
+  const counter = useSelectorTyped(state => state.counter.counter)
+  const isLogged = useSelectorTyped(state => state.login.isLogged)
+  const users = useSelectorTyped(state => state.users)
   const dispatch = useDispatchTyped()
 
   const style = { border: '2px solid grey', padding: '10px', margin: '10px', maxWidth: '500px' }
@@ -44,18 +44,18 @@ export function DefaultViteComponent(): JSX.Element {
 
       <div style={style}>
         <h1>Redux</h1>
-        <div>Counter: <strong>{counterState}</strong></div>
+        <div>Counter: <strong>{counter}</strong></div>
         <button onClick={() => dispatch(increment(1))}>Increment +1</button>&#8194;
         <button onClick={() => dispatch(increment(5))}>Increment +5</button>&#8194;
         <button onClick={() => dispatch(decrement({ num: 1 }))}>Decrement -1</button>
         <button onClick={() => dispatch(decrement({ num: 3 }))}>Decrement -3</button>
-        <div>isLogged: <strong>{isLoggedState.toString()}</strong></div>
+        <div>isLogged: <strong>{isLogged.toString()}</strong></div>
         <button onClick={() => dispatch(login())}>Sign in/out</button><br />
         <button onClick={() => dispatch(fetchUsers())}>Fetch users</button><br />
         <div>
-          {usersState.loading && 'Loading...'}
-          {usersState.error && usersState.error}
-          {!usersState.loading && !!usersState.users.length && usersState.users.map(user => <div key={user.id}>{user.name}</div>)}
+          {users.loading && 'Loading...'}
+          {users.error && users.error}
+          {!users.loading && !!users.users.length && users.users.map(user => <div key={user.id}>{user.name}</div>)}
         </div>
       </div>
 

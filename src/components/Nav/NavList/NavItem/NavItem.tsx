@@ -36,13 +36,13 @@ export function NavItem({ children, id }: NavItemType) {
   * - do it only for such width when only icons are show
   * - for that reason we track window's width with 'useWindowSize' hook
   */
-  const windowWidthState = useWindowSize().width
+  const windowWidth = useWindowSize().width
   const widthWhenIconsAreShown = store.getState().nav.mediaQueryWidth.icon
-  const shouldDisplayIconState = windowWidthState < widthWhenIconsAreShown
+  const shouldDisplayIcon = windowWidth < widthWhenIconsAreShown
   /**
   * needs to open only menu under clicked navItem, otherwise multiple menus are opened under all navItems
   */
-  const shouldOpenThisMenuState = useSelector(state => state.nav.idsToCurrentMenuItems.at(1) === id)
+  const shouldOpenThisMenu = useSelector(state => state.nav.idsToCurrentMenuItems.at(1) === id)
   /**
   * get navItem details
   */
@@ -63,12 +63,12 @@ export function NavItem({ children, id }: NavItemType) {
         onClick={(e) => clickOnNavItem({ e, navItem, id, navItemRef })}
       >
         {icon && <Icon icon={icon} />}
-        {!icon && shouldDisplayIconState && <Icon icon={name && name[0]} />}
+        {!icon && shouldDisplayIcon && <Icon icon={name && name[0]} />}
         {name && <span className='nav-item-name'>{name}</span>}
         {isNestedMenu && <span className='arrow-for-nested-menu'>▼</span>}
         {children}
       </Link>
-      {shouldOpenThisMenuState && <Menu />}
+      {shouldOpenThisMenu && <Menu />}
     </LiStyled>
   )
 }

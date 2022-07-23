@@ -3,10 +3,10 @@ import { BackMenuItem } from './MenuItem/BackMenuItem'
 import { CloseMenuItem } from './MenuItem/CloseMenuItem'
 
 export function TopMenuItemsContainer() {
-  const isNestedMenuState = useSelector(state => state.nav.idsToNextMenuItems.length > 2)
+  const isNestedMenu = useSelector(state => state.nav.idsToNextMenuItems.length > 2)
   return (
     <div className='non-slidable' >
-      {isNestedMenuState ? <BackMenuItem /> : <CloseMenuItem />}
+      {isNestedMenu ? <BackMenuItem /> : <CloseMenuItem />}
     </div>
   )
 }

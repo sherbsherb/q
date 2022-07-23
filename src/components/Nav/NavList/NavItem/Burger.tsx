@@ -6,13 +6,13 @@ import { toggleBurger } from '@slices/navSlice'
 
 export function Burger() {
   const dispatch = useDispatchTyped()
-  const isOpenState = useSelector(state => state.nav.burger.isOpen)
-  const screenWidthWhenShowBurgerState = useSelector(state => state.nav.mediaQueryWidth.burger)
+  const isOpen = useSelector(state => state.nav.burger.isOpen)
+  const screenWidthWhenShowBurger = useSelector(state => state.nav.mediaQueryWidth.burger)
 
   return (
-    <BurgerContainer screenWidthWhenShowBurgerState={screenWidthWhenShowBurgerState}>
+    <BurgerContainer screenWidthWhenShowBurger={screenWidthWhenShowBurger}>
       <BurgerIcon
-        toggled={isOpenState}
+        toggled={isOpen}
         toggle={() => dispatch(toggleBurger())}
         size={20}
         color='#bcbcbc'
@@ -27,13 +27,13 @@ export function Burger() {
   )
 }
 type PropsForSC = {
-  screenWidthWhenShowBurgerState: number
+  screenWidthWhenShowBurger: number
 }
 
 const BurgerContainer = styled.div<PropsForSC>`
   display: none;
 
-  @media (max-width: ${props => props.screenWidthWhenShowBurgerState}px) {
+  @media (max-width: ${props => props.screenWidthWhenShowBurger}px) {
     display: block;
   }
 `
