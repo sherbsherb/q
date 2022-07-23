@@ -2,6 +2,7 @@ import { isClickInsideThisElement } from '@src/functions/isClickInsideThisElemen
 import { useDispatchTyped } from '@store/storeHooks'
 import { useEffect } from 'react'
 import { closeMenu } from '@slices/navSlice'
+import { EventType } from '@src/types'
 
 type Props = {
   menuContainerRef: React.MutableRefObject<HTMLDivElement>
@@ -17,7 +18,7 @@ export function useCloseMenuOnClickOutside({ menuContainerRef }: Props) {
    * - if click on navItem do not close, but close it in NavItem onClick handler, otherwise it closes and opens immediately
    */
 
-  function mouseDownHandler(e: MouseEvent) {
+  function mouseDownHandler(e: EventType) {
     const menuContainer = menuContainerRef.current
     if (!menuContainer) return
     const navItem = menuContainerRef.current.parentElement

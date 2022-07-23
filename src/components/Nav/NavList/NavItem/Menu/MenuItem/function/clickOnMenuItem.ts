@@ -1,9 +1,8 @@
 import { closeMenu } from '@redux/slices/navSlice'
 import { store } from '@redux/store'
 import { globalObject } from '@src/globalObject'
+import { EventType } from '@src/types'
 import { getMenuItemByIdsChain } from '../../functions/getMenuItemByIdsChain'
-
-type EventType = KeyboardEvent | MouseEvent | React.MouseEvent | React.KeyboardEvent
 
 export const clickOnMenuItem = (e: EventType, menuId: string) => {
   const chainToClickedItem = [...store.getState().nav.idsToCurrentMenuItems, menuId]

@@ -6,6 +6,7 @@ import { MenuItemStyled } from './MenuItemStyled'
 import { closeMenu, setMenuItemHoverIndex } from '@slices/navSlice'
 import { theme } from '@src/theme'
 import { useDispatchTyped, useSelectorTyped as useSelector } from '@store/storeHooks'
+import { EventType } from '@src/types'
 
 const closeIcon = createElement(CloseIcon, {})
 
@@ -14,7 +15,7 @@ export function CloseMenuItem() {
   const dispatch = useDispatchTyped()
   const isHoveredState = useSelector(state => state.nav.menuItemHoverIndex === 1)
 
-  const onClickHandler = (e: React.MouseEvent) => {
+  const onClickHandler = (e: EventType) => {
     e.preventDefault()
     dispatch(closeMenu())
   }

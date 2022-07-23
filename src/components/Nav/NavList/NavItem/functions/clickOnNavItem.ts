@@ -1,9 +1,10 @@
 import { MenuType } from '@components/Nav/navStructure'
 import { closeMenu, openMenuWithId, setNavItemRightPos } from '@redux/slices/navSlice'
 import { store } from '@redux/store'
+import { EventType } from '@src/types'
 
 type PropsType = {
-  e: React.MouseEvent<HTMLAnchorElement>
+  e: EventType
   navItem: MenuType | undefined
   id: string
   navItemRef: React.MutableRefObject<HTMLLIElement>
