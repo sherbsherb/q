@@ -10,8 +10,8 @@ app.get('/api', (req, res) => {
   res.json({ message: '/api' })
 })
 
-app.get('/api/xxx', (req, res) => {
-  res.json({ message: '/api/xxx' })
+app.post('/api/login', (req, res) => {
+  res.json({ message: '/api/login' })
 })
 
 app.listen(3001, () => {
